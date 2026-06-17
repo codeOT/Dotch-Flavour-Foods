@@ -50,19 +50,19 @@ export function MeetFounderSection() {
 
         <Reveal className="min-w-0 px-1">
           <p className="mb-3 text-base font-medium leading-snug text-primary sm:mb-4 sm:text-lg">
-            Authentic Nigerian flavours, thoughtfully prepared.
+            Authentic African flavours, thoughtfully prepared.
           </p>
           <p className="mb-3 text-sm leading-relaxed text-title/70 sm:mb-4 sm:text-base">
             Mrs Abimbola Olurin founded Dotch Flavours Foods with a simple belief: that busy
             families should never have to compromise on the taste, warmth, and tradition of a
-            properly made Nigerian meal.
+            properly made meal.
           </p>
           <p className="mb-3 text-sm leading-relaxed text-title/70 sm:mb-4 sm:text-base">
             From ready-to-eat soups to carefully prepared dishes, every recipe reflects years of
             kitchen craft, cultural pride, and a commitment to quality ingredients you can trust.
           </p>
           <p className="mb-6 text-sm leading-relaxed text-title/70 sm:mb-8 sm:text-base">
-            Dotch Flavours Foods is more than a food brand — it is a bridge between heritage and
+            Dotch Flavours Foods is more than a food brand, it is a bridge between heritage and
             modern life, served with care in every portion.
           </p>
           <Button href="/about-us" fullWidth className="sm:w-auto">

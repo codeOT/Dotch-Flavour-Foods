@@ -24,46 +24,41 @@ export function HeroSection() {
         <div className="grid min-w-0 grid-cols-1 items-center gap-6 sm:gap-8 lg:grid-cols-2 lg:gap-12">
           {/* Copy */}
           <Reveal className="order-1 min-w-0 max-w-full lg:order-none">
-            {isMobile ? (
-              <h1 className="mb-4 text-[clamp(1.5rem,6.5vw,2rem)] font-bold leading-[1.2] text-title">
-                <span className="block">Authentic Nigerian Flavours,</span>
-                <span className="mt-1 block text-primary">Thoughtfully Prepared</span>
-              </h1>
-            ) : (
-              <motion.h1
-                className="mb-6 text-4xl font-bold leading-tight md:text-5xl lg:text-6xl"
-                initial="rest"
-                whileHover="hover"
+            <motion.h1
+              className="mb-4 text-[clamp(1.5rem,6.5vw,2rem)] font-bold leading-[1.2] text-title sm:mb-6 sm:text-4xl sm:leading-tight md:text-5xl lg:text-6xl"
+              initial="rest"
+              whileHover="hover"
+              whileTap="hover"
+              variants={{
+                rest: { scale: 1, color: "#192e22" },
+                hover: {
+                  scale: 1.04,
+                  color: "#cf5c0b",
+                  transition: { type: "spring", stiffness: 380, damping: 22 },
+                },
+              }}
+            >
+              <motion.span
+                className="block sm:inline"
+                variants={{ hover: { letterSpacing: "0.02em" } }}
+              >
+                Authentic Nigerian Flavours,
+                <span className="hidden sm:inline"> </span>
+              </motion.span>
+              <motion.span
+                className="mt-1 block text-primary sm:mt-0 sm:inline"
                 variants={{
-                  rest: { scale: 1, color: "#192e22" },
+                  rest: { color: "#574821", scale: 1 },
                   hover: {
-                    scale: 1.04,
-                    color: "#cf5c0b",
-                    transition: { type: "spring", stiffness: 380, damping: 22 },
+                    color: "#630a0a",
+                    scale: 1.05,
+                    transition: { type: "spring", stiffness: 420, damping: 18 },
                   },
                 }}
               >
-                <motion.span
-                  className="inline"
-                  variants={{ hover: { letterSpacing: "0.02em" } }}
-                >
-                  Authentic Nigerian Flavours,{" "}
-                </motion.span>
-                <motion.span
-                  className="inline text-primary"
-                  variants={{
-                    rest: { color: "#574821", scale: 1 },
-                    hover: {
-                      color: "#630a0a",
-                      scale: 1.05,
-                      transition: { type: "spring", stiffness: 420, damping: 18 },
-                    },
-                  }}
-                >
-                  Thoughtfully Prepared
-                </motion.span>
-              </motion.h1>
-            )}
+                Thoughtfully Prepared
+              </motion.span>
+            </motion.h1>
 
             <p className="mb-5 max-w-xl text-sm leading-relaxed text-title/70 sm:mb-8 sm:text-base md:text-lg">
               We are the best food delivery partner for your shops and restaurants, deliver

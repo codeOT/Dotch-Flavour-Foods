@@ -1,0 +1,47 @@
+"use client";
+
+import { motion, type HTMLMotionProps } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
+import {
+  mobileStaggerContainer,
+  mobileStaggerItem,
+  mobileViewport,
+  staggerContainer,
+  staggerItem,
+  viewport,
+} from "@/lib/motion";
+
+type StaggerContainerProps = HTMLMotionProps<"div">;
+
+export function StaggerContainer({ children, className, ...props }: StaggerContainerProps) {
+  const isMobile = useIsMobile();
+
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={isMobile ? mobileViewport : viewport}
+      variants={isMobile ? mobileStaggerContainer : staggerContainer}
+      className={className}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+type StaggerItemProps = HTMLMotionProps<"div">;
+
+export function StaggerItem({ children, className, ...props }: StaggerItemProps) {
+  const isMobile = useIsMobile();
+
+  return (
+    <motion.div
+      variants={isMobile ? mobileStaggerItem : staggerItem}
+      className={className}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  );
+}

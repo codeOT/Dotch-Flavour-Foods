@@ -18,11 +18,11 @@ const secondaryFont = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "Dotch Flavours | West African Ready to Eat",
-    template: "%s | Dotch Flavours",
+    default: "Dotch Flavours Foods |  Ready to Eat",
+    template: "%s | Dotch Flavours Foods",
   },
   description:
-    "Authentic West African ready to eat meals — slow-cooked with care, ready in minutes. Explore our menu of Jollof, Egusi and more.",
+    "Authentic ready to eat meals — slow-cooked with care, ready in minutes. Explore our menu of Jollof, Egusi and more.",
   icons: {
     icon: "/assets/images/favicon.png",
   },

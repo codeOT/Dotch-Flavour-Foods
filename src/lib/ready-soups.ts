@@ -142,7 +142,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
     shortDescription: "Spinach stew with peppers, locust beans, and aromatic spices.",
     price: 14.5,
     size: "1000ml",
-    image: "/assets/images/Efo Riro.jpg",
+    image: "/assets/images/Efo%20Riro.jpg",
     ingredients: [
       "Fresh spinach",
       "Red bell peppers",
@@ -178,7 +178,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
     shortDescription: "Rich melon seed soup with spinach and traditional seasonings.",
     price: 14.5,
     size: "1000ml",
-    image: "/assets/images/Efo Egusi.jpg",
+    image: "/assets/images/Efo%20Egusi.jpg",
     ingredients: [
       "Ground egusi (melon seeds)",
       "Spinach",
@@ -247,7 +247,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
     shortDescription: "Smoky, slow-cooked tomato stew with bold Nigerian spices.",
     price: 13.5,
     size: "1000ml",
-    image: "/assets/images/Buka Stew.jpg",
+    image: "/assets/images/Buka%20Stew.jpg",
     ingredients: [
       "Tomatoes",
       "Red peppers",
@@ -283,7 +283,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
     shortDescription: "Silky okra soup with palm oil and crayfish — the one-pot classic.",
     price: 14.0,
     size: "1000ml",
-    image: "/assets/images/Ila alasepo.jpg",
+    image: "/assets/images/Ila%20alasepo.jpg",
     ingredients: [
       "Fresh okra",
       "Palm oil",

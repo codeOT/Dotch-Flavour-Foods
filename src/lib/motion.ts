@@ -9,11 +9,11 @@ export const viewport = {
   amount: 0.25,
 } as const;
 
-/** Mobile: replay on scroll up/down, trigger earlier in viewport */
+/** Mobile: trigger earlier and keep visible once shown */
 export const mobileViewport = {
-  once: false,
-  margin: "0px 0px -8% 0px",
-  amount: 0.35,
+  once: true,
+  margin: "0px 0px -4% 0px",
+  amount: 0.12,
 } as const;
 
 export const fadeUp: Variants = {

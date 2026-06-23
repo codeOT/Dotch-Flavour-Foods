@@ -5,7 +5,6 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 import {
   fadeUp,
   mobileFadeUp,
-  mobileViewport,
   resolveMobileVariants,
   viewport,
 } from "@/lib/motion";
@@ -25,13 +24,13 @@ export function Reveal({
   const isMobile = useIsMobile();
 
   const activeVariants = isMobile ? resolveMobileVariants(variants) : variants;
-  const activeViewport = isMobile ? mobileViewport : viewport;
 
   return (
     <motion.div
       initial="hidden"
-      whileInView="visible"
-      viewport={activeViewport}
+      animate={isMobile ? "visible" : undefined}
+      whileInView={isMobile ? undefined : "visible"}
+      viewport={isMobile ? undefined : viewport}
       variants={activeVariants}
       transition={{ delay }}
       className={className}
@@ -54,8 +53,9 @@ export function RevealCard({
   return (
     <motion.div
       initial="hidden"
-      whileInView="visible"
-      viewport={isMobile ? mobileViewport : viewport}
+      animate={isMobile ? "visible" : undefined}
+      whileInView={isMobile ? undefined : "visible"}
+      viewport={isMobile ? undefined : viewport}
       variants={isMobile ? mobileFadeUp : fadeUp}
       transition={{ delay }}
       className={className}

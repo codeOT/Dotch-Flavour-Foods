@@ -17,8 +17,6 @@ import { HoverCard } from "@/components/motion/HoverCard";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 import {
-  AnimatedListItem,
-  FloatingBadge,
   ReadySoupBundleCard,
   ReadySoupProductCard,
   ReviewStars,
@@ -33,7 +31,6 @@ import {
   storageHeatingGuidance,
 } from "@/lib/ready-soups";
 import { useCart } from "@/context/CartContext";
-import { floatAnimation, scaleIn, slideLeft, slideRight } from "@/lib/motion";
 
 function LaunchOfferCard({ offer }: { offer: (typeof launchOffers)[number] }) {
   const [copied, setCopied] = useState(false);
@@ -109,76 +106,108 @@ function ReviewCard({ review }: { review: (typeof readySoupReviews)[number] }) {
   );
 }
 
+function GuidanceCard({
+  title,
+  points,
+  icon: Icon,
+  listIcon: ListIcon,
+  variant = "default",
+}: {
+  title: string;
+  points: readonly string[];
+  icon: React.ComponentType<{ className?: string }>;
+  listIcon: React.ComponentType<{ className?: string }>;
+  variant?: "default" | "accent";
+}) {
+  return (
+    <div
+      className={`h-full min-w-0 rounded-2xl border p-5 shadow-sm sm:p-8 ${
+        variant === "accent"
+          ? "border-secondary/30 bg-secondary/5"
+          : "border-surface bg-white"
+      }`}
+    >
+      <div className="mb-4 flex min-w-0 items-start gap-3">
+        <Icon className="mt-0.5 h-6 w-6 shrink-0 text-secondary" />
+        <h3 className="min-w-0 text-lg font-bold leading-snug sm:text-xl">{title}</h3>
+      </div>
+      <ul className="space-y-3">
+        {points.map((point) => (
+          <li key={point} className="flex min-w-0 gap-3 text-sm leading-relaxed text-title/80">
+            <ListIcon className="mt-0.5 h-4 w-4 shrink-0 text-secondary" />
+            <span className="min-w-0 flex-1 break-words">{point}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export function ReadySoupsPageContent() {
   const { openCart } = useCart();
 
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-primary-dark via-forest to-primary-dark py-16 text-white sm:py-24">
+      <section className="relative overflow-x-clip bg-gradient-to-b from-primary-dark via-forest to-primary-dark py-10 text-white sm:py-16 lg:py-24">
         <motion.div
-          className="pointer-events-none absolute -right-20 top-0 h-80 w-80 rounded-full bg-secondary/15 blur-3xl"
+          className="pointer-events-none absolute -right-20 top-0 h-56 w-56 rounded-full bg-secondary/15 blur-3xl sm:h-80 sm:w-80"
           animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3], x: [0, 20, 0] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
-        <motion.div
-          className="pointer-events-none absolute -left-16 bottom-0 h-64 w-64 rounded-full bg-cream/5 blur-3xl"
-          animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.4, 0.2] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        />
 
-        <div className="container-fluid relative grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <Reveal variants={slideRight}>
-            <StaggerContainer className="space-y-0">
-             
-              <StaggerItem>
-                <h2 className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl">{readySoupsBrand.name}</h2>
-              </StaggerItem>
-              <StaggerItem>
-                <p className="mb-2 text-lg font-medium text-cream">{readySoupsBrand.tagline}</p>
-              </StaggerItem>
-              <StaggerItem>
-                <p className="mb-8 max-w-xl text-sm leading-relaxed text-white/75 sm:text-base">
-                  {readySoupsBrand.intro}
-                </p>
-              </StaggerItem>
-              <StaggerItem>
-                <div className="flex flex-wrap gap-3">
-                  <Button href="#product-range">Shop the range</Button>
-                  <Button
-                    href="#bundles"
-                    variant="outline"
-                    className="!border-white !text-white hover:!bg-white hover:!text-primary"
-                  >
-                    View bundles
-                  </Button>
-                </div>
-              </StaggerItem>
-            </StaggerContainer>
-          </Reveal>
-
-          <Reveal variants={slideLeft} delay={0.1}>
-            <motion.div
-              className="relative mx-auto aspect-square w-full max-w-md lg:max-w-none"
-              animate={floatAnimation}
-            >
-              <div className="relative h-full min-h-[280px] overflow-hidden rounded-3xl border border-white/10 shadow-2xl">
-                <Image
-                  src="/assets/images/hero dotch foods.jpg"
-                  alt="Dotch Flavour Ready Soups premium frozen range"
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="(max-width: 1024px) 90vw, 500px"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/60 to-transparent" />
-                <FloatingBadge className="absolute bottom-6 left-6 right-6 rounded-xl bg-white/10 p-4 backdrop-blur-md">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-cream">Each tub</p>
-                  <p className="text-2xl font-bold">950ml · Serves 3–4</p>
-                </FloatingBadge>
+        <div className="container-fluid relative min-w-0">
+          <div className="flex flex-col gap-8 lg:grid lg:grid-cols-2 lg:items-center lg:gap-16">
+            <Reveal className="order-2 min-w-0 lg:order-1">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-secondary">
+                {readySoupsBrand.parent}
+              </p>
+              <h1 className="mb-3 text-balance text-[clamp(1.65rem,6.5vw,3rem)] font-bold leading-tight sm:mb-4 sm:text-4xl lg:text-5xl">
+                {readySoupsBrand.name}
+              </h1>
+              <p className="mb-3 text-sm font-medium leading-snug text-cream sm:text-base lg:text-lg">
+                {readySoupsBrand.tagline}
+              </p>
+              <p className="mb-6 max-w-xl text-sm leading-relaxed text-white/75 sm:mb-8 sm:text-base">
+                {readySoupsBrand.intro}
+              </p>
+              <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
+                <Button href="#product-range" fullWidth className="sm:w-auto">
+                  Shop the range
+                </Button>
+                <Button
+                  href="#bundles"
+                  variant="outline"
+                  fullWidth
+                  className="sm:w-auto !border-white !text-white hover:!bg-white hover:!text-primary"
+                >
+                  View bundles
+                </Button>
               </div>
-            </motion.div>
-          </Reveal>
+            </Reveal>
+
+            <Reveal className="order-1 min-w-0 lg:order-2" delay={0.05}>
+              <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
+                <div className="relative aspect-[16/11] w-full overflow-hidden rounded-2xl border border-white/10 shadow-2xl sm:aspect-[5/4] lg:aspect-square lg:rounded-3xl">
+                  <Image
+                    src="/assets/images/hero%20dotch%20foods.jpg"
+                    alt="Dotch Flavour Ready Soups premium frozen range"
+                    fill
+                    className="object-cover"
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 500px"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/60 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4 rounded-xl bg-white/10 p-3 backdrop-blur-md sm:bottom-6 sm:left-6 sm:right-6 sm:p-4">
+                    <p className="text-[10px] font-semibold uppercase tracking-widest text-cream sm:text-xs">
+                      Each tub
+                    </p>
+                    <p className="text-lg font-bold sm:text-2xl">950ml · Serves 3–4</p>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
 
@@ -209,7 +238,7 @@ export function ReadySoupsPageContent() {
               Five authentic Nigerian soups, slow-cooked and frozen at peak freshness. Every tub is Liters.
             </p>
           </Reveal>
-          <StaggerContainer className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <StaggerContainer className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {readySoupProducts.map((product) => (
               <StaggerItem key={product.id}>
                 <ReadySoupProductCard product={product} />
@@ -220,52 +249,29 @@ export function ReadySoupsPageContent() {
       </section>
 
       {/* Storage & heating */}
-      <section className="py-16 sm:py-20">
-        <div className="container-fluid">
-          <Reveal className="mb-10 text-center">
+      <section className="overflow-x-clip py-12 sm:py-20">
+        <div className="container-fluid min-w-0">
+          <Reveal className="mb-8 text-center sm:mb-10">
             <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-secondary">Guidance</p>
             <h2 className="text-2xl font-bold sm:text-3xl md:text-4xl">Storage & heating</h2>
           </Reveal>
-          <div className="grid gap-8 lg:grid-cols-2">
-            <Reveal variants={slideRight}>
-              <HoverCard>
-                <div className="h-full rounded-2xl border border-surface bg-white p-6 shadow-sm sm:p-8">
-                  <motion.div
-                    className="mb-4 flex items-center gap-3 text-primary"
-                    whileHover={{ x: 4 }}
-                  >
-                    <Refrigerator className="h-6 w-6 text-secondary" />
-                    <h3 className="text-xl font-bold">{storageHeatingGuidance.storage.title}</h3>
-                  </motion.div>
-                  <StaggerContainer className="space-y-3">
-                    {storageHeatingGuidance.storage.points.map((point) => (
-                      <AnimatedListItem key={point} icon={Snowflake}>
-                        {point}
-                      </AnimatedListItem>
-                    ))}
-                  </StaggerContainer>
-                </div>
-              </HoverCard>
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
+            <Reveal>
+              <GuidanceCard
+                title={storageHeatingGuidance.storage.title}
+                points={storageHeatingGuidance.storage.points}
+                icon={Refrigerator}
+                listIcon={Snowflake}
+              />
             </Reveal>
-            <Reveal variants={slideLeft}>
-              <HoverCard>
-                <div className="h-full rounded-2xl border border-secondary/30 bg-secondary/5 p-6 shadow-sm sm:p-8">
-                  <motion.div
-                    className="mb-4 flex items-center gap-3 text-primary"
-                    whileHover={{ x: 4 }}
-                  >
-                    <Flame className="h-6 w-6 text-secondary" />
-                    <h3 className="text-xl font-bold">{storageHeatingGuidance.heating.title}</h3>
-                  </motion.div>
-                  <StaggerContainer className="space-y-3">
-                    {storageHeatingGuidance.heating.points.map((point) => (
-                      <AnimatedListItem key={point} icon={Clock}>
-                        {point}
-                      </AnimatedListItem>
-                    ))}
-                  </StaggerContainer>
-                </div>
-              </HoverCard>
+            <Reveal delay={0.05}>
+              <GuidanceCard
+                title={storageHeatingGuidance.heating.title}
+                points={storageHeatingGuidance.heating.points}
+                icon={Flame}
+                listIcon={Clock}
+                variant="accent"
+              />
             </Reveal>
           </div>
         </div>
@@ -292,63 +298,50 @@ export function ReadySoupsPageContent() {
       </section>
 
       {/* Order online */}
-      <section id="order" className="scroll-mt-24 py-16 sm:py-20">
-        <div className="container-fluid">
-          <Reveal variants={scaleIn}>
-            <div className="rounded-3xl bg-gradient-to-br from-primary to-primary-dark p-8 text-white sm:p-12">
-              <div className="grid items-center gap-8 lg:grid-cols-2">
-                <StaggerContainer>
-                  <StaggerItem>
-                    <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-secondary">Order online</p>
-                  </StaggerItem>
-                  <StaggerItem>
-                    <h2 className="mb-4 text-2xl font-bold sm:text-3xl">Ready when you are</h2>
-                  </StaggerItem>
-                  <StaggerItem>
-                    <p className="mb-6 max-w-lg text-sm leading-relaxed text-white/80 sm:text-base">
-                      Add individual soups or bundles to your cart, choose delivery or collection at checkout,
-                      and we&apos;ll prepare your frozen order with care.
-                    </p>
-                  </StaggerItem>
-                  <StaggerItem>
-                    <div className="flex flex-wrap gap-4">
-                      <Button type="button" onClick={openCart} variant="white">
-                        View cart
-                      </Button>
-                      <Button
-                        href="/shop/checkout"
-                        variant="outline"
-                        className="!border-white !text-white hover:!bg-white hover:!text-primary"
-                      >
-                        Checkout
-                      </Button>
-                    </div>
-                  </StaggerItem>
-                </StaggerContainer>
+      <section id="order" className="scroll-mt-24 overflow-x-clip py-12 sm:py-20">
+        <div className="container-fluid min-w-0">
+          <Reveal>
+            <div className="rounded-2xl bg-gradient-to-br from-primary to-primary-dark p-6 text-white sm:rounded-3xl sm:p-10 lg:p-12">
+              <div className="flex flex-col gap-8">
+                <div className="min-w-0">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-secondary">
+                    Order online
+                  </p>
+                  <h2 className="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl">Ready when you are</h2>
+                  <p className="mb-6 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">
+                    Add individual soups or bundles to your cart, choose delivery or collection at checkout,
+                    and we&apos;ll prepare your frozen order with care.
+                  </p>
+                  <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
+                    <Button type="button" onClick={openCart} variant="white" fullWidth className="sm:w-auto">
+                      View cart
+                    </Button>
+                    <Button
+                      href="/shop/checkout"
+                      variant="outline"
+                      fullWidth
+                      className="sm:w-auto !border-white !text-white hover:!bg-white hover:!text-primary"
+                    >
+                      Checkout
+                    </Button>
+                  </div>
+                </div>
 
-                <StaggerContainer className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                   {[
                     { icon: Package, label: "Insulated packaging" },
                     { icon: Truck, label: "UK frozen delivery" },
                     { icon: Snowflake, label: "−18°C guaranteed" },
                   ].map((item) => (
-                    <StaggerItem key={item.label}>
-                      <motion.div
-                        whileHover={{ y: -6, scale: 1.04 }}
-                        transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                        className="flex flex-col items-center rounded-xl bg-white/10 p-4 text-center backdrop-blur-sm"
-                      >
-                        <motion.div
-                          animate={{ y: [0, -4, 0] }}
-                          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                        >
-                          <item.icon className="mb-2 h-8 w-8 text-secondary" />
-                        </motion.div>
-                        <p className="text-xs font-semibold uppercase tracking-wide">{item.label}</p>
-                      </motion.div>
-                    </StaggerItem>
+                    <div
+                      key={item.label}
+                      className="flex items-center gap-3 rounded-xl bg-white/10 p-4 sm:flex-col sm:items-center sm:text-center"
+                    >
+                      <item.icon className="h-7 w-7 shrink-0 text-secondary sm:mb-1 sm:h-8 sm:w-8" />
+                      <p className="text-xs font-semibold uppercase tracking-wide">{item.label}</p>
+                    </div>
                   ))}
-                </StaggerContainer>
+                </div>
               </div>
             </div>
           </Reveal>

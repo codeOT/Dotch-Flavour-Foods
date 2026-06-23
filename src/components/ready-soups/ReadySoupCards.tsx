@@ -20,20 +20,17 @@ export function ReadySoupProductCard({ product }: { product: ReadySoupProduct })
   return (
     <HoverCard className="h-full">
       <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-surface/80 bg-white shadow-sm transition hover:border-primary/25 hover:shadow-lg">
-        <Link href={`/ready-to-eat-soups/${product.slug}`} className="relative block aspect-[4/5] overflow-hidden">
-          <motion.div
-            className="relative h-full w-full"
-            whileHover={{ scale: 1.06 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          >
-            <Image
-              src={product.image}
-              alt={product.name}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 33vw"
-            />
-          </motion.div>
+        <Link
+          href={`/ready-to-eat-soups/${product.slug}`}
+          className="relative block aspect-[4/5] w-full overflow-hidden"
+        >
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+            className="object-cover transition duration-500 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, 33vw"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/70 via-transparent to-transparent" />
           <motion.span
             animate={{ y: [0, -3, 0] }}
@@ -53,19 +50,18 @@ export function ReadySoupProductCard({ product }: { product: ReadySoupProduct })
         <div className="flex flex-1 flex-col p-5">
           <p className="mb-4 flex-1 text-sm leading-relaxed text-title/70">{product.shortDescription}</p>
 
-          <StaggerContainer className="mb-4 flex flex-wrap gap-2">
+          <div className="mb-4 flex flex-wrap gap-2">
             {["950ml tub", "Premium frozen"].map((tag, index) => (
-              <StaggerItem key={tag}>
-                <span
-                  className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide ${
-                    index === 0 ? "bg-surface/60 text-title/70" : "bg-secondary/10 text-secondary"
-                  }`}
-                >
-                  {tag}
-                </span>
-              </StaggerItem>
+              <span
+                key={tag}
+                className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide ${
+                  index === 0 ? "bg-surface/60 text-title/70" : "bg-secondary/10 text-secondary"
+                }`}
+              >
+                {tag}
+              </span>
             ))}
-          </StaggerContainer>
+          </div>
 
           <div className="flex items-center justify-between gap-3 border-t border-surface pt-4">
             <div>
@@ -110,12 +106,12 @@ export function ReadySoupBundleCard({ bundle }: { bundle: ReadySoupBundle }) {
         <h3 className="mb-2 text-xl font-bold">{bundle.name}</h3>
         <p className="mb-3 flex-1 text-sm text-title/70">{bundle.description}</p>
 
-        <StaggerContainer className="mb-4 space-y-1">
-          <StaggerItem className="text-sm text-title/80">• {bundle.soupCount} soups of your choice</StaggerItem>
+        <div className="mb-4 space-y-1">
+          <p className="text-sm text-title/80">• {bundle.soupCount} soups of your choice</p>
           {bundle.includesGift && (
-            <StaggerItem className="text-sm text-title/80">• Includes {bundle.includesGift}</StaggerItem>
+            <p className="text-sm text-title/80">• Includes {bundle.includesGift}</p>
           )}
-        </StaggerContainer>
+        </div>
 
         <div className="flex items-end justify-between gap-3 border-t border-surface pt-4">
           <div>

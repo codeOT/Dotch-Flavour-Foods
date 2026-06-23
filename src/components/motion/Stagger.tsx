@@ -5,7 +5,6 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 import {
   mobileStaggerContainer,
   mobileStaggerItem,
-  mobileViewport,
   staggerContainer,
   staggerItem,
   viewport,
@@ -19,8 +18,9 @@ export function StaggerContainer({ children, className, ...props }: StaggerConta
   return (
     <motion.div
       initial="hidden"
-      whileInView="visible"
-      viewport={isMobile ? mobileViewport : viewport}
+      animate={isMobile ? "visible" : undefined}
+      whileInView={isMobile ? undefined : "visible"}
+      viewport={isMobile ? undefined : viewport}
       variants={isMobile ? mobileStaggerContainer : staggerContainer}
       className={className}
       {...props}

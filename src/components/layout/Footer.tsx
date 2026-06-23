@@ -26,7 +26,7 @@ const contactItems = [
   {
     icon: MapPin,
     label: "Location",
-    value: siteConfig.contact.addressShort,
+    value: siteConfig.contact.address,
   },
 ];
 

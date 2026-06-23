@@ -47,7 +47,7 @@ export function ContactSidebar({ open, onClose }: ContactSidebarProps) {
             <div>
               <h6 className="font-semibold">Call Now</h6>
               <p className="text-title/70">
-                {siteConfig.contact.phone}, {siteConfig.contact.phoneAlt}
+                {siteConfig.contact.phone}
               </p>
             </div>
           </div>
@@ -63,7 +63,7 @@ export function ContactSidebar({ open, onClose }: ContactSidebarProps) {
             <div>
               <h6 className="font-semibold">Email Now</h6>
               <p className="text-title/70">
-                {siteConfig.contact.email}, {siteConfig.contact.ordersEmail}
+                {siteConfig.contact.email}
               </p>
             </div>
           </div>

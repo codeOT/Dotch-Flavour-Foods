@@ -4,7 +4,6 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Check, Star } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { useIsMobile } from "@/hooks/useIsMobile";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 import { floatAnimation, pulseGlow } from "@/lib/motion";
 import { Reveal } from "@/components/motion/Reveal";
@@ -16,8 +15,6 @@ const highlights = [
 ];
 
 export function HeroSection() {
-  const isMobile = useIsMobile();
-
   return (
     <section className="overflow-hidden bg-gradient-to-b from-surface to-white pb-10 pt-8 sm:pb-16 sm:pt-12 lg:pb-24 lg:pt-20">
       <div className="container-fluid">
@@ -89,10 +86,7 @@ export function HeroSection() {
           {/* Image + cards */}
           <Reveal className="order-2 min-w-0 max-w-full lg:order-none">
             <div className="relative mx-auto w-full max-w-[min(100%,22rem)] sm:max-w-md lg:max-w-lg">
-              <motion.div
-                animate={isMobile ? undefined : pulseGlow}
-                className="overflow-hidden rounded-2xl"
-              >
+              <motion.div animate={pulseGlow} className="overflow-hidden rounded-2xl">
                 <Image
                   src="/assets/images/main-slider/slider4/banner.png"
                   alt="Fresh food delivery"

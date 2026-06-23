@@ -76,8 +76,8 @@ export function BookTableSection() {
               <ul className="space-y-6 text-sm">
                 {[
                   { icon: MapPin, text: siteConfig.contact.address },
-                  { icon: Phone, text: `${siteConfig.contact.phone}\n${siteConfig.contact.phoneAlt}` },
-                  { icon: Mail, text: `${siteConfig.contact.email}\n${siteConfig.contact.ordersEmail}` },
+                  { icon: Phone, text: `${siteConfig.contact.phone}` },
+                  { icon: Mail, text: `${siteConfig.contact.email}` },
                 ].map((item, i) => (
                   <motion.li
                     key={i}

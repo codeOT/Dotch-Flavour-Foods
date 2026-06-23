@@ -9,13 +9,12 @@ import { Button } from "@/components/ui/Button";
 import { HoverCard } from "@/components/motion/HoverCard";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
-import { FloatingBadge } from "@/components/ready-soups/ReadySoupCards";
 import {
   formatReadySoupPrice,
   readySoupToCartItem,
   type ReadySoupProduct,
 } from "@/lib/ready-soups";
-import { floatAnimation, slideLeft, slideRight } from "@/lib/motion";
+import { slideLeft, slideRight } from "@/lib/motion";
 
 function DetailPanel({
   children,
@@ -61,26 +60,21 @@ export function ReadySoupProductDetail({ product }: { product: ReadySoupProduct 
 
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
           <Reveal variants={slideRight}>
-            <motion.div
-              className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-surface shadow-xl"
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 300, damping: 28 }}
-            >
-              <motion.div animate={floatAnimation} className="relative h-full w-full">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              </motion.div>
-              <FloatingBadge className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-primary shadow-sm">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-surface shadow-xl">
+              <Image
+                src={product.image}
+                alt={product.name}
+                fill
+                className="object-cover"
+                priority
+                quality={75}
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+              <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-primary shadow-sm">
                 <Snowflake className="h-3.5 w-3.5 text-secondary" />
                 Premium frozen · {product.size}
-              </FloatingBadge>
-            </motion.div>
+              </span>
+            </div>
           </Reveal>
 
           <Reveal variants={slideLeft}>

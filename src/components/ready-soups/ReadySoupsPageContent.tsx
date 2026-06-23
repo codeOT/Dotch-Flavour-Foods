@@ -206,7 +206,7 @@ export function ReadySoupsPageContent() {
                     <p className="text-[10px] font-semibold uppercase tracking-widest text-cream sm:text-xs">
                       Each tub
                     </p>
-                    <p className="text-lg font-bold sm:text-2xl">950ml · Serves 3–4</p>
+                    <p className="text-lg font-bold sm:text-2xl">1000ml · Serves 3–4</p>
                   </div>
                 </div>
               </div>

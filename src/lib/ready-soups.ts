@@ -120,7 +120,7 @@ export const readySoupReviews = [
     location: "Birmingham",
     rating: 5,
     quote:
-      "Heating instructions are clear and the 950ml size feeds our family of four with leftovers. Brilliant product.",
+      "Heating instructions are clear and the 1000ml size feeds our family of four with leftovers. Brilliant product.",
   },
   {
     name: "Chidi E.",

@@ -170,7 +170,7 @@ export function Footer() {
           <div className="flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between sm:text-sm">
             <p>© {new Date().getFullYear()} Dotch Flavours Foods. All rights reserved.</p>
             <p>
-              Made with care by{" "}
+              Made with 🫶 by{" "}
               <a
                 href="https://codeot.com"
                 target="_blank"

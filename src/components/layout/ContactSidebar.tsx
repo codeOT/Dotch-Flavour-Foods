@@ -55,7 +55,7 @@ export function ContactSidebar({ open, onClose }: ContactSidebarProps) {
             <MapPin className="mt-1 h-5 w-5 shrink-0 text-primary" />
             <div>
               <h6 className="font-semibold">Location</h6>
-              <p className="text-title/70">{siteConfig.contact.addressShort}</p>
+              <p className="text-title/70">{siteConfig.contact.address}</p>
             </div>
           </div>
           <div className="flex gap-4">

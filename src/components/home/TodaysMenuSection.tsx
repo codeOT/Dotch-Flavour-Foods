@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ShoppingCart } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
+import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
+import { menuItemToCartItem } from "@/lib/cart-utils";
 import { HoverCard } from "@/components/motion/HoverCard";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
@@ -21,7 +22,7 @@ export function TodaysMenuSection() {
 
         <StaggerContainer className="mb-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {todaysMenu.map((item) => (
-            <StaggerItem key={item.name}>
+            <StaggerItem key={item.id}>
               <HoverCard className="group relative overflow-hidden rounded-2xl bg-white shadow-sm">
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <motion.div whileHover={{ scale: 1.08 }} transition={{ duration: 0.5 }}>
@@ -47,17 +48,9 @@ export function TodaysMenuSection() {
                     </Link>
                   </h5>
                   <p className="mb-4 text-sm text-title/70">{item.description}</p>
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between gap-2">
                     <span className="font-semibold text-primary">{item.price}</span>
-                    <motion.div whileHover={{ scale: 1.15, rotate: 8 }} whileTap={{ scale: 0.9 }}>
-                      <Link
-                        href="/shop/cart"
-                        className="flex h-10 w-10 items-center justify-center rounded-md bg-primary text-white transition hover:bg-primary-hover"
-                        aria-label={`Add ${item.name} to cart`}
-                      >
-                        <ShoppingCart className="h-4 w-4" />
-                      </Link>
-                    </motion.div>
+                    <CartQuantityControls item={menuItemToCartItem(item)} variant="compact" />
                   </div>
                 </div>
               </HoverCard>

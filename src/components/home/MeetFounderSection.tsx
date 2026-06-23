@@ -65,7 +65,7 @@ export function MeetFounderSection() {
             Dotch Flavours Foods is more than a food brand, it is a bridge between heritage and
             modern life, served with care in every portion.
           </p>
-          <Button href="/about-us" fullWidth className="sm:w-auto">
+          <Button href="/about-us#our-story" fullWidth className="sm:w-auto">
             Read Our Story
           </Button>
         </Reveal>

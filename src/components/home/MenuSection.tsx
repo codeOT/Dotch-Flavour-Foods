@@ -2,13 +2,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Plus } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import { menuItems } from "@/lib/navigation";
+import { menuItemToCartItem } from "@/lib/cart-utils";
+import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
 import { useScrollMotion } from "@/hooks/useScrollMotion";
 import { HoverCard } from "@/components/motion/HoverCard";
 import { Reveal } from "@/components/motion/Reveal";
@@ -21,8 +23,8 @@ export function MenuSection() {
   return (
     <section className="overflow-hidden py-12 sm:py-16">
       <Reveal className="container-fluid mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-2xl font-bold text-title sm:text-3xl md:text-4xl">
-          Browse Our Menu
+        <h2 className="text-2xl font-bold text-title sm:text-3xl md:text-4xl capitalize">
+          Fresh food from the <motion.span className="text-accent whileHover={{ scale: 1.08, x: -2 }}">Dotch Flavour menu</motion.span> 
         </h2>
         <div className="flex shrink-0 gap-2 self-end sm:self-auto">
           <motion.button
@@ -64,7 +66,7 @@ export function MenuSection() {
           }}
         >
           {menuItems.map((item, index) => (
-            <SwiperSlide key={item.name}>
+            <SwiperSlide key={item.id}>
               <motion.div
                 initial={scrollMotion.from}
                 whileInView={scrollMotion.to}
@@ -95,19 +97,12 @@ export function MenuSection() {
                     <span className="text-title/60">Regular Price</span>
                     <span className="font-semibold text-primary">{item.price}</span>
                   </div>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0 }}
-                    whileHover={{ opacity: 1, scale: 1 }}
-                    className="absolute bottom-4 right-4"
-                  >
-                    <Link
-                      href="/shop/product"
-                      className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary text-white"
-                      aria-label={`View ${item.name}`}
-                    >
-                      <Plus className="h-4 w-4" />
-                    </Link>
-                  </motion.div>
+                  <div className="absolute bottom-4 right-4">
+                    <CartQuantityControls
+                      item={menuItemToCartItem(item)}
+                      variant="compact"
+                    />
+                  </div>
                 </HoverCard>
               </motion.div>
             </SwiperSlide>

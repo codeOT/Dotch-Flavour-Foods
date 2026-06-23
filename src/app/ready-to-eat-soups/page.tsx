@@ -1,19 +1,12 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/layout/PageHeader";
-import { SoupsGrid } from "@/components/pages/SoupsContent";
+import { ReadySoupsPageContent } from "@/components/ready-soups/ReadySoupsPageContent";
+import { readySoupsBrand } from "@/lib/ready-soups";
 
 export const metadata: Metadata = {
-  title: "Ready to Eat Soups",
+  title: "Ready Soups | Premium Frozen Range",
+  description: readySoupsBrand.intro,
 };
 
 export default function ReadyToEatSoupsPage() {
-  return (
-    <>
-      <PageHeader
-        title="Ready to Eat Soups"
-        description="Authentic Nigerian soups, prepared fresh and ready to heat, serve, and enjoy."
-      />
-      <SoupsGrid />
-    </>
-  );
+  return <ReadySoupsPageContent />;
 }

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/layout/PageHeader";
 import { AnimatedFaqList } from "@/components/motion/AnimatedFaqList";
 
 export const metadata: Metadata = {
@@ -27,11 +26,8 @@ const faqs = [
 
 export default function FaqPage() {
   return (
-    <>
-      <PageHeader title="FAQ" description="Frequently asked questions about our restaurant." />
-      <section className="py-16">
-        <AnimatedFaqList faqs={faqs} />
-      </section>
-    </>
+    <section className="py-16">
+      <AnimatedFaqList faqs={faqs} />
+    </section>
   );
 }

@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { AlertTriangle, Leaf, X } from "lucide-react";
+import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
+import { productToCartItem } from "@/context/CartContext";
 import type { Product } from "@/lib/products";
 import { formatProductPrice } from "@/lib/products";
 
@@ -99,10 +101,15 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
                 )}
               </div>
 
-              <p className="text-xs text-title/60">
+              <p className="mb-6 text-xs text-title/60">
                 <span className="font-semibold text-title/80">Storage: </span>
                 {product.storage}
               </p>
+
+              <div className="mt-6 flex flex-col gap-3 border-t border-surface pt-6 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm font-semibold text-title">Add to cart</p>
+                <CartQuantityControls item={productToCartItem(product)} />
+              </div>
             </div>
             </div>
           </motion.div>

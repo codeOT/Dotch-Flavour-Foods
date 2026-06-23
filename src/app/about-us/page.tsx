@@ -1,19 +1,12 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/layout/PageHeader";
 import { AboutContent } from "@/components/pages/AboutContent";
 
 export const metadata: Metadata = {
   title: "About Us",
+  description:
+    "Learn the story behind Dotch Flavours Foods — authentic African flavours, founded by Mrs Abimbola Olurin.",
 };
 
 export default function AboutPage() {
-  return (
-    <>
-      <PageHeader
-        title="About Us"
-        description="Learn more about Swigo and our passion for delivering fresh food experiences."
-      />
-      <AboutContent />
-    </>
-  );
+  return <AboutContent />;
 }

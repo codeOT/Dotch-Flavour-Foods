@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ShoppingCart, User, X } from "lucide-react";
+import { useCart } from "@/context/CartContext";
 import { mainNav } from "@/lib/navigation";
 import { mobileMenu, slideDown, staggerContainer, staggerItem } from "@/lib/motion";
 
@@ -14,6 +15,8 @@ type HeaderProps = {
 };
 
 export function Header({ mobileOpen, onToggleMobile, onCloseMobile }: HeaderProps) {
+  const { itemCount, isHydrated, openCart } = useCart();
+
   return (
     <motion.header
       initial="hidden"
@@ -30,7 +33,7 @@ export function Header({ mobileOpen, onToggleMobile, onCloseMobile }: HeaderProp
                 alt="Dotch Flavours Foods logo"
                 width={320}
                 height={56}
-                className="h-8 w-auto max-h-10 object-contain object-left sm:h-10"
+                className="h-8 w-auto object-contain object-left sm:h-10"
                 priority
               />
             </Link>
@@ -47,25 +50,28 @@ export function Header({ mobileOpen, onToggleMobile, onCloseMobile }: HeaderProp
                 <motion.div key={item.label} variants={staggerItem} className="group relative">
                   <button
                     type="button"
-                    className="text-sm font-medium text-title transition hover:text-primary"
+                    className="flex items-center gap-1 text-sm font-medium text-title transition hover:text-primary"
+                    aria-haspopup="true"
+                    aria-expanded="false"
                   >
                     {item.label}
+                    <span className="text-[10px] text-title/50" aria-hidden>
+                      ▾
+                    </span>
                   </button>
-                  <motion.div
-                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                    whileHover={{ opacity: 1, y: 0, scale: 1 }}
-                    className="invisible absolute left-0 top-full z-50 min-w-48 rounded-lg border border-surface bg-white py-2 opacity-0 shadow-xl group-hover:visible group-hover:opacity-100"
-                  >
-                    {item.children.map((child) => (
-                      <Link
-                        key={child.label}
-                        href={child.href ?? "#"}
-                        className="block px-4 py-2 text-sm text-title transition hover:translate-x-1 hover:bg-surface hover:text-primary"
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
-                  </motion.div>
+                  <div className="invisible absolute left-0 top-full z-50 pt-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                    <div className="min-w-48 rounded-lg border border-surface bg-white py-2 shadow-xl">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.label}
+                          href={child.href ?? "#"}
+                          className="block px-4 py-2 text-sm text-title transition hover:translate-x-1 hover:bg-surface hover:text-primary"
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
                 </motion.div>
               ) : (
                 <motion.div key={item.label} variants={staggerItem}>
@@ -88,12 +94,28 @@ export function Header({ mobileOpen, onToggleMobile, onCloseMobile }: HeaderProp
 
           <div className="flex items-center gap-2 sm:gap-3">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link
-                href="/shop/cart"
-                className="hidden items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-title transition hover:bg-surface hover:text-primary lg:flex"
+              <button
+                type="button"
+                onClick={openCart}
+                className="relative flex items-center gap-2 rounded-md px-2 py-2 text-sm font-medium text-title transition hover:bg-surface hover:text-primary sm:px-3"
+                aria-label="Open shopping cart"
               >
                 <ShoppingCart className="h-5 w-5" />
-                Cart
+                <span className="hidden lg:inline">Cart</span>
+                {isHydrated && itemCount > 0 && (
+                  <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-secondary px-1 text-[10px] font-bold text-white lg:-right-1 lg:-top-1">
+                    {itemCount > 99 ? "99+" : itemCount}
+                  </span>
+                )}
+              </button>
+            </motion.div>
+
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                href="/sign-up"
+                className="hidden rounded-md px-3 py-2 text-sm font-medium text-title transition hover:bg-surface hover:text-primary lg:inline-flex"
+              >
+                Sign Up
               </Link>
             </motion.div>
 
@@ -191,13 +213,28 @@ export function Header({ mobileOpen, onToggleMobile, onCloseMobile }: HeaderProp
                 variants={staggerItem}
                 className="mt-4 flex flex-col gap-2 border-t border-surface pt-4"
               >
-                <Link
-                  href="/shop/cart"
-                  onClick={onCloseMobile}
-                  className="flex items-center gap-2 rounded-md px-2 py-2 text-sm font-medium hover:bg-surface"
+                <button
+                  type="button"
+                  onClick={() => {
+                    onCloseMobile();
+                    openCart();
+                  }}
+                  className="relative flex w-full items-center gap-2 rounded-md px-2 py-2 text-sm font-medium hover:bg-surface"
                 >
                   <ShoppingCart className="h-4 w-4" />
                   Cart
+                  {isHydrated && itemCount > 0 && (
+                    <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-secondary px-1 text-[10px] font-bold text-white">
+                      {itemCount > 99 ? "99+" : itemCount}
+                    </span>
+                  )}
+                </button>
+                <Link
+                  href="/sign-up"
+                  onClick={onCloseMobile}
+                  className="flex items-center justify-center rounded-md border border-primary px-4 py-2 text-sm font-semibold text-primary"
+                >
+                  Sign Up
                 </Link>
                 <Link
                   href="/sign-in"

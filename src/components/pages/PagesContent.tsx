@@ -5,7 +5,8 @@ import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 import { HoverCard } from "@/components/motion/HoverCard";
 import { scaleIn } from "@/lib/motion";
-import { Button } from "@/components/ui/Button";
+import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
+import { menuItemToCartItem } from "@/lib/cart-utils";
 import { menuItems } from "@/lib/navigation";
 
 const team = [
@@ -100,7 +101,7 @@ export function ProductDetailContent() {
           <p className="mb-8 text-title/70">
             Delicious and spicy burger made with fresh ingredients and served hot.
           </p>
-          <Button href="/shop/cart">Add to Cart</Button>
+          <CartQuantityControls item={menuItemToCartItem(menuItems[0])} showLabel />
         </Reveal>
       </div>
     </section>

@@ -7,6 +7,8 @@ import { ChevronRight, X } from "lucide-react";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 import { ProductDetailModal } from "@/components/home/ProductDetailModal";
+import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
+import { productToCartItem } from "@/context/CartContext";
 import {
   catalogProducts,
   formatProductPrice,
@@ -153,36 +155,46 @@ export function ProductCatalogSection({ initialCategory = null }: ProductCatalog
           >
             {filteredProducts.map((product) => (
               <StaggerItem key={product.id}>
-                <motion.button
-                  type="button"
-                  onClick={() => setSelectedProduct(product)}
-                  className="group w-full overflow-hidden rounded-2xl border border-surface bg-white text-left shadow-sm transition hover:border-primary/30 hover:shadow-lg"
+                <motion.div
+                  className="group flex w-full flex-col overflow-hidden rounded-2xl border border-surface bg-white text-left shadow-sm transition hover:border-primary/30 hover:shadow-lg"
                   whileHover={{ y: -6 }}
-                  whileTap={{ scale: 0.98 }}
                 >
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className="object-cover transition duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-5">
-                    <div className="mb-2 flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
-                      <h3 className="font-semibold text-title group-hover:text-primary">
-                        {product.name}
-                      </h3>
-                      <span className="shrink-0 font-bold text-primary">
-                        {formatProductPrice(product)}
+                  <button
+                    type="button"
+                    onClick={() => setSelectedProduct(product)}
+                    className="w-full text-left"
+                  >
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        fill
+                        className="object-cover transition duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="p-5 pb-3">
+                      <div className="mb-2 flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
+                        <h3 className="font-semibold text-title group-hover:text-primary">
+                          {product.name}
+                        </h3>
+                        <span className="shrink-0 font-bold text-primary">
+                          {formatProductPrice(product)}
+                        </span>
+                      </div>
+                      <p className="mb-2 text-sm text-title/70">{product.shortDescription}</p>
+                      <span className="text-xs font-semibold uppercase tracking-wide text-secondary">
+                        View ingredients & allergens →
                       </span>
                     </div>
-                    <p className="mb-3 text-sm text-title/70">{product.shortDescription}</p>
-                    <span className="text-xs font-semibold uppercase tracking-wide text-secondary">
-                      View ingredients & allergens →
-                    </span>
+                  </button>
+                  <div className="flex items-center justify-between gap-3 border-t border-surface px-5 py-4">
+                    <span className="text-xs font-medium text-title/60">Add to cart</span>
+                    <CartQuantityControls
+                      item={productToCartItem(product)}
+                      variant="compact"
+                    />
                   </div>
-                </motion.button>
+                </motion.div>
               </StaggerItem>
             ))}
           </StaggerContainer>

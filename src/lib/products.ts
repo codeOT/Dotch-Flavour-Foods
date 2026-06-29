@@ -61,7 +61,7 @@ export const catalogProducts: Product[] = [
     category: "sauces",
     price: 5.25,
     shortDescription: "Rich tomato base for rice, pasta, and grilled dishes.",
-    image: "/assets/images/gallery/grid2/pic2.jpg",
+    image: "/assets/images/tomato stew.jpg",
     ingredients: [
       "Tomatoes",
       "Red onions",
@@ -82,7 +82,7 @@ export const catalogProducts: Product[] = [
     category: "sauces",
     price: 5.75,
     shortDescription: "Authentic West African jollof sauce — just add rice.",
-    image: "/assets/images/gallery/grid/pic3.jpg",
+    image: "/assets/images/jollof small.jpg",
     ingredients: [
       "Tomatoes",
       "Red peppers",
@@ -104,7 +104,7 @@ export const catalogProducts: Product[] = [
     category: "soups-and-stews",
     price: 8.5,
     shortDescription: "Melon seed soup with leafy greens and seasoned stock.",
-    image: "/assets/images/gallery/grid2/pic4.jpg",
+    image: "/assets/images/Efo Egusi.jpg",
     ingredients: [
       "Ground egusi (melon seeds)",
       "Spinach",
@@ -126,11 +126,11 @@ export const catalogProducts: Product[] = [
     category: "soups-and-stews",
     price: 8.0,
     shortDescription: "Silky draw soup with a deep, nutty flavour.",
-    image: "/assets/images/gallery/grid2/pic2.jpg",
+    image: "/assets/images/ogbono.jpg",
     ingredients: [
       "Ground ogbono seeds",
       "Assorted meat stock",
-      "Palm oil",
+      "Palm oil", 
       "Onions",
       "Spinach",
       "Crayfish",

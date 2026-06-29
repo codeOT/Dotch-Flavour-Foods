@@ -88,10 +88,10 @@ export function HeroSection() {
             <div className="relative mx-auto w-full max-w-[min(100%,22rem)] sm:max-w-md lg:max-w-lg">
               <motion.div animate={pulseGlow} className="overflow-hidden rounded-2xl">
                 <Image
-                  src="/assets/images/main-slider/slider4/banner.png"
+                  src="/assets/images/jollof.jpg"
                   alt="Fresh food delivery"
-                  width={640}
-                  height={640}
+                  width={500}
+                  height={500}
                   sizes="(max-width: 1024px) 90vw, 480px"
                   className="h-auto w-full object-contain"
                   priority
@@ -187,14 +187,14 @@ export function HeroSection() {
                 className="absolute bottom-2 left-0 hidden max-w-[calc(100%-0.5rem)] items-center gap-3 rounded-2xl bg-white p-3 shadow-xl lg:flex"
               >
                 <Image
-                  src="/assets/images/main-slider/slider4/pic1.png"
-                  alt="Spicy Seafood Fried Rice"
+                  src="/assets/images/jollof.jpg"
+                  alt="Jollof Rice"
                   width={64}
                   height={64}
                   className="h-14 w-14 shrink-0 rounded-xl object-cover"
                 />
                 <div className="min-w-0">
-                  <h6 className="text-sm font-semibold">Spicy Seafood Fried Rice</h6>
+                  <h6 className="text-sm font-semibold">Spicy Jollof Rice</h6>
                   <span className="text-xs text-title/60">Serves 4</span>
                 </div>
               </motion.div>

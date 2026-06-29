@@ -15,9 +15,9 @@ export function TodaysMenuSection() {
           <h2 className="text-2xl font-bold sm:text-3xl md:text-4xl">Today&apos;s Menu</h2>
         </Reveal>
 
-        <StaggerContainer className="mb-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <StaggerContainer className="mb-12 grid gap-6 pt-2 sm:grid-cols-2 lg:grid-cols-4">
           {todaysMenu.map((item) => (
-            <StaggerItem key={item.id}>
+            <StaggerItem key={item.id} className="h-full">
               <TodaysMenuCard item={item} />
             </StaggerItem>
           ))}

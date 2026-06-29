@@ -14,17 +14,25 @@ type TodaysMenuCardProps = {
 
 export function TodaysMenuCard({ item }: TodaysMenuCardProps) {
   return (
-    <HoverCard className="group relative overflow-hidden rounded-2xl bg-white shadow-sm">
+    <HoverCard className="group relative h-full overflow-hidden rounded-2xl bg-white shadow-sm transition-shadow hover:shadow-md">
       <div className="relative aspect-[4/3] overflow-hidden">
-        <motion.div whileHover={{ scale: 1.08 }} transition={{ duration: 0.5 }}>
+        <motion.div
+          className="absolute inset-0"
+          whileHover={{ scale: 1.08 }}
+          transition={{ duration: 0.5 }}
+        >
           <Image src={item.image} alt={item.name} fill className="object-cover" />
         </motion.div>
-        <span className="absolute left-4 top-4 rounded bg-secondary px-3 py-1 text-xs font-semibold uppercase text-white">
+        <motion.span
+          className="absolute left-4 top-4 z-10 rounded bg-secondary px-3 py-1 text-xs font-semibold uppercase text-white"
+          animate={{ y: [0, -3, 0] }}
+          transition={{ duration: 2.5, repeat: Infinity }}
+        >
           Top Seller
-        </span>
+        </motion.span>
       </div>
       <div className="p-5">
-        <h5 className="mb-2 text-lg font-semibold">
+        <h5 className="mb-2 text-lg font-semibold transition-colors group-hover:text-primary">
           <Link href="/our-menu" className="hover:text-primary">
             {item.name}
           </Link>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Snowflake, Star } from "lucide-react";
@@ -11,6 +12,8 @@ import {
   type ReadySoupProduct,
 } from "@/lib/ready-soups";
 import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
+import { LiterSizeSelector } from "@/components/cart/LiterSizeSelector";
+import { formatLiterPrice, getServingForLiters, type LiterSize } from "@/lib/liter-sizes";
 
 export function ReadySoupProductCard({
   product,
@@ -19,6 +22,9 @@ export function ReadySoupProductCard({
   product: ReadySoupProduct;
   priority?: boolean;
 }) {
+  const [liters, setLiters] = useState<LiterSize>(2);
+  const displayPrice = formatLiterPrice(product.price, liters);
+
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-surface/80 bg-white shadow-sm transition hover:border-primary/25 hover:shadow-lg">
       <Link
@@ -40,7 +46,7 @@ export function ReadySoupProductCard({
           Frozen
         </span>
         <div className="absolute bottom-4 left-4 right-4">
-          <p className="text-xs font-medium uppercase tracking-widest text-white/80">{product.size}</p>
+          <p className="text-xs font-medium uppercase tracking-widest text-white/80">{liters}L</p>
           <h3 className="text-xl font-bold text-white">{product.name}</h3>
           <p className="mt-1 line-clamp-2 text-sm text-white/85">{product.tagline}</p>
         </div>
@@ -49,22 +55,17 @@ export function ReadySoupProductCard({
       <div className="flex flex-1 flex-col p-5">
         <p className="mb-4 flex-1 text-sm leading-relaxed text-title/70">{product.shortDescription}</p>
 
-        <div className="mb-4 flex flex-wrap gap-2">
-          {["950ml tub", "Premium frozen"].map((tag, index) => (
-            <span
-              key={tag}
-              className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide ${
-                index === 0 ? "bg-surface/60 text-title/70" : "bg-secondary/10 text-secondary"
-              }`}
-            >
-              {tag}
-            </span>
-          ))}
+        <div className="mb-3">
+          <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-title/50">
+            Choose size
+          </p>
+          <LiterSizeSelector value={liters} onChange={setLiters} />
+          <p className="mt-2 text-xs text-title/60">{getServingForLiters(liters)}</p>
         </div>
 
         <div className="flex items-center justify-between gap-3 border-t border-surface pt-4">
           <div>
-            <p className="text-lg font-bold text-primary">{formatReadySoupPrice(product.price)}</p>
+            <p className="text-lg font-bold text-primary">{displayPrice}</p>
             <Link
               href={`/ready-to-eat-soups/${product.slug}`}
               className="text-xs font-semibold text-secondary hover:underline"
@@ -72,7 +73,10 @@ export function ReadySoupProductCard({
               View full details →
             </Link>
           </div>
-          <CartQuantityControls item={readySoupToCartItem(product)} variant="compact" />
+          <CartQuantityControls
+            item={readySoupToCartItem(product, liters)}
+            variant="compact"
+          />
         </div>
       </div>
     </article>

@@ -5,7 +5,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 import { HoverCard } from "@/components/motion/HoverCard";
 import { scaleIn } from "@/lib/motion";
-import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
+import { FoodItemLiterBlock } from "@/components/cart/FoodItemLiterBlock";
 import { menuItemToCartItem } from "@/lib/cart-utils";
 import { menuItems } from "@/lib/navigation";
 
@@ -83,6 +83,8 @@ export function ServicesGrid() {
 }
 
 export function ProductDetailContent() {
+  const item = menuItems[0];
+
   return (
     <section className="py-16">
       <div className="container-fluid grid gap-12 lg:grid-cols-2">
@@ -96,12 +98,16 @@ export function ProductDetailContent() {
           />
         </Reveal>
         <Reveal>
-          <h2 className="mb-4 text-3xl font-bold">Burger</h2>
-          <p className="mb-6 text-2xl font-bold text-primary">{menuItems[0].price}</p>
+          <h2 className="mb-4 text-3xl font-bold">{item.name}</h2>
           <p className="mb-8 text-title/70">
             Delicious and spicy burger made with fresh ingredients and served hot.
           </p>
-          <CartQuantityControls item={menuItemToCartItem(menuItems[0])} showLabel />
+          <FoodItemLiterBlock
+            basePrice={item.priceValue}
+            buildCartItem={(liters) => menuItemToCartItem(item, liters)}
+            variant="default"
+            showLabel
+          />
         </Reveal>
       </div>
     </section>

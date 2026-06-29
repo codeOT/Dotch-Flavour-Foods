@@ -1,16 +1,18 @@
 import type { MenuItem } from "@/lib/navigation";
 import type { CartItem } from "@/context/CartContext";
+import { getPriceForLiters, type LiterSize } from "@/lib/liter-sizes";
 
 export const FREE_DELIVERY_THRESHOLD = 30;
 export const DELIVERY_FEE = 3.99;
 
 export type DeliveryMethod = "delivery" | "pickup";
 
-export function menuItemToCartItem(item: MenuItem): Omit<CartItem, "quantity"> {
+export function menuItemToCartItem(item: MenuItem, liters: LiterSize = 2): Omit<CartItem, "quantity"> {
+  const price = getPriceForLiters(item.priceValue, liters);
   return {
-    id: item.id,
-    name: item.name,
-    price: item.priceValue,
+    id: `${item.id}-${liters}l`,
+    name: `${item.name} (${liters}L)`,
+    price,
     image: item.image,
   };
 }

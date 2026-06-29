@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { todaysMenu } from "@/lib/navigation";
+import { FoodItemLiterBlock } from "@/components/cart/FoodItemLiterBlock";
 import { menuItemToCartItem } from "@/lib/cart-utils";
-import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
 import { HoverCard } from "@/components/motion/HoverCard";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 
@@ -20,10 +20,11 @@ export function MenuGrid() {
               <div className="p-6">
                 <h3 className="mb-2 text-xl font-semibold">{item.name}</h3>
                 <p className="mb-4 text-sm text-title/70">{item.description}</p>
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-lg font-bold text-primary">{item.price}</span>
-                  <CartQuantityControls item={menuItemToCartItem(item)} variant="compact" />
-                </div>
+                <FoodItemLiterBlock
+                  basePrice={item.priceValue}
+                  buildCartItem={(liters) => menuItemToCartItem(item, liters)}
+                  variant="compact"
+                />
               </div>
             </HoverCard>
           </StaggerItem>

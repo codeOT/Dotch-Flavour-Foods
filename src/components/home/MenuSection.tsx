@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useRef } from "react";
@@ -9,10 +7,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import { menuItems } from "@/lib/navigation";
-import { menuItemToCartItem } from "@/lib/cart-utils";
-import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
+import { MenuCarouselCard } from "@/components/cart/MenuFoodCards";
 import { useScrollMotion } from "@/hooks/useScrollMotion";
-import { HoverCard } from "@/components/motion/HoverCard";
 import { Reveal } from "@/components/motion/Reveal";
 import "swiper/css";
 
@@ -73,37 +69,7 @@ export function MenuSection() {
                 viewport={scrollMotion.viewport}
                 transition={{ ...scrollMotion.transition, delay: index * 0.1 }}
               >
-                <HoverCard className="group relative overflow-hidden rounded-2xl border border-surface bg-white p-4 shadow-sm">
-                  <div className="mb-4 flex min-w-0 items-center gap-3 sm:gap-4">
-                    <motion.div whileHover={{ rotate: [0, -5, 5, 0] }} transition={{ duration: 0.4 }}>
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        width={80}
-                        height={80}
-                        className="h-16 w-16 shrink-0 rounded-xl object-cover sm:h-20 sm:w-20"
-                      />
-                    </motion.div>
-                    <div className="min-w-0">
-                      <h6 className="font-semibold">
-                        <Link href="/shop/product" className="hover:text-primary">
-                          {item.name}
-                        </Link>
-                      </h6>
-                      <p className="text-sm text-title/60">{item.description}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between border-t border-surface pt-4 text-sm">
-                    <span className="text-title/60">Regular Price</span>
-                    <span className="font-semibold text-primary">{item.price}</span>
-                  </div>
-                  <div className="absolute bottom-4 right-4">
-                    <CartQuantityControls
-                      item={menuItemToCartItem(item)}
-                      variant="compact"
-                    />
-                  </div>
-                </HoverCard>
+                <MenuCarouselCard item={item} />
               </motion.div>
             </SwiperSlide>
           ))}

@@ -369,11 +369,14 @@ export function formatReadySoupPrice(price: number): string {
   return formatPrice(price);
 }
 
-export function readySoupToCartItem(product: ReadySoupProduct) {
+import { getPriceForLiters, type LiterSize } from "./liter-sizes";
+
+export function readySoupToCartItem(product: ReadySoupProduct, liters: LiterSize = 2) {
+  const price = getPriceForLiters(product.price, liters);
   return {
-    id: `ready-soup-${product.id}`,
-    name: `${product.name} (${product.size})`,
-    price: product.price,
+    id: `ready-soup-${product.id}-${liters}l`,
+    name: `${product.name} (${liters}L)`,
+    price,
     image: product.image,
   };
 }

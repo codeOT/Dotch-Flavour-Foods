@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { menuItems } from "@/lib/navigation";
+import { FoodItemLiterBlock } from "@/components/cart/FoodItemLiterBlock";
 import { menuItemToCartItem } from "@/lib/cart-utils";
-import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
 import { HoverCard } from "@/components/motion/HoverCard";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 
@@ -23,10 +23,12 @@ export function ShopGrid() {
               />
               <h3 className="mb-2 text-lg font-semibold">{item.name}</h3>
               <p className="mb-4 text-sm text-title/70">{item.description}</p>
-              <div className="flex items-center justify-between gap-3">
-                <span className="font-bold text-primary">{item.price}</span>
-                <CartQuantityControls item={menuItemToCartItem(item)} showLabel />
-              </div>
+              <FoodItemLiterBlock
+                basePrice={item.priceValue}
+                buildCartItem={(liters) => menuItemToCartItem(item, liters)}
+                variant="default"
+                showLabel
+              />
             </HoverCard>
           </StaggerItem>
         ))}

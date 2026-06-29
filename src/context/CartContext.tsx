@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import type { Product } from "@/lib/products";
+import { getPriceForLiters, type LiterSize } from "@/lib/liter-sizes";
 
 export type CartItem = {
   id: string;
@@ -52,11 +53,12 @@ function readStoredCart(): CartItem[] {
   }
 }
 
-export function productToCartItem(product: Product): CartItemInput {
+export function productToCartItem(product: Product, liters: LiterSize = 2): CartItemInput {
+  const price = getPriceForLiters(product.price, liters);
   return {
-    id: product.id,
-    name: product.name,
-    price: product.price,
+    id: `${product.id}-${liters}l`,
+    name: `${product.name} (${liters}L)`,
+    price,
     image: product.image,
   };
 }

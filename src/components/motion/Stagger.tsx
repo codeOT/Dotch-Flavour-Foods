@@ -18,9 +18,9 @@ export function StaggerContainer({ children, className, ...props }: StaggerConta
   return (
     <motion.div
       initial="hidden"
-      animate={isMobile ? "visible" : undefined}
-      whileInView={isMobile ? undefined : "visible"}
-      viewport={isMobile ? undefined : viewport}
+      animate="visible"
+      whileInView="visible"
+      viewport={viewport}
       variants={isMobile ? mobileStaggerContainer : staggerContainer}
       className={className}
       {...props}

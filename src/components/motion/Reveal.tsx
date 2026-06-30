@@ -28,9 +28,9 @@ export function Reveal({
   return (
     <motion.div
       initial="hidden"
-      animate={isMobile ? "visible" : undefined}
-      whileInView={isMobile ? undefined : "visible"}
-      viewport={isMobile ? undefined : viewport}
+      animate="visible"
+      whileInView="visible"
+      viewport={viewport}
       variants={activeVariants}
       transition={{ delay }}
       className={className}
@@ -53,9 +53,9 @@ export function RevealCard({
   return (
     <motion.div
       initial="hidden"
-      animate={isMobile ? "visible" : undefined}
-      whileInView={isMobile ? undefined : "visible"}
-      viewport={isMobile ? undefined : viewport}
+      animate="visible"
+      whileInView="visible"
+      viewport={viewport}
       variants={isMobile ? mobileFadeUp : fadeUp}
       transition={{ delay }}
       className={className}

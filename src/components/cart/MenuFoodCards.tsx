@@ -65,7 +65,7 @@ export function MenuCarouselCard({ item }: MenuCarouselCardProps) {
         />
         <div className="min-w-0">
           <h6 className="font-semibold">
-            <Link href="/shop/product" className="hover:text-primary">
+            <Link href="/fresh-menu" className="hover:text-primary">
               {item.name}
             </Link>
           </h6>

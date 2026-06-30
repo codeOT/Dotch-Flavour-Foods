@@ -39,7 +39,7 @@ export const catalogProducts: Product[] = [
     category: "sauces",
     price: 4.5,
     shortDescription: "Smoky chilli pepper sauce with aromatic spices.",
-    image: "/assets/images/gallery/grid2/pic5.jpg",
+    image: "/assets/images/pepper sauce.jpg",
     ingredients: [
       "Red bell peppers",
       "Scotch bonnet chillies",
@@ -104,7 +104,7 @@ export const catalogProducts: Product[] = [
     category: "soups-and-stews",
     price: 8.5,
     shortDescription: "Melon seed soup with leafy greens and seasoned stock.",
-    image: "/assets/images/Efo Egusi.jpg",
+    image: "/assets/images/egusi.jpg",
     ingredients: [
       "Ground egusi (melon seeds)",
       "Spinach",
@@ -147,7 +147,7 @@ export const catalogProducts: Product[] = [
     category: "soups-and-stews",
     price: 7.5,
     shortDescription: "Aromatic broth with traditional pepper soup spices.",
-    image: "/assets/images/gallery/grid2/pic5.jpg",
+    image: "/assets/images/pepper sauce.jpg",
     ingredients: [
       "Chicken stock",
       "Pepper soup spice blend",
@@ -168,7 +168,7 @@ export const catalogProducts: Product[] = [
     category: "soups-and-stews",
     price: 7.25,
     shortDescription: "Hearty mixed vegetable stew in a savoury tomato base.",
-    image: "/assets/images/gallery/grid2/pic6.jpg",
+    image: "/assets/images/efo.jpg",
     ingredients: [
       "Carrots",
       "Green beans",

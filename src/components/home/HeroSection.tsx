@@ -1,206 +1,135 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { Check, Star } from "lucide-react";
+import { motion, type Variants } from "framer-motion";
 import { Button } from "@/components/ui/Button";
-import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
-import { floatAnimation, pulseGlow } from "@/lib/motion";
-import { Reveal } from "@/components/motion/Reveal";
+import { easeOut } from "@/lib/motion";
 
-const highlights = [
-  "African Traditional Cuisines",
-  "Ready to Eat Soups",
-  "Vegetarian Specialty",
-];
+const heroStagger: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.14,
+      delayChildren: 0.15,
+    },
+  },
+};
+
+const heroFadeUp: Variants = {
+  hidden: { opacity: 0, y: 32 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: easeOut },
+  },
+};
+
+const heroImageReveal: Variants = {
+  hidden: { opacity: 0, scale: 0.9, x: 48 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    x: 0,
+    transition: { duration: 0.85, ease: easeOut, delay: 0.2 },
+  },
+};
+
+const heroBgFade: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 1, ease: easeOut },
+  },
+};
 
 export function HeroSection() {
   return (
-    <section className="overflow-hidden bg-gradient-to-b from-surface to-white pb-10 pt-8 sm:pb-16 sm:pt-12 lg:pb-24 lg:pt-20">
-      <div className="container-fluid">
-        <div className="grid min-w-0 grid-cols-1 items-center gap-6 sm:gap-8 lg:grid-cols-2 lg:gap-12">
-          {/* Copy */}
-          <Reveal className="order-1 min-w-0 max-w-full lg:order-none">
-            <motion.h1
-              className="mb-4 text-[clamp(1.5rem,6.5vw,2rem)] font-bold leading-[1.2] text-title sm:mb-6 sm:text-4xl sm:leading-tight md:text-5xl lg:text-6xl"
-              initial="rest"
-              whileHover="hover"
-              whileTap="hover"
-              variants={{
-                rest: { scale: 1, color: "#192e22" },
-                hover: {
-                  scale: 1.04,
-                  color: "#cf5c0b",
-                  transition: { type: "spring", stiffness: 380, damping: 22 },
-                },
-              }}
+    <section className="relative w-full overflow-hidden bg-[#052f2a]">
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-r from-[#021f1c]/95 via-[#052f2a]/80 to-[#052f2a]/10"
+        initial="hidden"
+        animate="visible"
+        variants={heroBgFade}
+      />
+      <motion.div
+        className="absolute inset-0 bg-[radial-gradient(circle_at_88%_20%,rgba(207,92,11,0.22),transparent_48%)]"
+        initial="hidden"
+        animate="visible"
+        variants={heroBgFade}
+        transition={{ delay: 0.2, duration: 1.2 }}
+      />
+
+      <div className="container-fluid relative grid min-h-[520px] items-center gap-8 py-10 sm:py-14 lg:grid-cols-2 lg:py-16">
+        <motion.div
+          className="max-w-xl"
+          initial="hidden"
+          animate="visible"
+          variants={heroStagger}
+        >
+          <motion.p
+            className="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-secondary"
+            variants={heroFadeUp}
+          >
+            Welcome to Dotch
+          </motion.p>
+
+          <motion.h1
+            className="mb-5 text-4xl font-bold leading-[1.05] text-white sm:text-5xl lg:text-6xl"
+            variants={heroFadeUp}
+          >
+            Roots in <span className="text-secondary">Flavour.</span>
+            <br />
+            Crafted with <span className="text-secondary">Care.</span>
+          </motion.h1>
+
+          <motion.p
+            className="mb-8 max-w-lg text-sm leading-relaxed text-white/80 sm:text-base"
+            variants={heroFadeUp}
+          >
+            Authentic Nigerian soups made with quality ingredients and traditional spice blends.
+          </motion.p>
+
+          <motion.div className="flex flex-wrap gap-3" variants={heroFadeUp}>
+            <Button href="/ready-to-eat-soups" className="min-w-36">
+              Shop Soups
+            </Button>
+            <Button
+              href="/our-menu"
+              variant="outline"
+              className="min-w-36 border-white/40 text-white hover:bg-white/10"
             >
-              <motion.span
-                className="block sm:inline"
-                variants={{ hover: { letterSpacing: "0.02em" } }}
-              >
-                Authentic Nigerian Flavours,
-                <span className="hidden sm:inline"> </span>
-              </motion.span>
-              <motion.span
-                className="mt-1 block text-primary sm:mt-0 sm:inline"
-                variants={{
-                  rest: { color: "#574821", scale: 1 },
-                  hover: {
-                    color: "#630a0a",
-                    scale: 1.05,
-                    transition: { type: "spring", stiffness: 420, damping: 18 },
-                  },
-                }}
-              >
-                Thoughtfully Prepared
-              </motion.span>
-            </motion.h1>
+              View Menu
+            </Button>
+          </motion.div>
+        </motion.div>
 
-            <p className="mb-5 max-w-xl text-sm leading-relaxed text-title/70 sm:mb-8 sm:text-base md:text-lg">
-              We are the best food delivery partner for your shops and restaurants, deliver
-              safely and on time.
-            </p>
-
-            <div className="mb-5 flex w-full flex-col gap-3 sm:mb-8 sm:w-auto sm:flex-row sm:flex-wrap sm:gap-4">
-              <Button href="/contact-us" fullWidth className="sm:w-auto">
-                Order Now
-              </Button>
-              <Button href="/about-us" variant="outline" fullWidth className="sm:w-auto">
-                View More
-              </Button>
-            </div>
-
-            <StaggerContainer className="grid gap-2.5 sm:grid-cols-2 sm:gap-3">
-              {highlights.map((item) => (
-                <StaggerItem key={item}>
-                  <div className="flex items-start gap-2 text-sm text-title/80">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                    <span className="min-w-0 break-words">{item}</span>
-                  </div>
-                </StaggerItem>
-              ))}
-            </StaggerContainer>
-          </Reveal>
-
-          {/* Image + cards */}
-          <Reveal className="order-2 min-w-0 max-w-full lg:order-none">
-            <div className="relative mx-auto w-full max-w-[min(100%,22rem)] sm:max-w-md lg:max-w-lg">
-              <motion.div animate={pulseGlow} className="overflow-hidden rounded-2xl">
-                <Image
-                  src="/assets/images/jollof.jpg"
-                  alt="Fresh food delivery"
-                  width={500}
-                  height={500}
-                  sizes="(max-width: 1024px) 90vw, 480px"
-                  className="h-auto w-full object-contain"
-                  priority
-                />
-              </motion.div>
-
-              {/* Mobile / tablet: cards below image */}
-              <div className="mt-3 grid gap-2.5 sm:mt-4 lg:hidden">
-                <div className="rounded-xl bg-white p-3.5 shadow-lg sm:rounded-2xl sm:p-4">
-                  <h6 className="text-sm font-bold">
-                    4.5{" "}
-                    <span className="font-normal text-title/60">(1000+ review)</span>
-                  </h6>
-                  <div className="my-2 flex gap-1">
-                    {Array.from({ length: 5 }).map((_, index) => (
-                      <Star
-                        key={index}
-                        className={`h-4 w-4 ${index < 4 ? "fill-secondary text-secondary" : "text-cream"}`}
-                      />
-                    ))}
-                  </div>
-                  <div className="flex -space-x-2">
-                    {["pic1", "pic2", "pic3"].map((pic) => (
-                      <Image
-                        key={pic}
-                        src={`/assets/images/testimonial/mini/${pic}.jpg`}
-                        alt=""
-                        width={32}
-                        height={32}
-                        className="h-8 w-8 rounded-full border-2 border-white object-cover"
-                      />
-                    ))}
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-xs text-white">
-                      8+
-                    </span>
-                  </div>
-                </div>
-                <div className="flex min-w-0 items-center gap-3 rounded-xl bg-white p-3 shadow-lg sm:rounded-2xl">
-                  <Image
-                    src="/assets/images/main-slider/slider4/pic1.png"
-                    alt="Spicy Seafood Fried Rice"
-                    width={64}
-                    height={64}
-                    className="h-12 w-12 shrink-0 rounded-lg object-cover sm:h-14 sm:w-14 sm:rounded-xl"
-                  />
-                  <div className="min-w-0 flex-1">
-                    <h6 className="text-sm font-semibold leading-snug">
-                      Spicy Seafood Fried Rice
-                    </h6>
-                    <span className="text-xs text-title/60">Serves 4</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Desktop: floating cards */}
-              <motion.div
-                animate={floatAnimation}
-                className="absolute -right-2 top-6 hidden w-44 rounded-2xl bg-white p-4 shadow-xl lg:block xl:right-0"
-              >
-                <h6 className="text-sm font-bold">
-                  4.5 <span className="font-normal text-title/60">(1000+ review)</span>
-                </h6>
-                <div className="my-2 flex gap-1">
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <Star
-                      key={index}
-                      className={`h-4 w-4 ${index < 4 ? "fill-secondary text-secondary" : "text-cream"}`}
-                    />
-                  ))}
-                </div>
-                <div className="flex -space-x-2">
-                  {["pic1", "pic2", "pic3"].map((pic) => (
-                    <Image
-                      key={pic}
-                      src={`/assets/images/testimonial/mini/${pic}.jpg`}
-                      alt=""
-                      width={32}
-                      height={32}
-                      className="h-8 w-8 rounded-full border-2 border-white object-cover"
-                    />
-                  ))}
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-xs text-white">
-                    8+
-                  </span>
-                </div>
-              </motion.div>
-
-              <motion.div
-                animate={{
-                  y: [0, 10, 0],
-                  transition: { duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 },
-                }}
-                className="absolute bottom-2 left-0 hidden max-w-[calc(100%-0.5rem)] items-center gap-3 rounded-2xl bg-white p-3 shadow-xl lg:flex"
-              >
-                <Image
-                  src="/assets/images/jollof.jpg"
-                  alt="Jollof Rice"
-                  width={64}
-                  height={64}
-                  className="h-14 w-14 shrink-0 rounded-xl object-cover"
-                />
-                <div className="min-w-0">
-                  <h6 className="text-sm font-semibold">Spicy Jollof Rice</h6>
-                  <span className="text-xs text-title/60">Serves 4</span>
-                </div>
-              </motion.div>
-            </div>
-          </Reveal>
-        </div>
+        <motion.div
+          className="relative mx-auto w-full max-w-[470px]"
+          initial="hidden"
+          animate="visible"
+          variants={heroImageReveal}
+        >
+          <motion.div
+            className="absolute inset-x-10 bottom-2 h-16 rounded-full bg-black/40 blur-2xl"
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.5, ease: easeOut }}
+          />
+          <motion.div
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          >
+            <Image
+              src="/assets/images/jollof.jpg"
+              alt="Signature Dotch soup"
+              width={370}
+              height={370}
+              priority
+              className="relative z-10 h-[400px] w-full rounded-3xl object-cover"
+            />
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

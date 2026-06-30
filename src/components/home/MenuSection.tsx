@@ -8,6 +8,7 @@ import { Navigation } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import { menuItems } from "@/lib/navigation";
 import { MenuCarouselCard } from "@/components/cart/MenuFoodCards";
+import { Button } from "@/components/ui/Button";
 import { useScrollMotion } from "@/hooks/useScrollMotion";
 import { Reveal } from "@/components/motion/Reveal";
 import "swiper/css";
@@ -20,7 +21,10 @@ export function MenuSection() {
     <section className="overflow-hidden py-12 sm:py-16">
       <Reveal className="container-fluid mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-2xl font-bold text-title sm:text-3xl md:text-4xl capitalize">
-          Fresh food from the <motion.span className="text-accent whileHover={{ scale: 1.08, x: -2 }}">Dotch Flavour menu</motion.span> 
+          Fresh food from the{" "}
+          <motion.span className="text-secondary" whileHover={{ scale: 1.08 }}>
+            Dotch Flavour menu
+          </motion.span>
         </h2>
         <div className="flex shrink-0 gap-2 self-end sm:self-auto">
           <motion.button
@@ -74,6 +78,10 @@ export function MenuSection() {
             </SwiperSlide>
           ))}
         </Swiper>
+      </Reveal>
+
+      <Reveal className="container-fluid mt-10 flex justify-center">
+        <Button href="/fresh-menu">View All</Button>
       </Reveal>
     </section>
   );

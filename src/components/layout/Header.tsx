@@ -22,10 +22,10 @@ export function Header({ mobileOpen, onToggleMobile, onCloseMobile }: HeaderProp
       initial="hidden"
       animate="visible"
       variants={slideDown}
-      className="fixed inset-x-0 top-0 z-50 bg-white/90 backdrop-blur-md"
+      className="fixed inset-x-0 top-0 z-50 w-full border-b border-black/5 bg-white backdrop-blur-md"
     >
-      <div className="container-fluid">
-        <div className="flex h-16 min-w-0 items-center justify-between gap-2 sm:h-20 sm:gap-4">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-16 w-full max-w-[1400px] min-w-0 items-center justify-between gap-2 sm:h-20 sm:gap-4">
           <motion.div className="min-w-0 shrink" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
             <Link href="/" className="block max-w-[42vw] sm:max-w-none">
               <Image
@@ -178,7 +178,7 @@ export function Header({ mobileOpen, onToggleMobile, onCloseMobile }: HeaderProp
               variants={staggerContainer}
               initial="hidden"
               animate="visible"
-              className="container-fluid space-y-1 py-4"
+              className="mx-auto w-full max-w-[1400px] space-y-1 px-4 py-4 sm:px-6 lg:px-8"
             >
               {mainNav.map((item) =>
                 item.children ? (

@@ -41,7 +41,7 @@ export const footerLinks = {
 export const menuItems: MenuItem[] = [
   { id: "jollof", name: "Party Smokey Jollof", description: "Delicious and Spicy", price: formatPrice(10), priceValue: 10, image: "/assets/images/jollof small.jpg" },
   { id: "fried-rice", name: "Special Fried Rice", description: "Delicious and Spicy", price: formatPrice(15), priceValue: 15, image: "/assets/images/fried rice.jpg" },
-  { id: "pepper-fish", name: "Fried Pepper Fish", description: "Delicious and Spicy", price: formatPrice(25), priceValue: 25, image: "/assets/images/pfish small.jpg" },
+  { id: "pepper-fish", name: "Fried Pepper Fish", description: "Delicious and Spicy", price: formatPrice(25), priceValue: 25, image: "/assets/images/pfish small.png" },
   { id: "Fish-in-stew", name: "Fresh Fish in Stew", description: "Delicious and Spicy", price: formatPrice(45), priceValue: 45, image: "/assets/images/fish in stew.jpg" },
   { id: "Asaro-sauce", name: "Asaro with Sauce", description: "Delicious and Spicy", price: formatPrice(20), priceValue: 20, image: "/assets/images/porridge.jpg" },
   { id: "Gizdodo", name: "Gizdodo", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/gizdodo.jpg" },

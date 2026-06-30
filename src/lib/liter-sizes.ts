@@ -1,6 +1,6 @@
 import { formatPrice } from "./site";
 
-export type LiterSize = 2 | 3 | 5;
+export type LiterSize = 2 | 4 | 6;
 
 export const literSizeOptions: {
   liters: LiterSize;
@@ -8,15 +8,15 @@ export const literSizeOptions: {
   serving: string;
 }[] = [
   { liters: 2, label: "2L", serving: "Serves 2–3" },
-  { liters: 3, label: "3L", serving: "Serves 4–6" },
-  { liters: 5, label: "5L", serving: "Serves 8–10" },
+  { liters: 4, label: "4L", serving: "Serves 5–7" },
+  { liters: 6, label: "6L", serving: "Serves 9–12" },
 ];
 
 /** Base product price is the 2L price */
 const literPriceMultipliers: Record<LiterSize, number> = {
   2: 1,
-  3: 1.5,
-  5: 2.35,
+  4: 1.85,
+  6: 2.7,
 };
 
 export function getPriceForLiters(basePrice: number, liters: LiterSize): number {

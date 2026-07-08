@@ -126,7 +126,7 @@ export const catalogProducts: Product[] = [
     category: "soups-and-stews",
     price: 8.0,
     shortDescription: "Silky draw soup with a deep, nutty flavour.",
-    image: "/assets/images/ogbono.jpg",
+    image: "/assets/images/ogbono r.jpg",
     ingredients: [
       "Ground ogbono seeds",
       "Assorted meat stock",
@@ -147,7 +147,7 @@ export const catalogProducts: Product[] = [
     category: "soups-and-stews",
     price: 7.5,
     shortDescription: "Aromatic broth with traditional pepper soup spices.",
-    image: "/assets/images/pepper sauce.jpg",
+    image: "/assets/images/pepper soup r.jpg",
     ingredients: [
       "Chicken stock",
       "Pepper soup spice blend",
@@ -168,7 +168,7 @@ export const catalogProducts: Product[] = [
     category: "soups-and-stews",
     price: 7.25,
     shortDescription: "Hearty mixed vegetable stew in a savoury tomato base.",
-    image: "/assets/images/efo.jpg",
+    image: "/assets/images/vg stew r.jpg",
     ingredients: [
       "Carrots",
       "Green beans",

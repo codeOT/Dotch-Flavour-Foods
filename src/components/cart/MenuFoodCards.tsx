@@ -1,11 +1,11 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import type { MenuItem } from "@/lib/navigation";
 import { menuItemToCartItem } from "@/lib/cart-utils";
-import { FoodItemLiterBlock } from "@/components/cart/FoodItemLiterBlock";
+import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
 import { HoverCard } from "@/components/motion/HoverCard";
 
 type TodaysMenuCardProps = {
@@ -38,11 +38,10 @@ export function TodaysMenuCard({ item }: TodaysMenuCardProps) {
           </Link>
         </h5>
         <p className="mb-4 text-sm text-title/70">{item.description}</p>
-        <FoodItemLiterBlock
-          basePrice={item.priceValue}
-          buildCartItem={(liters) => menuItemToCartItem(item, liters)}
-          variant="compact"
-        />
+        <div className="flex items-center justify-between gap-2">
+          <span className="font-semibold text-primary">{item.price}</span>
+          <CartQuantityControls item={menuItemToCartItem(item)} variant="compact" />
+        </div>
       </div>
     </HoverCard>
   );
@@ -72,12 +71,14 @@ export function MenuCarouselCard({ item }: MenuCarouselCardProps) {
           <p className="text-sm text-title/60">{item.description}</p>
         </div>
       </div>
-      <FoodItemLiterBlock
-        basePrice={item.priceValue}
-        buildCartItem={(size) => menuItemToCartItem(item, size)}
-        variant="compact"
-        className="border-t border-surface pt-4"
-      />
+      <div className="flex items-center justify-between border-t border-surface pt-4 text-sm">
+        <span className="text-title/60">Regular Price</span>
+        <span className="font-semibold text-primary">{item.price}</span>
+      </div>
+      <div className="absolute bottom-4 right-4">
+        <CartQuantityControls item={menuItemToCartItem(item)} variant="compact" />
+      </div>
     </HoverCard>
   );
 }
+

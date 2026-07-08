@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
 import { AuthField, AuthLayout } from "@/components/auth/AuthLayout";
@@ -104,8 +105,15 @@ export function SignUpForm() {
                 className="mt-0.5 h-4 w-4 shrink-0 rounded border-surface accent-primary"
               />
               <span>
-                I agree to the terms of service and privacy policy, and consent to order
-                updates by email.
+                I agree to the{" "}
+                <Link href="/delivery-terms" className="text-primary underline-offset-2 hover:underline">
+                  delivery terms
+                </Link>{" "}
+                and{" "}
+                <Link href="/privacy-policy" className="text-primary underline-offset-2 hover:underline">
+                  privacy policy
+                </Link>
+                , and consent to order updates by email.
               </span>
             </label>
           </StaggerItem>

@@ -193,7 +193,7 @@ export function ReadySoupsPageContent() {
               <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
                 <div className="relative aspect-[16/11] w-full overflow-hidden rounded-2xl border border-white/10 shadow-2xl sm:aspect-[5/4] lg:aspect-square lg:rounded-3xl">
                   <Image
-                    src="/assets/images/hero%20dotch%20foods.jpg"
+                    src="/assets/images/Egus.png"
                     alt="Dotch Flavour Ready Soups premium frozen range"
                     fill
                     className="object-cover"
@@ -206,7 +206,7 @@ export function ReadySoupsPageContent() {
                     <p className="text-[10px] font-semibold uppercase tracking-widest text-cream sm:text-xs">
                       Each tub
                     </p>
-                    <p className="text-lg font-bold sm:text-2xl">1000ml · Serves 3–4</p>
+                    <p className="text-lg font-bold sm:text-2xl">2000ml · Serves 3–4</p>
                   </div>
                 </div>
               </div>

@@ -26,12 +26,12 @@ export const footerLinks = {
   ourLinks: [
     { label: "Home", href: "/" },
     { label: "About Us", href: "/about-us" },
-    { label: "Services", href: "/services" },
-    { label: "Team", href: "/team" },
     { label: "Blog", href: "/blog" },
   ],
   helpCenter: [
     { label: "FAQ", href: "/faq" },
+    { label: "Delivery Terms", href: "/delivery-terms" },
+    { label: "Privacy Policy", href: "/privacy-policy" },
     { label: "Shop", href: "/shop" },
     { label: "Testimonials", href: "/testimonial" },
     { label: "Contact Us", href: "/contact-us" },
@@ -39,19 +39,19 @@ export const footerLinks = {
 };
 
 export const menuItems: MenuItem[] = [
-  { id: "jollof", name: "Party Smokey Jollof", description: "Delicious and Spicy", price: formatPrice(10), priceValue: 10, image: "/assets/images/jollof small.jpg" },
-  { id: "fried-rice", name: "Special Fried Rice", description: "Delicious and Spicy", price: formatPrice(15), priceValue: 15, image: "/assets/images/fried rice.jpg" },
-  { id: "pepper-fish", name: "Fried Pepper Fish", description: "Delicious and Spicy", price: formatPrice(25), priceValue: 25, image: "/assets/images/pfish small.png" },
+  { id: "jollof", name: "Party Smokey Jollof", description: "Delicious and Spicy", price: formatPrice(10), priceValue: 10, image: "/assets/images/jollof new.jpg" },
+  { id: "fried-rice", name: "Special Fried Rice", description: "Delicious and Spicy", price: formatPrice(15), priceValue: 15, image: "/assets/images/frice r.jpg" },
+  { id: "pepper-fish", name: "Fried Pepper Fish", description: "Delicious and Spicy", price: formatPrice(25), priceValue: 25, image: "/assets/images/fpepper fish r.jpg" },
   { id: "Fish-in-stew", name: "Fresh Fish in Stew", description: "Delicious and Spicy", price: formatPrice(45), priceValue: 45, image: "/assets/images/fish in stew.jpg" },
   { id: "Asaro-sauce", name: "Asaro with Sauce", description: "Delicious and Spicy", price: formatPrice(20), priceValue: 20, image: "/assets/images/porridge.jpg" },
-  { id: "Gizdodo", name: "Gizdodo", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/gizdodo.jpg" },
-  { id: "pepper-gizzard", name: "Peppered Gizzard", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/gizzard.jpg" },
+  { id: "Gizdodo", name: "Gizdodo", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/gizdodo r.jpg" },
+  { id: "pepper-gizzard", name: "Peppered Gizzard", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/peppered-gizzard r.jpg" },
   { id: "pepper-turkey", name: "Peppered Fried Turkey", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/pfturkey.jpg" },
-  { id: "Ogbono", name: "Ogbono", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/ogbono.jpg" },
+  { id: "Ogbono", name: "Ogbono", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/ogbono r.jpg" },
 ];
 
 export const todaysMenu: MenuItem[] = [
-  { id: "jollof-rice", name: "Jollof Rice", description: "Lorem ipsum dolor sit amet, dipiscing elit, sed", price: formatPrice(35), priceValue: 35, image: "/assets/images/jollof.jpg" },
+  { id: "jollof-rice", name: "Jollof Rice", description: "Lorem ipsum dolor sit amet, dipiscing elit, sed", price: formatPrice(35), priceValue: 35, image: "/assets/images/jollof new.jpg" },
   { id: "egusi-soup-today", name: "Egusi Soup", description: "Lorem ipsum dolor sit amet, dipiscing elit, sed", price: formatPrice(55), priceValue: 55, image: "/assets/images/egusi.jpg" },
   { id: "vegetable-soup-today", name: "Vegetable Soup", description: "Lorem ipsum dolor sit amet, dipiscing elit, sed", price: formatPrice(25), priceValue: 25, image: "/assets/images/efo.jpg" },
   { id: "ogbono-soup-today", name: "Ogbono Soup", description: "Lorem ipsum dolor sit amet, dipiscing elit, sed", price: formatPrice(90), priceValue: 90, image: "/assets/images/ogbono.jpg" },
@@ -59,9 +59,9 @@ export const todaysMenu: MenuItem[] = [
 
 export const readyToEatSoups: MenuItem[] = [
   { id: "egusi-soup-ready", name: "Egusi Soup", description: "Rich melon seed soup with leafy greens and seasoned protein.", price: formatPrice(18), priceValue: 18, image: "/assets/images/gallery/grid2/pic4.jpg" },
-  { id: "ogbono-soup-ready", name: "Ogbono Soup", description: "Silky draw soup with a deep, nutty flavour — heat and serve.", price: formatPrice(16), priceValue: 16, image: "/assets/images/gallery/grid2/pic2.jpg" },
-  { id: "pepper-soup-ready", name: "Pepper Soup", description: "Bold, aromatic broth — perfect as a starter or light meal.", price: formatPrice(14), priceValue: 14, image: "/assets/images/gallery/grid2/pic5.jpg" },
-  { id: "vegetable-soup-ready", name: "Vegetable Soup", description: "Wholesome mix of fresh vegetables in a savoury base.", price: formatPrice(15), priceValue: 15, image: "/assets/images/gallery/grid2/pic6.jpg" },
+  { id: "ogbono-soup-ready", name: "Ogbono Soup", description: "Silky draw soup with a deep, nutty flavour — heat and serve.", price: formatPrice(16), priceValue: 16, image: "/assets/images/ogbono r.jpg" },
+  { id: "pepper-soup-ready", name: "Pepper Soup", description: "Bold, aromatic broth — perfect as a starter or light meal.", price: formatPrice(14), priceValue: 14, image: "/assets/images/pepper soup r.jpg" },
+  { id: "vegetable-soup-ready", name: "Vegetable Soup", description: "Wholesome mix of fresh vegetables in a savoury base.", price: formatPrice(15), priceValue: 15, image: "/assets/images/vg stew r.jpg" },
 ];
 export const features = [
   { title: "Fresh Healthy Food", description: "lorem ipsum dolor shit amet lorem ipsum" },

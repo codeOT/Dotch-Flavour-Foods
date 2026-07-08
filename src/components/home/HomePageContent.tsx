@@ -1,6 +1,7 @@
 "use client";
 
 import { BookTableSection } from "@/components/home/BookTableSection";
+import { FaqSection } from "@/components/home/FaqSection";
 import { HeroSection } from "@/components/home/HeroSection";
 import { MeetFounderSection } from "@/components/home/MeetFounderSection";
 import { MenuSection } from "@/components/home/MenuSection";
@@ -12,12 +13,13 @@ export function HomePageContent() {
       <HeroSection />
       <ProductCatalogSection />
       <MenuSection />
-      <section className="overflow-hidden bg-surface py-12 sm:py-16">
+      <section className="overflow-hidden bg-white py-12 sm:py-16">
         <div className="container-fluid min-w-0">
           <MeetFounderSection />
         </div>
       </section>
       <BookTableSection />
+      <FaqSection />
     </>
   );
 }

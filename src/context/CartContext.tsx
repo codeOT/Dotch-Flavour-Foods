@@ -53,11 +53,11 @@ function readStoredCart(): CartItem[] {
   }
 }
 
-export function productToCartItem(product: Product, liters: LiterSize = 2): CartItemInput {
-  const price = getPriceForLiters(product.price, liters);
+export function productToCartItem(product: Product, liters?: LiterSize): CartItemInput {
+  const price = liters ? getPriceForLiters(product.price, liters) : product.price;
   return {
-    id: `${product.id}-${liters}l`,
-    name: `${product.name} (${liters}L)`,
+    id: liters ? `${product.id}-${liters}l` : product.id,
+    name: liters ? `${product.name} (${liters}L)` : product.name,
     price,
     image: product.image,
   };
@@ -181,3 +181,6 @@ export function useCart() {
   }
   return context;
 }
+
+
+

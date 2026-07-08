@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import { menuItems } from "@/lib/navigation";
-import { FoodItemLiterBlock } from "@/components/cart/FoodItemLiterBlock";
 import { menuItemToCartItem } from "@/lib/cart-utils";
+import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
 import { HoverCard } from "@/components/motion/HoverCard";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
@@ -21,8 +21,7 @@ export function FreshMenuContent() {
               Fresh Food Menu
             </h1>
             <p className="mx-auto max-w-2xl text-sm text-title/70 sm:text-base">
-              Browse every dish from our fresh food range. Choose your portion size and add
-              straight to cart.
+              Browse every dish from our fresh food range and add straight to cart.
             </p>
           </Reveal>
         </div>
@@ -39,12 +38,10 @@ export function FreshMenuContent() {
                 <div className="p-5 sm:p-6">
                   <h2 className="mb-2 text-xl font-semibold">{item.name}</h2>
                   <p className="mb-4 text-sm text-title/70">{item.description}</p>
-                  <FoodItemLiterBlock
-                    basePrice={item.priceValue}
-                    buildCartItem={(liters) => menuItemToCartItem(item, liters)}
-                    variant="default"
-                    showLabel
-                  />
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-bold text-primary">{item.price}</span>
+                    <CartQuantityControls item={menuItemToCartItem(item)} showLabel />
+                  </div>
                 </div>
               </HoverCard>
             </StaggerItem>
@@ -54,3 +51,4 @@ export function FreshMenuContent() {
     </>
   );
 }
+

@@ -1,11 +1,11 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 import { HoverCard } from "@/components/motion/HoverCard";
 import { scaleIn } from "@/lib/motion";
-import { FoodItemLiterBlock } from "@/components/cart/FoodItemLiterBlock";
+import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
 import { menuItemToCartItem } from "@/lib/cart-utils";
 import { menuItems } from "@/lib/navigation";
 
@@ -102,14 +102,13 @@ export function ProductDetailContent() {
           <p className="mb-8 text-title/70">
             Delicious and spicy burger made with fresh ingredients and served hot.
           </p>
-          <FoodItemLiterBlock
-            basePrice={item.priceValue}
-            buildCartItem={(liters) => menuItemToCartItem(item, liters)}
-            variant="default"
-            showLabel
-          />
+          <div className="flex items-center justify-between gap-3">
+            <span className="font-bold text-primary">{item.price}</span>
+            <CartQuantityControls item={menuItemToCartItem(item)} showLabel />
+          </div>
         </Reveal>
       </div>
     </section>
   );
 }
+

@@ -121,7 +121,7 @@ export function HeroSection() {
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
           >
             <Image
-              src="/assets/images/jollof.jpg"
+              src="/assets/images/jollof new.jpg"
               alt="Signature Dotch soup"
               width={370}
               height={370}

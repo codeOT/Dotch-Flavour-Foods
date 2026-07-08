@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { Reveal } from "@/components/motion/Reveal";
+import { scaleIn } from "@/lib/motion";
 
 export function MeetFounderSection() {
   const isMobile = useIsMobile();
@@ -19,21 +20,21 @@ export function MeetFounderSection() {
         </h2>
       </Reveal>
 
-      <div className="grid min-w-0 grid-cols-1 items-start gap-6 sm:gap-8 lg:grid-cols-2 lg:items-center lg:gap-16">
-        <Reveal className="min-w-0">
+      <div className="grid min-w-0 grid-cols-1 items-start gap-6 sm:grid-cols-[minmax(0,24rem)_minmax(0,1fr)] sm:gap-4 lg:grid-cols-[minmax(0,28rem)_minmax(0,1fr)] lg:gap-6">
+        <Reveal className="min-w-0" variants={scaleIn}>
           <div className="relative mx-auto w-full max-w-sm lg:mx-0 lg:max-w-md">
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl shadow-xl">
+            <div className="group relative aspect-[4/5] w-full overflow-hidden rounded-2xl shadow-xl">
               <Image
-                src="/assets/images/team/pic1.jpg"
+                src="/assets/images/Mrs A. Olurin .jpeg"
                 alt="Mrs Abimbola Olurin, founder of Dotch Flavours Foods"
                 fill
                 sizes="(max-width: 1024px) 85vw, 400px"
-                className="object-cover"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
             </div>
 
             {/* Mobile: badge below image */}
-            <div className="mt-3 rounded-xl bg-primary px-4 py-3 text-white shadow-lg lg:hidden">
+            <div className="mt-3 rounded-xl bg-primary px-4 py-3 text-white shadow-lg md:hidden">
               <p className="text-xs uppercase tracking-wider text-white/80">Founder</p>
               <p className="text-sm font-semibold sm:text-base">Dotch Flavours Foods</p>
             </div>

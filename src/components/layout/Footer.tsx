@@ -55,7 +55,7 @@ export function Footer() {
             <Link href="/" className="mb-5 inline-block">
               <Image
                 src="/assets/images/dotchbg.png"
-                alt="Dotch Flavours Foods logo"
+                alt="Dotch Flavour Foods logo"
                 width={320}
                 height={56}
                 className="h-11 w-auto brightness-0 invert"
@@ -121,15 +121,7 @@ export function Footer() {
                     </Link>
                   </li>
                 ))}
-                <li>
-                  <button
-                    type="button"
-                    onClick={openCart}
-                    className="text-white/75 transition hover:translate-x-1 hover:text-white"
-                  >
-                    Shopping Cart
-                  </button>
-                </li>
+               
               </ul>
             </StaggerItem>
           </StaggerContainer>
@@ -168,7 +160,7 @@ export function Footer() {
 
         <Reveal>
           <div className="flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between sm:text-sm">
-            <p>© {new Date().getFullYear()} Dotch Flavours Foods. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} Dotch Flavour Foods. All rights reserved.</p>
             <p>
               Made with 🫶 by{" "}
               <a

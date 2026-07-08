@@ -1,4 +1,4 @@
-import type { MenuItem } from "@/lib/navigation";
+﻿import type { MenuItem } from "@/lib/navigation";
 import type { CartItem } from "@/context/CartContext";
 import { getPriceForLiters, type LiterSize } from "@/lib/liter-sizes";
 
@@ -7,11 +7,11 @@ export const DELIVERY_FEE = 3.99;
 
 export type DeliveryMethod = "delivery" | "pickup";
 
-export function menuItemToCartItem(item: MenuItem, liters: LiterSize = 2): Omit<CartItem, "quantity"> {
-  const price = getPriceForLiters(item.priceValue, liters);
+export function menuItemToCartItem(item: MenuItem, liters?: LiterSize): Omit<CartItem, "quantity"> {
+  const price = liters ? getPriceForLiters(item.priceValue, liters) : item.priceValue;
   return {
-    id: `${item.id}-${liters}l`,
-    name: `${item.name} (${liters}L)`,
+    id: liters ? `${item.id}-${liters}l` : item.id,
+    name: liters ? `${item.name} (${liters}L)` : item.name,
     price,
     image: item.image,
   };
@@ -37,3 +37,5 @@ export function generateOrderId(): string {
   const random = Math.random().toString(36).slice(2, 6).toUpperCase();
   return `DOTCH-${stamp}-${random}`;
 }
+
+

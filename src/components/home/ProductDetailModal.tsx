@@ -1,12 +1,14 @@
 ﻿"use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { AlertTriangle, Leaf, X } from "lucide-react";
 import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
+import { LiterSizeSelector } from "@/components/cart/LiterSizeSelector";
 import { productToCartItem } from "@/context/CartContext";
 import type { Product } from "@/lib/products";
-import { formatPrice } from "@/lib/site";
+import { formatLiterPrice, getServingForLiters, type LiterSize } from "@/lib/liter-sizes";
 
 type ProductDetailModalProps = {
   product: Product | null;
@@ -14,6 +16,12 @@ type ProductDetailModalProps = {
 };
 
 export function ProductDetailModal({ product, onClose }: ProductDetailModalProps) {
+  const [liters, setLiters] = useState<LiterSize>(2);
+
+  useEffect(() => {
+    setLiters(2);
+  }, [product?.id]);
+
   return (
     <AnimatePresence>
       {product && (
@@ -60,7 +68,17 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
                     </h3>
                     <p className="mt-1 text-sm text-title/70">{product.shortDescription}</p>
                   </div>
-                  <p className="text-2xl font-bold text-primary">{formatPrice(product.price)}</p>
+                  <p className="text-2xl font-bold text-primary">
+                    {formatLiterPrice(product.price, liters)}
+                  </p>
+                </div>
+
+                <div className="mb-6">
+                  <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-title/50">
+                    Choose size
+                  </p>
+                  <LiterSizeSelector value={liters} onChange={setLiters} />
+                  <p className="mt-2 text-xs text-title/60">{getServingForLiters(liters)}</p>
                 </div>
 
                 <div className="mb-6 rounded-xl bg-surface/60 p-4">
@@ -103,7 +121,7 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
 
                 <div className="mt-6 flex flex-col gap-3 border-t border-surface pt-6 sm:flex-row sm:items-center sm:justify-between">
                   <p className="text-sm font-semibold text-title">Add to cart</p>
-                  <CartQuantityControls item={productToCartItem(product)} />
+                  <CartQuantityControls item={productToCartItem(product, liters)} />
                 </div>
               </div>
             </div>
@@ -113,4 +131,3 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
     </AnimatePresence>
   );
 }
-

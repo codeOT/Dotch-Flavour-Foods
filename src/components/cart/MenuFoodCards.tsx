@@ -1,12 +1,17 @@
 ﻿"use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import type { MenuItem } from "@/lib/navigation";
 import { menuItemToCartItem } from "@/lib/cart-utils";
 import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
+import { LiterSizeSelector } from "@/components/cart/LiterSizeSelector";
 import { HoverCard } from "@/components/motion/HoverCard";
+import { Button } from "@/components/ui/Button";
+import { formatLiterPrice, type LiterSize } from "@/lib/liter-sizes";
+import { siteConfig } from "@/lib/site";
 
 type TodaysMenuCardProps = {
   item: MenuItem;
@@ -52,6 +57,11 @@ type MenuCarouselCardProps = {
 };
 
 export function MenuCarouselCard({ item }: MenuCarouselCardProps) {
+  const [liters, setLiters] = useState<LiterSize>(2);
+  const whatsappNumber = siteConfig.contact.phone.replace(/\D/g, "");
+  const message = `Hi Dotch Flavours Foods, I want to customize an order for ${item.name} (${liters}L). Please share available options.`;
+  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
   return (
     <HoverCard className="group relative overflow-hidden rounded-2xl border border-surface bg-white p-4 shadow-sm">
       <div className="mb-4 flex min-w-0 items-center gap-3 sm:gap-4">
@@ -71,12 +81,19 @@ export function MenuCarouselCard({ item }: MenuCarouselCardProps) {
           <p className="text-sm text-title/60">{item.description}</p>
         </div>
       </div>
+      <LiterSizeSelector value={liters} onChange={setLiters} className="mb-4" />
       <div className="flex items-center justify-between border-t border-surface pt-4 text-sm">
-        <span className="text-title/60">Regular Price</span>
-        <span className="font-semibold text-primary">{item.price}</span>
+        <span className="text-title/60">Price</span>
+        <span className="font-semibold text-primary">{formatLiterPrice(item.priceValue, liters)}</span>
       </div>
-      <div className="absolute bottom-4 right-4">
-        <CartQuantityControls item={menuItemToCartItem(item)} variant="compact" />
+      <div className="mt-4">
+        <Button
+          href={whatsappHref}
+          fullWidth
+          className="!bg-secondary !px-3 !py-2 !text-[10px] hover:!bg-orange sm:!text-xs"
+        >
+          Order Now
+        </Button>
       </div>
     </HoverCard>
   );

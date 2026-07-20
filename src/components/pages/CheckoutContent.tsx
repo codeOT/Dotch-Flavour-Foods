@@ -401,7 +401,12 @@ export function CheckoutContent() {
                 >
                   ← Back to cart
                 </button>
-                <Button type="submit" disabled={isSubmitting} className="sm:min-w-[200px]">
+                <Button
+                  type="submit"
+                  loading={isSubmitting}
+                  disabled={isSubmitting}
+                  className="sm:min-w-[200px]"
+                >
                   {isSubmitting ? "Placing order…" : "Place order"}
                 </Button>
               </div>

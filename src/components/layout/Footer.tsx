@@ -9,6 +9,7 @@ import { siteConfig } from "@/lib/site";
 import { useCart } from "@/context/CartContext";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
+import { Button } from "@/components/ui/Button";
 
 const contactItems = [
   {
@@ -145,14 +146,13 @@ export function Footer() {
                   placeholder="Your email address"
                   className="w-full rounded-lg border border-white/10 bg-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/50 outline-none transition focus:border-secondary focus:ring-1 focus:ring-secondary"
                 />
-                <motion.button
+                <Button
                   type="submit"
-                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-secondary px-4 py-2.5 text-sm font-semibold uppercase tracking-wide transition hover:bg-orange"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  fullWidth
+                  className="!bg-secondary hover:!bg-orange"
                 >
                   Subscribe <Send className="h-4 w-4" />
-                </motion.button>
+                </Button>
               </form>
             </div>
           </Reveal>

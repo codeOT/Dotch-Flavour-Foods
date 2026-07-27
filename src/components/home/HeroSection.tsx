@@ -130,8 +130,8 @@ export function HeroSection() {
 
           <motion.div className="mb-6 flex flex-wrap gap-3" variants={heroFadeUp}>
             <Button href="/ready-to-eat-soups" className="min-w-36 bg-secondary hover:bg-secondary/90">
-              Shop Soups
-              <ArrowRight className="h-4 w-4" />
+              Shop Soups <span><ArrowRight className="h-4 w-4" /></span>
+              
             </Button>
             <Button
               href="/our-menu"

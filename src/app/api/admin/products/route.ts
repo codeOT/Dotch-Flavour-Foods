@@ -78,10 +78,10 @@ export async function GET(request: Request) {
     await connectDB();
 
     const { searchParams } = new URL(request.url);
-    const category = searchParams.get("category");
-    const filter =
-      category && PRODUCT_CATEGORIES.includes(category as ProductCategory)
-        ? { category }
+    const categoryParam = searchParams.get("category");
+    const filter: { category?: ProductCategory } =
+      categoryParam && PRODUCT_CATEGORIES.includes(categoryParam as ProductCategory)
+        ? { category: categoryParam as ProductCategory }
         : {};
 
     const products = await Product.find(filter).sort({ createdAt: -1 }).lean();

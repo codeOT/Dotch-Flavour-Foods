@@ -12,11 +12,13 @@ import {
   LayoutDashboard,
   LogOut,
   PackageCheck,
+  PlusCircle,
   ShieldCheck,
   ShoppingBag,
   Users2,
 } from "lucide-react";
 import { Reveal } from "@/components/motion/Reveal";
+import { AdminProductsSection } from "@/components/admin/AdminProductsSection";
 import { formatPrice } from "@/lib/site";
 
 type DashboardResponse = {
@@ -156,6 +158,7 @@ export function AdminDashboardContent() {
             <nav className="space-y-2">
               {[
                 { label: "Overview", icon: LayoutDashboard, href: "#overview" },
+                { label: "Products", icon: PlusCircle, href: "#products" },
                 { label: "Orders", icon: ShoppingBag, href: "#recent-orders" },
                 { label: "Inventory", icon: PackageCheck, href: "#inventory-report" },
                 { label: "Revenue", icon: CircleDollarSign, href: "#revenue-trend" },
@@ -222,6 +225,13 @@ export function AdminDashboardContent() {
               </p>
             </div>
           </div>
+            </Reveal>
+
+            <Reveal
+              id="products"
+              className="scroll-mt-24 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+            >
+              <AdminProductsSection />
             </Reveal>
 
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">

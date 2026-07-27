@@ -4,7 +4,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { Reveal } from "@/components/motion/Reveal";
-import { scaleIn } from "@/lib/motion";
 
 export function MeetFounderSection() {
   const isMobile = useIsMobile();
@@ -21,7 +20,7 @@ export function MeetFounderSection() {
       </Reveal>
 
       <div className="grid min-w-0 grid-cols-1 items-start gap-6 sm:grid-cols-[minmax(0,24rem)_minmax(0,1fr)] sm:gap-4 lg:grid-cols-[minmax(0,28rem)_minmax(0,1fr)] lg:gap-6">
-        <Reveal className="min-w-0" variants={scaleIn}>
+        <Reveal className="min-w-0">
           <div className="relative mx-auto w-full max-w-sm lg:mx-0 lg:max-w-md">
             <div className="group relative aspect-[4/5] w-full overflow-hidden rounded-2xl shadow-xl">
               <Image
@@ -29,7 +28,7 @@ export function MeetFounderSection() {
                 alt="Mrs Abimbola Olurin, founder of Dotch Flavours Foods"
                 fill
                 sizes="(max-width: 1024px) 85vw, 400px"
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                className="object-cover object-[center_20%] transition-transform duration-700 ease-out group-hover:scale-105"
               />
             </div>
 

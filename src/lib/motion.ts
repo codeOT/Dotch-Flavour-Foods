@@ -98,11 +98,10 @@ export const slideRight: Variants = {
 };
 
 export const scaleIn: Variants = {
-  hidden: { opacity: 0, scale: 0.88, rotate: -2 },
+  hidden: { opacity: 0, scale: 0.88 },
   visible: {
     opacity: 1,
     scale: 1,
-    rotate: 0,
     transition: { duration: 0.55, ease: easeOut },
   },
 };

@@ -139,6 +139,8 @@ export function AuthField({
   placeholder,
   autoComplete,
   required = true,
+  value,
+  onChange,
 }: {
   id: string;
   label: string;
@@ -146,6 +148,8 @@ export function AuthField({
   placeholder: string;
   autoComplete?: string;
   required?: boolean;
+  value?: string;
+  onChange?: (value: string) => void;
 }) {
   return (
     <StaggerItem>
@@ -159,6 +163,8 @@ export function AuthField({
         required={required}
         placeholder={placeholder}
         autoComplete={autoComplete}
+        value={value}
+        onChange={onChange ? (e) => onChange(e.target.value) : undefined}
         className={inputClassName}
         whileFocus={{ scale: 1.01 }}
       />

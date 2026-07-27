@@ -3,7 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ShoppingCart, User, X } from "lucide-react";
+import { LogOut, ShoppingCart, User, X } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 import { useCart } from "@/context/CartContext";
 import { mainNav } from "@/lib/navigation";
 import { mobileMenu, slideDown, staggerContainer, staggerItem } from "@/lib/motion";
@@ -16,6 +17,8 @@ type HeaderProps = {
 
 export function Header({ mobileOpen, onToggleMobile, onCloseMobile }: HeaderProps) {
   const { itemCount, isHydrated, openCart } = useCart();
+  const { data: session, status } = useSession();
+  const isSignedIn = status === "authenticated" && Boolean(session?.user);
 
   return (
     <motion.header
@@ -110,24 +113,59 @@ export function Header({ mobileOpen, onToggleMobile, onCloseMobile }: HeaderProp
               </button>
             </motion.div>
 
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link
-                href="/sign-up"
-                className="hidden rounded-md px-3 py-2 text-sm font-medium text-title transition hover:bg-surface hover:text-primary lg:inline-flex"
-              >
-                Sign Up
-              </Link>
-            </motion.div>
+            {isSignedIn ? (
+              <>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Link
+                    href="/orders"
+                    className="hidden rounded-md px-3 py-2 text-sm font-medium text-title transition hover:bg-surface hover:text-primary lg:inline-flex"
+                  >
+                    My Orders
+                  </Link>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="hidden items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-title lg:flex"
+                >
+                  <User className="h-4 w-4 text-primary" />
+                  <span className="max-w-[10rem] truncate">
+                    {session?.user?.name || session?.user?.email}
+                  </span>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <button
+                    type="button"
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                    className="hidden items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-hover lg:flex"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Sign out
+                  </button>
+                </motion.div>
+              </>
+            ) : (
+              <>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Link
+                    href="/sign-up"
+                    className="hidden rounded-md px-3 py-2 text-sm font-medium text-title transition hover:bg-surface hover:text-primary lg:inline-flex"
+                  >
+                    Sign Up
+                  </Link>
+                </motion.div>
 
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link
-                href="/sign-in"
-                className="hidden items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-hover lg:flex"
-              >
-                <User className="h-4 w-4" />
-                Sign In
-              </Link>
-            </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Link
+                    href="/sign-in"
+                    className="hidden items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-hover lg:flex"
+                  >
+                    <User className="h-4 w-4" />
+                    Sign In
+                  </Link>
+                </motion.div>
+              </>
+            )}
 
             <motion.button
               type="button"
@@ -229,21 +267,52 @@ export function Header({ mobileOpen, onToggleMobile, onCloseMobile }: HeaderProp
                     </span>
                   )}
                 </button>
-                <Link
-                  href="/sign-up"
-                  onClick={onCloseMobile}
-                  className="flex items-center justify-center rounded-md border border-primary px-4 py-2 text-sm font-semibold text-primary"
-                >
-                  Sign Up
-                </Link>
-                <Link
-                  href="/sign-in"
-                  onClick={onCloseMobile}
-                  className="flex items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white"
-                >
-                  <User className="h-4 w-4" />
-                  Sign In
-                </Link>
+                {isSignedIn ? (
+                  <>
+                    <p className="px-2 py-2 text-sm text-title/70">
+                      Signed in as{" "}
+                      <span className="font-semibold text-title">
+                        {session?.user?.name || session?.user?.email}
+                      </span>
+                    </p>
+                    <Link
+                      href="/orders"
+                      onClick={onCloseMobile}
+                      className="flex items-center justify-center rounded-md border border-primary px-4 py-2 text-sm font-semibold text-primary"
+                    >
+                      My Orders
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onCloseMobile();
+                        void signOut({ callbackUrl: "/" });
+                      }}
+                      className="flex items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      Sign out
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/sign-up"
+                      onClick={onCloseMobile}
+                      className="flex items-center justify-center rounded-md border border-primary px-4 py-2 text-sm font-semibold text-primary"
+                    >
+                      Sign Up
+                    </Link>
+                    <Link
+                      href="/sign-in"
+                      onClick={onCloseMobile}
+                      className="flex items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white"
+                    >
+                      <User className="h-4 w-4" />
+                      Sign In
+                    </Link>
+                  </>
+                )}
               </motion.div>
             </motion.nav>
           </motion.div>

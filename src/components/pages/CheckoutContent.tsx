@@ -1,19 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { CheckCircle2, MapPin, Package, Truck } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { MapPin, Package, Truck } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useCart } from "@/context/CartContext";
 import { OrderSummary } from "@/components/cart/OrderSummary";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
-import {
-  type DeliveryMethod,
-  generateOrderId,
-  getOrderTotal,
-} from "@/lib/cart-utils";
-import { formatPrice, siteConfig } from "@/lib/site";
+import { type DeliveryMethod } from "@/lib/cart-utils";
+import { siteConfig } from "@/lib/site";
 
 type CheckoutForm = {
   fullName: string;
@@ -98,73 +94,32 @@ function CheckoutSteps({ current, onOpenCart }: { current: 1 | 2 | 3; onOpenCart
   );
 }
 
-function OrderConfirmation({
-  orderId,
-  email,
-  total,
-}: {
-  orderId: string;
-  email: string;
-  total: number;
-}) {
-  return (
-    <Reveal className="mx-auto max-w-lg text-center">
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 300, damping: 24 }}
-        className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-primary/10"
-      >
-        <CheckCircle2 className="h-12 w-12 text-primary" />
-      </motion.div>
-      <h2 className="mb-2 text-2xl font-bold sm:text-3xl">Order placed!</h2>
-      <p className="mb-6 text-title/70">
-        Thank you for your order. We&apos;ve received your request and will confirm by email
-        shortly.
-      </p>
-
-      <div className="mb-8 rounded-2xl border border-surface bg-surface/30 p-6 text-left text-sm">
-        <dl className="space-y-3">
-          <div className="flex justify-between gap-4">
-            <dt className="text-title/60">Order number</dt>
-            <dd className="font-bold text-primary">{orderId}</dd>
-          </div>
-          <div className="flex justify-between gap-4">
-            <dt className="text-title/60">Confirmation sent to</dt>
-            <dd className="font-medium">{email}</dd>
-          </div>
-          <div className="flex justify-between gap-4 border-t border-surface pt-3">
-            <dt className="font-semibold">Total paid</dt>
-            <dd className="text-lg font-bold text-primary">{formatPrice(total)}</dd>
-          </div>
-        </dl>
-      </div>
-
-      <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
-        <Button href="/">Continue Shopping</Button>
-        <Button href="/contact-us" variant="outline">
-          Contact Support
-        </Button>
-      </div>
-    </Reveal>
-  );
-}
-
 export function CheckoutContent() {
   const router = useRouter();
-  const { items, subtotal, isHydrated, clearCart, openCart } = useCart();
+  const searchParams = useSearchParams();
+  const { data: session } = useSession();
+  const { items, subtotal, isHydrated, openCart } = useCart();
   const [form, setForm] = useState<CheckoutForm>(initialForm);
   const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>("delivery");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [orderId, setOrderId] = useState<string | null>(null);
-  const [confirmedTotal, setConfirmedTotal] = useState(0);
+  const [submitError, setSubmitError] = useState("");
+  const cancelled = searchParams.get("cancelled") === "1";
 
   useEffect(() => {
-    if (isHydrated && items.length === 0 && !orderId) {
+    if (isHydrated && items.length === 0) {
       openCart();
       router.replace("/");
     }
-  }, [isHydrated, items.length, orderId, router, openCart]);
+  }, [isHydrated, items.length, router, openCart]);
+
+  useEffect(() => {
+    if (!session?.user) return;
+    setForm((current) => ({
+      ...current,
+      fullName: current.fullName || session.user.name || "",
+      email: current.email || session.user.email || "",
+    }));
+  }, [session]);
 
   const updateField = (field: keyof CheckoutForm, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
@@ -173,17 +128,32 @@ export function CheckoutContent() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsSubmitting(true);
+    setSubmitError("");
 
-    const total = getOrderTotal(subtotal, deliveryMethod);
-    const id = generateOrderId();
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items,
+          deliveryMethod,
+          ...form,
+        }),
+      });
 
-    await new Promise((resolve) => setTimeout(resolve, 800));
+      const data = (await response.json()) as { url?: string; error?: string };
 
-    clearCart();
-    setConfirmedTotal(total);
-    setOrderId(id);
-    setIsSubmitting(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+      if (!response.ok || !data.url) {
+        setSubmitError(data.error ?? "Unable to start checkout. Please try again.");
+        return;
+      }
+
+      window.location.href = data.url;
+    } catch {
+      setSubmitError("Unable to start checkout. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!isHydrated) {
@@ -196,23 +166,18 @@ export function CheckoutContent() {
     );
   }
 
-  if (orderId) {
-    return (
-      <section className="py-12 sm:py-16">
-        <div className="container-fluid">
-          <CheckoutSteps current={3} onOpenCart={openCart} />
-          <OrderConfirmation orderId={orderId} email={form.email} total={confirmedTotal} />
-        </div>
-      </section>
-    );
-  }
-
   if (items.length === 0) return null;
 
   return (
     <section className="py-12 sm:py-16">
       <div className="container-fluid">
         <CheckoutSteps current={2} onOpenCart={openCart} />
+
+        {cancelled && (
+          <p className="mb-6 rounded-xl border border-secondary/30 bg-secondary/5 px-4 py-3 text-center text-sm text-title">
+            Payment was cancelled. You can review your details and try again.
+          </p>
+        )}
 
         <div className="grid gap-8 lg:grid-cols-[1fr_22rem] lg:items-start xl:grid-cols-[1fr_24rem]">
           <Reveal>
@@ -231,7 +196,7 @@ export function CheckoutContent() {
                       value={form.fullName}
                       onChange={(e) => updateField("fullName", e.target.value)}
                       className={inputClassName}
-                      placeholder="Mrs Abimbola Olurin"
+                      placeholder="Name"
                     />
                   </div>
                   <div>
@@ -393,6 +358,12 @@ export function CheckoutContent() {
                 />
               </fieldset>
 
+              {submitError && (
+                <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                  {submitError}
+                </p>
+              )}
+
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <button
                   type="button"
@@ -407,7 +378,7 @@ export function CheckoutContent() {
                   disabled={isSubmitting}
                   className="sm:min-w-[200px]"
                 >
-                  {isSubmitting ? "Placing order…" : "Place order"}
+                  {isSubmitting ? "Redirecting to payment…" : "Pay with Stripe"}
                 </Button>
               </div>
             </form>

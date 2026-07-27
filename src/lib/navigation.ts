@@ -30,6 +30,7 @@ export const footerLinks = {
   ],
   helpCenter: [
     { label: "FAQ", href: "/faq" },
+    { label: "My Orders", href: "/orders" },
     { label: "Event Registration", href: "/event-registration" },
     { label: "Delivery Terms", href: "/delivery-terms" },
     { label: "Privacy Policy", href: "/privacy-policy" },

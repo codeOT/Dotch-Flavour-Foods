@@ -7,6 +7,7 @@ import { CartSidebar } from "@/components/cart/CartSidebar";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { PageTransition } from "@/components/motion/PageTransition";
+import { AuthProvider } from "@/components/auth/AuthProvider";
 
 const AUTH_PATHS = new Set(["/sign-in", "/sign-up"]);
 
@@ -18,25 +19,28 @@ export function SiteShell({ children }: SiteShellProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const isAuthPage = AUTH_PATHS.has(pathname);
+  const isAdminPage = pathname.startsWith("/admin");
 
   return (
-    <CartProvider>
-      {isAuthPage ? (
-        <div className="min-h-screen overflow-x-clip">{children}</div>
-      ) : (
-        <div className="min-h-screen overflow-x-clip">
-          <Header
-            mobileOpen={mobileOpen}
-            onToggleMobile={() => setMobileOpen((open) => !open)}
-            onCloseMobile={() => setMobileOpen(false)}
-          />
-          <main className="min-w-0 overflow-x-clip pt-16 sm:pt-20">
-            <PageTransition>{children}</PageTransition>
-          </main>
-          <Footer />
-          <CartSidebar />
-        </div>
-      )}
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        {isAuthPage || isAdminPage ? (
+          <div className="min-h-screen overflow-x-clip">{children}</div>
+        ) : (
+          <div className="min-h-screen overflow-x-clip">
+            <Header
+              mobileOpen={mobileOpen}
+              onToggleMobile={() => setMobileOpen((open) => !open)}
+              onCloseMobile={() => setMobileOpen(false)}
+            />
+            <main className="min-w-0 overflow-x-clip pt-16 sm:pt-20">
+              <PageTransition>{children}</PageTransition>
+            </main>
+            <Footer />
+            <CartSidebar />
+          </div>
+        )}
+      </CartProvider>
+    </AuthProvider>
   );
 }

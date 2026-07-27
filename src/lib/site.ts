@@ -10,7 +10,7 @@ export const siteConfig = {
   currency: "GBP",
   currencySymbol: "£",
   contact: {
-    phone: "+44 23 4567 8901",
+    phone: "+447889490189",
     email: "dotchflavourfoods@gmail.com",
     address: "United Kingdom",
   } satisfies SiteContact,

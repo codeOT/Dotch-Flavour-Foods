@@ -51,7 +51,7 @@ export function FreshMenuContent() {
               Fresh Food Menu
             </h1>
             <p className="mx-auto max-w-2xl text-sm text-title/70 sm:text-base">
-              Choose your litres and order on WhatsApp for custom requests.
+              Choose your litres and order on WhatsApp for customise requests.
             </p>
           </Reveal>
         </div>

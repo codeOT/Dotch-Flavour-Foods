@@ -46,9 +46,18 @@ export const menuItems: MenuItem[] = [
   { id: "Fish-in-stew", name: "Fresh Fish in Stew", description: "Delicious and Spicy", price: formatPrice(45), priceValue: 45, image: "/assets/images/fish in stew.jpg" },
   { id: "Asaro-sauce", name: "Asaro with Sauce", description: "Delicious and Spicy", price: formatPrice(20), priceValue: 20, image: "/assets/images/porridge.jpg" },
   { id: "Gizdodo", name: "Gizdodo", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/gizdodo r.jpg" },
+  { id: "Ogbono", name: "Ogbono", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/ogbono r.jpg" },
+  { id: "Buka-stew", name: "Buka Stew", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/bstew.jpg" },
+  { id: "Fried-fish-in-stew", name: "Fried Fish in Stew", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/ffs.jpg" },
   { id: "pepper-gizzard", name: "Peppered Gizzard", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/peppered-gizzard r.jpg" },
   { id: "pepper-turkey", name: "Peppered Fried Turkey", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/pfturkey.jpg" },
-  { id: "Ogbono", name: "Ogbono", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/ogbono r.jpg" },
+  { id: "Efo-Elegusi", name: "Efo Elegusi", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/efo elegusi.jpg" },
+  { id: "Ayamase-Ofada-Sauce", name: "Ayamase / Ofada Sauce", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/aya-ofada.jpg" },
+  { id: "Ewa-Riro-Ewa-Agoyin", name: "Ewa Riro / Ewa Agoyin", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/ewa riro.jpg" },
+  { id: "Ila-Alasepo", name: "Ila Alasepo", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/Ila Asepo f.png" },
+  { id: "Chicken-Beef-Stew", name: "Chicken-Beef-Stew", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/cbs.jpg" },
+  { id: "Moi-Moi", name: "Moi Moi", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/moi.jpg" },
+  { id: "Abula-combo", name: "Abula Combo", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/ama.jpg" },
 ];
 
 export const todaysMenu: MenuItem[] = [

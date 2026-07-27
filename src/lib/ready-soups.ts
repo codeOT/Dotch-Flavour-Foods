@@ -247,7 +247,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
     shortDescription: "Smoky, slow-cooked tomato stew with bold Nigerian spices.",
     price: 13.5,
     size: "1000ml",
-    image: "/assets/images/Buka stew.png",
+    image: "/assets/images/Buka Stew.png",
     ingredients: [
       "Tomatoes",
       "Red peppers",

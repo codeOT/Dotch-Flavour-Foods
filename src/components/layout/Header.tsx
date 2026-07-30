@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -33,7 +33,7 @@ export function Header({ mobileOpen, onToggleMobile, onCloseMobile }: HeaderProp
             <Link href="/" className="block max-w-[42vw] sm:max-w-none">
               <Image
                 src="/assets/images/dotchbg.png"
-                alt="Dotch Flavours Foods logo"
+                alt="Dotch Flavour Foods logo"
                 width={320}
                 height={56}
                 className="h-8 w-auto object-contain object-left sm:h-10"
@@ -59,7 +59,7 @@ export function Header({ mobileOpen, onToggleMobile, onCloseMobile }: HeaderProp
                   >
                     {item.label}
                     <span className="text-[10px] text-title/50" aria-hidden>
-                      ▾
+                      â–¾
                     </span>
                   </button>
                   <div className="invisible absolute left-0 top-full z-50 pt-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">

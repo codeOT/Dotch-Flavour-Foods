@@ -4,7 +4,7 @@ import { AboutContent } from "@/components/pages/AboutContent";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Learn the story behind Dotch Flavours Foods — authentic African flavours, founded by Mrs Abimbola Olurin.",
+    "About Dotch Flavour — bringing the taste of home to every table. Founded in Nigeria in 2008 by Abi Olurin, now serving customers across the UK.",
 };
 
 export default function AboutPage() {

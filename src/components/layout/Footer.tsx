@@ -2,14 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { motion } from "framer-motion";
 import { footerLinks } from "@/lib/navigation";
 import { siteConfig } from "@/lib/site";
-import { useCart } from "@/context/CartContext";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
-import { Button } from "@/components/ui/Button";
+import { NewsletterSignup } from "@/components/forms/NewsletterSignup";
 
 const contactItems = [
   {
@@ -32,8 +31,6 @@ const contactItems = [
 ];
 
 export function Footer() {
-  const { openCart } = useCart();
-
   return (
     <footer className="relative overflow-hidden bg-primary-dark text-white">
       <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-secondary via-cream to-secondary" />
@@ -132,28 +129,9 @@ export function Footer() {
             <div className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
               <h5 className="mb-2 text-base font-semibold">Stay in the loop</h5>
               <p className="mb-4 text-xs text-white/60">
-                New dishes, offers, and recipes — straight to your inbox.
+                Launch updates, offers, and experience news — with clear opt-in consent.
               </p>
-              <form
-                className="space-y-3"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                }}
-              >
-                <input
-                  type="email"
-                  required
-                  placeholder="Your email address"
-                  className="w-full rounded-lg border border-white/10 bg-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/50 outline-none transition focus:border-secondary focus:ring-1 focus:ring-secondary"
-                />
-                <Button
-                  type="submit"
-                  fullWidth
-                  className="!bg-secondary hover:!bg-orange"
-                >
-                  Subscribe <Send className="h-4 w-4" />
-                </Button>
-              </form>
+              <NewsletterSignup variant="dark" />
             </div>
           </Reveal>
         </div>

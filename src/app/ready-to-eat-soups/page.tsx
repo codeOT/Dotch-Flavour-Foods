@@ -3,7 +3,7 @@ import { ReadySoupsPageContent } from "@/components/ready-soups/ReadySoupsPageCo
 import { readySoupsBrand } from "@/lib/ready-soups";
 
 export const metadata: Metadata = {
-  title: "Ready Soups | Premium Frozen Range",
+  title: "Ready Soups by Dotch Flavour",
   description: readySoupsBrand.intro,
 };
 

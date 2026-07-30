@@ -31,7 +31,7 @@ export function FeaturesSection() {
                   </motion.div>
                   <div>
                     <h5 className="mb-2 text-lg font-semibold">
-                      <Link href="/services" className="hover:text-primary">
+                      <Link href="/catering" className="hover:text-primary">
                         {feature.title}
                       </Link>
                     </h5>

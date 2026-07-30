@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Suspense } from "react";
 import { CheckoutSuccessContent } from "@/components/pages/CheckoutSuccessContent";
 
 export const metadata: Metadata = {
   title: "Order confirmed",
-  description: "Your Dotch Flavours Foods payment was successful.",
+  description: "Your Dotch Flavour Foods payment was successful.",
 };
 
 export default function CheckoutSuccessPage() {

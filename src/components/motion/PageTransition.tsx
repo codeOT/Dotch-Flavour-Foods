@@ -19,6 +19,7 @@ export function PageTransition({ children }: PageTransitionProps) {
         animate="visible"
         exit="exit"
         variants={pageTransition}
+        className="w-full min-w-0 overflow-x-clip"
       >
         {children}
       </motion.div>

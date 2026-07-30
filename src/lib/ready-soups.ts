@@ -32,28 +32,28 @@ export type ReadySoupBundle = {
 };
 
 export const readySoupsBrand = {
-  name: "Ready To Eat Soups",
+  name: "Ready Soups by Dotch Flavour",
   parent: "Dotch Flavour",
-  tagline: "Premium frozen Traditional soups quality, ready in minutes.",
+  tagline: "Premium frozen Traditional soups, ready in minutes.",
   intro:
-    "Ready Soups by Dotch Flavour is our dedicated frozen range of authentic Traditional soups. Each Liters tub is slow-cooked in small batches, rapidly frozen to lock in flavour, and delivered ready for your freezer. No compromise on taste — just heat, serve, and enjoy.",
+    "Ready Soups by Dotch Flavour is our dedicated frozen range of authentic Traditional soups. Each tub is slow-cooked in small batches, rapidly frozen to lock in flavour, and delivered ready for your freezer. No compromise on taste — just heat, serve, and enjoy.",
 } as const;
 
 export const howItWorksSteps = [
   {
     step: "01",
-    title: "Order online",
-    description: "Choose individual soups or curated bundles. We deliver across the UK.",
+    title: "Choose your bundle",
+    description: "Select 3, 5, 10 or 18 soups and mix flavours from the range. Minimum online order is 3 soups.",
   },
   {
     step: "02",
-    title: "Frozen delivery",
-    description: "Your soups arrive frozen in insulated packaging, ready for the freezer.",
+    title: "Checkout online",
+    description: "Pay securely by card. A flat £9.99 delivery fee is added once per delivery order.",
   },
   {
     step: "03",
-    title: "Store frozen",
-    description: "Keep at −18°C or below. Best enjoyed within 3 months of delivery.",
+    title: "Frozen delivery",
+    description: "Your soups arrive frozen in insulated packaging, ready for the freezer.",
   },
   {
     step: "04",
@@ -85,16 +85,18 @@ export const storageHeatingGuidance = {
 
 export const launchOffers = [
   {
-    id: "vip-gift",
-    title: "VIP Launch Bundle bonus",
-    description: "Free branded Dotch Flavour tote with every VIP Launch Bundle — limited stock.",
+    id: "min-order",
+    title: "Minimum order: 3 soups",
+    description:
+      "Online Ready Soups orders start at 3 tubs. Mix and match flavours freely within your bundle size.",
     code: null,
-    badge: "Limited",
+    badge: "Ordering",
   },
   {
-    id: "free-delivery",
-    title: "Free delivery over £45",
-    description: "Complimentary frozen delivery on Ready Soups orders above £45.",
+    id: "flat-delivery",
+    title: "Flat £9.99 delivery",
+    description:
+      "One delivery charge per eligible order — not per product. Collection remains available at checkout where offered.",
     code: null,
     badge: "Delivery",
   },
@@ -311,48 +313,47 @@ export const readySoupProducts: ReadySoupProduct[] = [
 
 export const readySoupBundles: ReadySoupBundle[] = [
   {
-    id: "discovery-bundle",
-    slug: "discovery-bundle",
-    name: "Discovery Bundle",
-    description: "Try three soups of your choice — ideal for first-time customers exploring the range.",
+    id: "bundle-3",
+    slug: "bundle-3",
+    name: "3-Soup Bundle",
+    description: "Mix any three flavours — ideal for first-time customers exploring the range.",
     soupCount: 3,
     price: 39.99,
     originalPrice: 43.5,
-    badge: "Most popular",
+    badge: "Starter",
     image: "/assets/images/gallery/grid2/pic4.jpg",
   },
   {
-    id: "family-bundle",
-    slug: "family-bundle",
-    name: "Family Bundle",
-    description: "Five soups to feed the whole family — mix and match your household favourites.",
+    id: "bundle-5",
+    slug: "bundle-5",
+    name: "5-Soup Bundle",
+    description: "Five soups to feed the household — mix and match your favourites.",
     soupCount: 5,
     price: 64.99,
     originalPrice: 72.5,
-    badge: "Best value",
+    badge: "Popular",
     image: "/assets/images/gallery/grid2/pic2.jpg",
   },
   {
-    id: "freezer-bundle",
-    slug: "freezer-bundle",
-    name: "Freezer Bundle",
-    description: "Stock your freezer with ten soups. Perfect for meal planning and busy weeks.",
+    id: "bundle-10",
+    slug: "bundle-10",
+    name: "10-Soup Bundle",
+    description: "Stock your freezer for busy weeks with ten soups of your choice.",
     soupCount: 10,
     price: 119.99,
     originalPrice: 145.0,
+    badge: "Best value",
     image: "/assets/images/gallery/grid2/pic6.jpg",
   },
   {
-    id: "vip-launch-bundle",
-    slug: "vip-launch-bundle",
-    name: "VIP Launch Bundle",
-    description:
-      "Ten soups plus an exclusive Dotch Flavour branded gift item — our premium launch collection.",
-    soupCount: 10,
-    includesGift: "Dotch Flavour branded tote bag",
-    price: 129.99,
-    originalPrice: 155.0,
-    badge: "VIP Launch",
+    id: "bundle-18",
+    slug: "bundle-18",
+    name: "18-Soup Bundle",
+    description: "Our largest mix-and-match collection for families and meal planners.",
+    soupCount: 18,
+    price: 199.99,
+    originalPrice: 261.0,
+    badge: "Family stock",
     image: "/assets/images/gallery/grid2/pic5.jpg",
   },
 ];
@@ -369,22 +370,46 @@ export function formatReadySoupPrice(price: number): string {
   return formatPrice(price);
 }
 
-import { getPriceForLiters, type LiterSize } from "./liter-sizes";
-
-export function readySoupToCartItem(product: ReadySoupProduct, liters: LiterSize = 2) {
-  const price = getPriceForLiters(product.price, liters);
+/** One Ready Soup tub (as listed size) for the cart. */
+export function readySoupToCartItem(product: ReadySoupProduct) {
   return {
-    id: `ready-soup-${product.id}-${liters}l`,
-    name: `${product.name} (${liters}L)`,
-    price,
+    id: `ready-soup-${product.id}`,
+    name: `${product.name} (${product.size})`,
+    price: product.price,
     image: product.image,
   };
 }
 
 export function readySoupBundleToCartItem(bundle: ReadySoupBundle) {
   return {
-    id: `ready-soup-bundle-${bundle.id}`,
+    id: `ready-soup-bundle-mix-${bundle.soupCount}`,
     name: `${bundle.name} (${bundle.soupCount} soups)`,
+    price: bundle.price,
+    image: bundle.image,
+  };
+}
+
+export type MixSelection = Record<string, number>;
+
+export function getMixSelectionTotal(selection: MixSelection): number {
+  return Object.values(selection).reduce((sum, qty) => sum + qty, 0);
+}
+
+export function buildMixedBundleCartItem(
+  bundle: ReadySoupBundle,
+  selection: MixSelection,
+  products: ReadySoupProduct[] = readySoupProducts,
+) {
+  const lines = products
+    .map((product) => {
+      const qty = selection[product.id] ?? 0;
+      return qty > 0 ? `${qty}× ${product.name}` : null;
+    })
+    .filter(Boolean);
+
+  return {
+    id: `ready-soup-bundle-mix-${bundle.soupCount}-${Date.now().toString(36)}`,
+    name: `${bundle.name}: ${lines.join(", ")}`,
     price: bundle.price,
     image: bundle.image,
   };

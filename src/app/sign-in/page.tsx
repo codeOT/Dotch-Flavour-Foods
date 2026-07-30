@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Suspense } from "react";
 import { SignInForm } from "@/components/pages/SignInForm";
 
 export const metadata: Metadata = {
   title: "Sign In",
-  description: "Sign in to your Dotch Flavours Foods account.",
+  description: "Sign in to your Dotch Flavour Foods account.",
 };
 
 export default function SignInPage() {

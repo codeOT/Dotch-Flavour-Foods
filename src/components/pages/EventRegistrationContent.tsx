@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -45,7 +45,9 @@ export function EventRegistrationContent() {
       <div className="container-fluid min-w-0">
         <Reveal className="mx-auto mb-10 max-w-3xl text-center sm:mb-14">
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-secondary sm:text-sm">
-            Events
+            <Link href="/experience" className="hover:underline">
+              {currentEvent.parentExperience}
+            </Link>
           </p>
           <h1 className="text-balance text-[clamp(1.75rem,5vw,3rem)] font-bold leading-tight text-title">
             {currentEvent.name}
@@ -184,7 +186,7 @@ export function EventRegistrationContent() {
                     className="mt-0.5 h-4 w-4 shrink-0 rounded border-surface accent-primary"
                   />
                   <span>
-                    I agree to be contacted by Dotch Flavours Foods about this event. See our{" "}
+                    I agree to be contacted by Dotch Flavour Foods about this event. See our{" "}
                     <Link href="/privacy-policy" className="text-primary underline-offset-2 hover:underline">
                       privacy policy
                     </Link>

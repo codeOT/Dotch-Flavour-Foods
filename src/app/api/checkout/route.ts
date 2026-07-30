@@ -8,6 +8,9 @@ import {
   generateOrderId,
   getDeliveryFee,
   getOrderTotal,
+  getReadySoupUnitCount,
+  meetsReadySoupMinimum,
+  READY_SOUP_MIN_ORDER,
   type DeliveryMethod,
 } from "@/lib/cart-utils";
 import { Order } from "@/models/Order";
@@ -79,6 +82,16 @@ export async function POST(request: Request) {
       ) {
         return NextResponse.json({ error: "Invalid cart items." }, { status: 400 });
       }
+    }
+
+    if (!meetsReadySoupMinimum(items)) {
+      const count = getReadySoupUnitCount(items);
+      return NextResponse.json(
+        {
+          error: `Ready Soups online orders require at least ${READY_SOUP_MIN_ORDER} soups. You currently have ${count}.`,
+        },
+        { status: 400 },
+      );
     }
 
     if (fullName.length < 2) {

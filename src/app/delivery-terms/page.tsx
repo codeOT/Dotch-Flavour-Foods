@@ -3,7 +3,7 @@ import { LegalContent } from "@/components/pages/LegalContent";
 import { deliveryTerms } from "@/lib/legal";
 
 export const metadata: Metadata = {
-  title: "Delivery Terms",
+  title: "Delivery Policy",
   description: deliveryTerms.description,
 };
 

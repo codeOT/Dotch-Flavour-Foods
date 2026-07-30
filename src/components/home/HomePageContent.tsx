@@ -1,16 +1,20 @@
 "use client";
 
-import { BookTableSection } from "@/components/home/BookTableSection";
+import { CateringCtaSection } from "@/components/home/CateringCtaSection";
 import { FaqSection } from "@/components/home/FaqSection";
 import { HeroSection } from "@/components/home/HeroSection";
+import { HowItWorksSection } from "@/components/home/HowItWorksSection";
 import { MeetFounderSection } from "@/components/home/MeetFounderSection";
 import { MenuSection } from "@/components/home/MenuSection";
+import { NewsletterSection } from "@/components/home/NewsletterSection";
 import { ProductCatalogSection } from "@/components/home/ProductCatalogSection";
+import { SocialProofSection } from "@/components/home/SocialProofSection";
 
 export function HomePageContent() {
   return (
     <>
       <HeroSection />
+      <HowItWorksSection />
       <ProductCatalogSection />
       <MenuSection />
       <section className="overflow-hidden bg-white py-12 sm:py-16">
@@ -18,7 +22,9 @@ export function HomePageContent() {
           <MeetFounderSection />
         </div>
       </section>
-      <BookTableSection />
+      <SocialProofSection />
+      <CateringCtaSection />
+      <NewsletterSection />
       <FaqSection />
     </>
   );

@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Suspense } from "react";
 import { CheckoutContent } from "@/components/pages/CheckoutContent";
 
 export const metadata: Metadata = {
   title: "Checkout",
-  description: "Complete your Dotch Flavours Foods order.",
+  description: "Complete your Dotch Flavour Foods order.",
 };
 
 export default function CheckoutPage() {

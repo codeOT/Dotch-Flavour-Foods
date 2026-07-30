@@ -4,7 +4,14 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import { getDeliveryFee, getOrderTotal } from "@/lib/cart-utils";
+import {
+  cartHasReadySoups,
+  getDeliveryFee,
+  getOrderTotal,
+  getReadySoupUnitCount,
+  meetsReadySoupMinimum,
+  READY_SOUP_MIN_ORDER,
+} from "@/lib/cart-utils";
 import { formatPrice } from "@/lib/site";
 import { Button } from "@/components/ui/Button";
 
@@ -55,6 +62,9 @@ export function CartSidebar() {
 
   const deliveryFee = getDeliveryFee(subtotal, "delivery");
   const total = getOrderTotal(subtotal, "delivery");
+  const readySoupUnits = getReadySoupUnitCount(items);
+  const readySoupOk = meetsReadySoupMinimum(items);
+  const showReadySoupWarning = cartHasReadySoups(items) && !readySoupOk;
 
   return (
     <AnimatePresence>
@@ -214,17 +224,27 @@ export function CartSidebar() {
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-title/70">Delivery</dt>
-                    <dd className="text-secondary">
-                      {deliveryFee === 0 ? "Calculated at checkout" : formatPrice(deliveryFee)}
-                    </dd>
+                    <dd className="text-secondary">{formatPrice(deliveryFee)} flat</dd>
                   </div>
                   <div className="flex justify-between border-t border-surface pt-2 text-base">
                     <dt className="font-bold">Total</dt>
                     <dd className="font-bold text-primary">{formatPrice(total)}</dd>
                   </div>
                 </dl>
+                {showReadySoupWarning && (
+                  <p className="mb-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+                    Ready Soups need at least {READY_SOUP_MIN_ORDER} soups online. You have{" "}
+                    {readySoupUnits}. Add more or build a mix &amp; match bundle.
+                  </p>
+                )}
                 <div className="space-y-2">
-                  <Button href="/shop/checkout" fullWidth onNavigate={closeCart}>
+                  <Button
+                    href="/shop/checkout"
+                    fullWidth
+                    onNavigate={closeCart}
+                    disabled={showReadySoupWarning}
+                    className={showReadySoupWarning ? "pointer-events-none opacity-50" : undefined}
+                  >
                     Proceed to checkout
                   </Button>
                   <Button href="/" variant="outline" fullWidth onNavigate={closeCart}>

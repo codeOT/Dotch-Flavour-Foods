@@ -1,21 +1,20 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AlertTriangle, Flame, Leaf, Refrigerator, Snowflake, UtensilsCrossed } from "lucide-react";
 import { motion } from "framer-motion";
 import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
-import { LiterSizeSelector } from "@/components/cart/LiterSizeSelector";
 import { Button } from "@/components/ui/Button";
 import { HoverCard } from "@/components/motion/HoverCard";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 import {
+  formatReadySoupPrice,
   readySoupToCartItem,
   type ReadySoupProduct,
 } from "@/lib/ready-soups";
-import { formatLiterPrice, getServingForLiters, type LiterSize } from "@/lib/liter-sizes";
+import { READY_SOUP_MIN_ORDER } from "@/lib/cart-utils";
 import { slideLeft, slideRight } from "@/lib/motion";
 
 function DetailPanel({
@@ -46,8 +45,6 @@ function AnimatedBulletItem({ children }: { children: React.ReactNode }) {
 }
 
 export function ReadySoupProductDetail({ product }: { product: ReadySoupProduct }) {
-  const [liters, setLiters] = useState<LiterSize>(2);
-
   return (
     <section className="py-12 sm:py-16">
       <div className="container-fluid">
@@ -98,40 +95,26 @@ export function ReadySoupProductDetail({ product }: { product: ReadySoupProduct 
                 <p className="mb-6 text-sm leading-relaxed text-title/70 sm:text-base">{product.description}</p>
               </StaggerItem>
               <StaggerItem>
-                <div className="mb-3">
-                  <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-title/50">
-                    Choose size
-                  </p>
-                  <LiterSizeSelector value={liters} onChange={setLiters} />
-                  <p className="mt-2 text-xs text-title/60">{getServingForLiters(liters)}</p>
-                </div>
-              </StaggerItem>
-              <StaggerItem>
                 <div className="mb-6 flex flex-wrap items-center gap-4">
-                  <motion.p
-                    className="text-3xl font-bold text-primary"
-                    key={liters}
-                    initial={{ scale: 0.95, opacity: 0.7 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                  >
-                    {formatLiterPrice(product.price, liters)}
-                  </motion.p>
-                  <motion.span
-                    whileHover={{ scale: 1.05 }}
-                    className="rounded-full bg-surface px-4 py-1.5 text-sm font-semibold text-title/80"
-                  >
-                    {liters}L tub
-                  </motion.span>
+                  <p className="text-3xl font-bold text-primary">
+                    {formatReadySoupPrice(product.price)}
+                  </p>
+                  <span className="rounded-full bg-surface px-4 py-1.5 text-sm font-semibold text-title/80">
+                    {product.size} tub
+                  </span>
                 </div>
               </StaggerItem>
               <StaggerItem>
+                <p className="mb-4 text-sm text-title/65">
+                  Online Ready Soups orders need at least {READY_SOUP_MIN_ORDER} soups. Mix flavours in a
+                  bundle, or add individual tubs to reach the minimum.
+                </p>
                 <motion.div
                   whileHover={{ scale: 1.01 }}
                   className="mb-8 flex flex-col gap-4 rounded-2xl border border-surface bg-surface/30 p-5 sm:flex-row sm:items-center sm:justify-between"
                 >
                   <p className="font-semibold text-title">Add to order</p>
-                  <CartQuantityControls item={readySoupToCartItem(product, liters)} showLabel />
+                  <CartQuantityControls item={readySoupToCartItem(product)} showLabel />
                 </motion.div>
               </StaggerItem>
               <StaggerItem>

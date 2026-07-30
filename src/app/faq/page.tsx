@@ -1,32 +1,24 @@
 import type { Metadata } from "next";
 import { AnimatedFaqList } from "@/components/motion/AnimatedFaqList";
+import { Reveal } from "@/components/motion/Reveal";
+import { faqs } from "@/lib/faq";
 
 export const metadata: Metadata = {
   title: "FAQ",
+  description:
+    "Answers about Dotch Flavour Ready Soups, delivery, allergens, catering, payment and more.",
 };
-
-const faqs = [
-  {
-    question: "What are your opening hours?",
-    answer: "We are open Monday to Sunday from 9:00 AM to 11:00 PM.",
-  },
-  {
-    question: "Do you offer delivery?",
-    answer: "Yes, we deliver across London and surrounding areas in the UK.",
-  },
-  {
-    question: "Can I book a table online?",
-    answer: "Absolutely. Use the booking form on our homepage or contact page.",
-  },
-  {
-    question: "Do you cater for events?",
-    answer: "Yes, we offer catering services for private and corporate events.",
-  },
-];
 
 export default function FaqPage() {
   return (
-    <section className="py-16">
+    <section className="overflow-hidden py-12 sm:py-16">
+      <Reveal className="container-fluid mb-8 max-w-3xl text-center sm:mb-10">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-secondary">FAQ</p>
+        <h1 className="text-3xl font-bold text-title sm:text-4xl">Frequently asked questions</h1>
+        <p className="mt-3 text-sm text-title/65 sm:text-base">
+          Ready Soups, delivery, allergens, catering and how to get in touch.
+        </p>
+      </Reveal>
       <AnimatedFaqList faqs={faqs} />
     </section>
   );

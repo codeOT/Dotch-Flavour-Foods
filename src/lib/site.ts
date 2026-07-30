@@ -5,7 +5,7 @@ export type SiteContact = {
 };
 
 export const siteConfig = {
-  name: "Dotch Flavours Foods",
+  name: "Dotch Flavour Foods",
   locale: "en-GB",
   currency: "GBP",
   currencySymbol: "£",

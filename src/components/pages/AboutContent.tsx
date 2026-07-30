@@ -2,33 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
-import { aboutImages, aboutSideNav, founder, ourStory } from "@/lib/about";
-
-function StoryParagraph({
-  paragraph,
-}: {
-  paragraph: (typeof ourStory.paragraphs)[number];
-}) {
-  if (!("highlights" in paragraph)) {
-    return <p>{paragraph.text}</p>;
-  }
-
-  return (
-    <p>
-      {paragraph.text}
-      {paragraph.highlights.map((item, index) => (
-        <span key={item.label}>
-          <Link href={item.href} className="text-secondary transition hover:text-accent">
-            {item.label}
-          </Link>
-          {index < paragraph.highlights.length - 1 ? ", " : ""}
-        </span>
-      ))}
-      {paragraph.textAfter}
-    </p>
-  );
-}
+import {
+  aboutImages,
+  aboutIntro,
+  aboutSideNav,
+  founder,
+  moreThanFood,
+  ourStory,
+  whatMakesUsDifferent,
+} from "@/lib/about";
 
 export function AboutContent() {
   return (
@@ -41,8 +25,11 @@ export function AboutContent() {
         </Reveal>
 
         <div className="mt-14 grid gap-10 lg:mt-20 lg:grid-cols-[minmax(9rem,16%)_1fr] lg:gap-16 xl:gap-24">
-          <Reveal className="lg:pt-1">
-            <nav aria-label="About page sections" className="flex flex-row flex-wrap gap-x-6 gap-y-2 lg:flex-col lg:gap-4">
+          <Reveal className="lg:sticky lg:top-28 lg:self-start lg:pt-1">
+            <nav
+              aria-label="About page sections"
+              className="flex flex-row flex-wrap gap-x-6 gap-y-2 lg:flex-col lg:gap-4"
+            >
               {aboutSideNav.map((item) =>
                 item.href.startsWith("#") ? (
                   <a
@@ -65,16 +52,73 @@ export function AboutContent() {
             </nav>
           </Reveal>
 
-          <Reveal id="our-story" className="scroll-mt-28 space-y-8 lg:max-w-4xl">
-            {ourStory.paragraphs.map((paragraph, index) => (
-              <div
-                key={index}
-                className="text-sm leading-[2] text-title/50 sm:text-[0.95rem]"
-              >
-                <StoryParagraph paragraph={paragraph} />
+          <div className="min-w-0 space-y-16 lg:max-w-4xl lg:space-y-20">
+            <Reveal id="about" className="scroll-mt-28 space-y-6">
+              <div>
+                <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-secondary">
+                  {aboutIntro.title}
+                </p>
+                <h2 className="font-display text-[clamp(1.75rem,4vw,2.75rem)] font-medium leading-tight text-title">
+                  {aboutIntro.tagline}
+                </h2>
               </div>
-            ))}
-          </Reveal>
+              {aboutIntro.paragraphs.map((paragraph) => (
+                <p
+                  key={paragraph.slice(0, 40)}
+                  className="text-sm leading-[2] text-title/55 sm:text-[0.95rem]"
+                >
+                  {paragraph}
+                </p>
+              ))}
+            </Reveal>
+
+            <Reveal id="our-story" className="scroll-mt-28 space-y-6">
+              <h2 className="text-2xl font-bold text-title sm:text-3xl">{ourStory.title}</h2>
+              {ourStory.paragraphs.map((paragraph) => (
+                <p
+                  key={paragraph.slice(0, 40)}
+                  className="text-sm leading-[2] text-title/55 sm:text-[0.95rem]"
+                >
+                  {paragraph}
+                </p>
+              ))}
+              <Button href="/meet-abi" variant="outline" className="mt-2">
+                Meet Abi
+              </Button>
+            </Reveal>
+
+            <Reveal id="what-makes-us-different" className="scroll-mt-28">
+              <h2 className="mb-8 text-2xl font-bold text-title sm:text-3xl">
+                {whatMakesUsDifferent.title}
+              </h2>
+              <div className="grid gap-6 sm:grid-cols-2">
+                {whatMakesUsDifferent.points.map((point) => (
+                  <div key={point.title} className="border-t border-surface pt-5">
+                    <h3 className="mb-2 text-lg font-semibold text-title">{point.title}</h3>
+                    <p className="text-sm leading-relaxed text-title/60">{point.text}</p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+
+            <Reveal id="more-than-food" className="scroll-mt-28 space-y-6">
+              <h2 className="text-2xl font-bold text-title sm:text-3xl">{moreThanFood.title}</h2>
+              {moreThanFood.paragraphs.map((paragraph) => (
+                <p
+                  key={paragraph.slice(0, 40)}
+                  className="text-sm leading-[2] text-title/55 sm:text-[0.95rem]"
+                >
+                  {paragraph}
+                </p>
+              ))}
+              <div className="flex flex-wrap gap-3 pt-2">
+                <Button href="/ready-to-eat-soups">Shop Ready Soups</Button>
+                <Button href="/request-a-quote" variant="outline">
+                  Request a quote
+                </Button>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </div>
 
@@ -91,10 +135,7 @@ export function AboutContent() {
         </div>
       </Reveal>
 
-      <div
-        id="our-team"
-        className="container-fluid scroll-mt-28 mt-14 grid min-w-0 items-start gap-10 sm:mt-20 lg:grid-cols-2 lg:gap-16 xl:gap-24"
-      >
+      <div className="container-fluid mt-14 grid min-w-0 items-start gap-10 sm:mt-20 lg:grid-cols-2 lg:gap-16 xl:gap-24">
         <Reveal>
           <blockquote className="max-w-xl">
             <span
@@ -111,6 +152,11 @@ export function AboutContent() {
               <p>
                 {founder.role}, {founder.company}
               </p>
+              <p className="mt-4">
+                <Link href="/meet-abi" className="font-semibold text-primary hover:underline">
+                  Read Abi&apos;s full story →
+                </Link>
+              </p>
             </footer>
           </blockquote>
         </Reveal>
@@ -121,7 +167,7 @@ export function AboutContent() {
               src={aboutImages.founder.src}
               alt={aboutImages.founder.alt}
               fill
-              className="object-cover"
+              className="object-cover object-[center_18%]"
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
           </div>

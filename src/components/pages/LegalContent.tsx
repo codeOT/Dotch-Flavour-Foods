@@ -34,12 +34,44 @@ export function LegalContent({ document }: LegalContentProps) {
                   {section.paragraphs.map((paragraph) => (
                     <p key={paragraph}>{paragraph}</p>
                   ))}
-                  {section.bullets && (
+                  {section.bullets && section.bullets.length > 0 && (
                     <ul className="list-disc space-y-2 pl-5">
                       {section.bullets.map((bullet) => (
                         <li key={bullet}>{bullet}</li>
                       ))}
                     </ul>
+                  )}
+                  {section.table && (
+                    <div className="overflow-x-auto rounded-2xl border border-surface">
+                      <table className="min-w-full border-collapse text-left text-sm">
+                        <thead className="bg-surface/30">
+                          <tr>
+                            {section.table.headers.map((header) => (
+                              <th
+                                key={header}
+                                className="border-b border-surface px-4 py-3 font-semibold text-title"
+                              >
+                                {header}
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {section.table.rows.map((row) => (
+                            <tr key={row.join("|")} className="align-top odd:bg-white even:bg-surface/10">
+                              {row.map((cell, index) => (
+                                <td
+                                  key={`${row[0]}-${index}`}
+                                  className="border-b border-surface/70 px-4 py-3 text-title/75"
+                                >
+                                  {cell}
+                                </td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   )}
                 </div>
               </section>

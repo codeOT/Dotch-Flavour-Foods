@@ -59,7 +59,7 @@ type MenuCarouselCardProps = {
 export function MenuCarouselCard({ item }: MenuCarouselCardProps) {
   const [liters, setLiters] = useState<LiterSize>(2);
   const whatsappNumber = siteConfig.contact.phone.replace(/\D/g, "");
-  const message = `Hi Dotch Flavours Foods, I want to customize an order for ${item.name} (${liters}L). Please share available options.`;
+  const message = `Hi Dotch Flavour Foods, I want to customize an order for ${item.name} (${liters}L). Please share available options.`;
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
   return (

@@ -15,7 +15,7 @@ import { siteConfig } from "@/lib/site";
 function FreshMenuCard({ item }: { item: MenuItem }) {
   const [liters, setLiters] = useState<LiterSize>(2);
   const whatsappNumber = siteConfig.contact.phone.replace(/\D/g, "");
-  const message = `Hi Dotch Flavours Foods, I want to customize an order for ${item.name} (${liters}L). Please share available options.`;
+  const message = `Hi Dotch Flavour Foods, I'd like to place a Fresh Food WhatsApp order for ${item.name} (${liters}L). Please confirm availability, price, and ordering deadline.`;
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
   return (
@@ -30,7 +30,7 @@ function FreshMenuCard({ item }: { item: MenuItem }) {
         <div className="flex items-center justify-between gap-3">
           <span className="font-bold text-primary">{formatLiterPrice(item.priceValue, liters)}</span>
           <Button href={whatsappHref} className="!bg-secondary !px-4 !py-2 !text-xs hover:!bg-orange">
-            Order Now
+            Order on WhatsApp
           </Button>
         </div>
       </div>
@@ -39,6 +39,11 @@ function FreshMenuCard({ item }: { item: MenuItem }) {
 }
 
 export function FreshMenuContent() {
+  const whatsappNumber = siteConfig.contact.phone.replace(/\D/g, "");
+  const generalWhatsApp = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+    "Hi Dotch Flavour Foods, I'd like to ask about a Fresh Food order / customisation.",
+  )}`;
+
   return (
     <>
       <section className="bg-surface py-12 sm:py-16">
@@ -51,8 +56,15 @@ export function FreshMenuContent() {
               Fresh Food Menu
             </h1>
             <p className="mx-auto max-w-2xl text-sm text-title/70 sm:text-base">
-              Choose your litres and order on WhatsApp for customise requests.
+              Fresh food orders are placed on WhatsApp so we can confirm availability, customisations,
+              and weekly ordering deadlines. Choose your litres below, then message us to complete
+              your order.
             </p>
+            <div className="mt-5">
+              <Button href={generalWhatsApp} className="!bg-secondary hover:!bg-orange">
+                Chat on WhatsApp
+              </Button>
+            </div>
           </Reveal>
         </div>
       </section>

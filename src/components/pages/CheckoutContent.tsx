@@ -8,8 +8,15 @@ import { useCart } from "@/context/CartContext";
 import { OrderSummary } from "@/components/cart/OrderSummary";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
-import { type DeliveryMethod } from "@/lib/cart-utils";
+import {
+  cartHasReadySoups,
+  getReadySoupUnitCount,
+  meetsReadySoupMinimum,
+  READY_SOUP_MIN_ORDER,
+  type DeliveryMethod,
+} from "@/lib/cart-utils";
 import { siteConfig } from "@/lib/site";
+import Link from "next/link";
 
 type CheckoutForm = {
   fullName: string;
@@ -130,6 +137,15 @@ export function CheckoutContent() {
     setIsSubmitting(true);
     setSubmitError("");
 
+    if (!meetsReadySoupMinimum(items)) {
+      const count = getReadySoupUnitCount(items);
+      setSubmitError(
+        `Ready Soups online orders require at least ${READY_SOUP_MIN_ORDER} soups. You currently have ${count}.`,
+      );
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const response = await fetch("/api/checkout", {
         method: "POST",
@@ -168,6 +184,9 @@ export function CheckoutContent() {
 
   if (items.length === 0) return null;
 
+  const readySoupUnits = getReadySoupUnitCount(items);
+  const showReadySoupWarning = cartHasReadySoups(items) && !meetsReadySoupMinimum(items);
+
   return (
     <section className="py-12 sm:py-16">
       <div className="container-fluid">
@@ -176,6 +195,28 @@ export function CheckoutContent() {
         {cancelled && (
           <p className="mb-6 rounded-xl border border-secondary/30 bg-secondary/5 px-4 py-3 text-center text-sm text-title">
             Payment was cancelled. You can review your details and try again.
+          </p>
+        )}
+
+        <p className="mb-6 rounded-xl border border-surface bg-surface/30 px-4 py-3 text-sm text-title/80">
+          Guest checkout is available — no account required. Prefer to save your details?{" "}
+          <Link href="/sign-in?callbackUrl=/shop/checkout" className="font-semibold text-primary hover:underline">
+            Sign in
+          </Link>{" "}
+          or{" "}
+          <Link href="/sign-up?callbackUrl=/shop/checkout" className="font-semibold text-primary hover:underline">
+            create an account
+          </Link>
+          .
+        </p>
+
+        {showReadySoupWarning && (
+          <p className="mb-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+            Ready Soups need at least {READY_SOUP_MIN_ORDER} soups online. You have {readySoupUnits}.{" "}
+            <Link href="/ready-to-eat-soups#bundles" className="font-semibold underline">
+              Build a mix &amp; match bundle
+            </Link>
+            .
           </p>
         )}
 

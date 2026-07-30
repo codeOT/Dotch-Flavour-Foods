@@ -27,6 +27,9 @@ import {
   storageHeatingGuidance,
 } from "@/lib/ready-soups";
 import { useCart } from "@/context/CartContext";
+import { ReadySoupBundleBuilder } from "@/components/ready-soups/ReadySoupBundleBuilder";
+import { DELIVERY_FEE, READY_SOUP_MIN_ORDER } from "@/lib/cart-utils";
+import { formatPrice } from "@/lib/site";
 
 function SectionHeading({
   eyebrow,
@@ -152,6 +155,7 @@ function GuidanceCard({
 
 export function ReadySoupsPageContent() {
   const { openCart } = useCart();
+  const [activeBundle, setActiveBundle] = useState<(typeof readySoupBundles)[number] | null>(null);
 
   return (
     <>
@@ -274,17 +278,25 @@ export function ReadySoupsPageContent() {
         <div className="container-fluid min-w-0">
           <SectionHeading
             eyebrow="Save more"
-            title="Ready Soups bundles"
-            description="Curated collections for discovery, family meals, or fully stocking your freezer."
+            title="Mix & match bundles"
+            description={`Choose 3, 5, 10 or 18 soups and mix any flavours. Minimum online order is ${READY_SOUP_MIN_ORDER} soups. Flat delivery ${formatPrice(DELIVERY_FEE)} once per order.`}
             light
           />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {readySoupBundles.map((bundle) => (
-              <ReadySoupBundleCard key={bundle.id} bundle={bundle} />
+              <ReadySoupBundleCard
+                key={bundle.id}
+                bundle={bundle}
+                onBuild={(selected) => setActiveBundle(selected)}
+              />
             ))}
           </div>
         </div>
       </section>
+
+      {activeBundle && (
+        <ReadySoupBundleBuilder bundle={activeBundle} onClose={() => setActiveBundle(null)} />
+      )}
 
       {/* Order online */}
       <section id="order" className="scroll-mt-24 overflow-x-clip py-12 sm:py-20">
@@ -297,8 +309,9 @@ export function ReadySoupsPageContent() {
                 </p>
                 <h2 className="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl">Ready when you are</h2>
                 <p className="mb-6 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">
-                  Add individual soups or bundles to your cart, choose delivery or collection at checkout,
-                  and we&apos;ll prepare your frozen order with care.
+                  Mix flavours in a 3, 5, 10 or 18 soup bundle (minimum {READY_SOUP_MIN_ORDER} online),
+                  then checkout with a flat {formatPrice(DELIVERY_FEE)} delivery fee once per order —
+                  or choose collection where available.
                 </p>
                 <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
                   <Button type="button" onClick={openCart} variant="white" fullWidth className="sm:w-auto">

@@ -1,19 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Snowflake, Star } from "lucide-react";
 import {
   formatReadySoupPrice,
-  readySoupBundleToCartItem,
   readySoupToCartItem,
   type ReadySoupBundle,
   type ReadySoupProduct,
 } from "@/lib/ready-soups";
 import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
-import { LiterSizeSelector } from "@/components/cart/LiterSizeSelector";
-import { formatLiterPrice, getServingForLiters, type LiterSize } from "@/lib/liter-sizes";
+import { READY_SOUP_MIN_ORDER } from "@/lib/cart-utils";
 
 export function ReadySoupProductCard({
   product,
@@ -22,9 +19,6 @@ export function ReadySoupProductCard({
   product: ReadySoupProduct;
   priority?: boolean;
 }) {
-  const [liters, setLiters] = useState<LiterSize>(2);
-  const displayPrice = formatLiterPrice(product.price, liters);
-
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-surface/80 bg-white shadow-sm transition hover:border-primary/25 hover:shadow-lg">
       <Link
@@ -46,7 +40,7 @@ export function ReadySoupProductCard({
           Frozen
         </span>
         <div className="absolute bottom-4 left-4 right-4">
-          <p className="text-xs font-medium uppercase tracking-widest text-white/80">{liters}L</p>
+          <p className="text-xs font-medium uppercase tracking-widest text-white/80">{product.size}</p>
           <h3 className="text-xl font-bold text-white">{product.name}</h3>
           <p className="mt-1 line-clamp-2 text-sm text-white/85">{product.tagline}</p>
         </div>
@@ -54,18 +48,13 @@ export function ReadySoupProductCard({
 
       <div className="flex flex-1 flex-col p-5">
         <p className="mb-4 flex-1 text-sm leading-relaxed text-title/70">{product.shortDescription}</p>
-
-        <div className="mb-3">
-          <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-title/50">
-            Choose size
-          </p>
-          <LiterSizeSelector value={liters} onChange={setLiters} />
-          <p className="mt-2 text-xs text-title/60">{getServingForLiters(liters)}</p>
-        </div>
+        <p className="mb-4 text-xs text-title/55">
+          Online Ready Soups orders require a minimum of {READY_SOUP_MIN_ORDER} soups.
+        </p>
 
         <div className="flex items-center justify-between gap-3 border-t border-surface pt-4">
           <div>
-            <p className="text-lg font-bold text-primary">{displayPrice}</p>
+            <p className="text-lg font-bold text-primary">{formatReadySoupPrice(product.price)}</p>
             <Link
               href={`/ready-to-eat-soups/${product.slug}`}
               className="text-xs font-semibold text-secondary hover:underline"
@@ -73,17 +62,20 @@ export function ReadySoupProductCard({
               View full details →
             </Link>
           </div>
-          <CartQuantityControls
-            item={readySoupToCartItem(product, liters)}
-            variant="compact"
-          />
+          <CartQuantityControls item={readySoupToCartItem(product)} variant="compact" />
         </div>
       </div>
     </article>
   );
 }
 
-export function ReadySoupBundleCard({ bundle }: { bundle: ReadySoupBundle }) {
+export function ReadySoupBundleCard({
+  bundle,
+  onBuild,
+}: {
+  bundle: ReadySoupBundle;
+  onBuild?: (bundle: ReadySoupBundle) => void;
+}) {
   return (
     <article className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white p-6 text-title shadow-sm">
       {bundle.badge && (
@@ -107,13 +99,13 @@ export function ReadySoupBundleCard({ bundle }: { bundle: ReadySoupBundle }) {
       <p className="mb-3 flex-1 text-sm text-title/70">{bundle.description}</p>
 
       <div className="mb-4 space-y-1">
-        <p className="text-sm text-title/80">• {bundle.soupCount} soups of your choice</p>
+        <p className="text-sm text-title/80">• {bundle.soupCount} soups — mix any flavours</p>
         {bundle.includesGift && (
           <p className="text-sm text-title/80">• Includes {bundle.includesGift}</p>
         )}
       </div>
 
-      <div className="flex items-end justify-between gap-3 border-t border-surface pt-4">
+      <div className="mt-auto flex flex-col gap-3 border-t border-surface pt-4">
         <div>
           <p className="text-2xl font-bold text-primary">{formatReadySoupPrice(bundle.price)}</p>
           {bundle.originalPrice && (
@@ -122,7 +114,13 @@ export function ReadySoupBundleCard({ bundle }: { bundle: ReadySoupBundle }) {
             </p>
           )}
         </div>
-        <CartQuantityControls item={readySoupBundleToCartItem(bundle)} variant="compact" />
+        <button
+          type="button"
+          onClick={() => onBuild?.(bundle)}
+          className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-primary-hover"
+        >
+          Mix flavours
+        </button>
       </div>
     </article>
   );

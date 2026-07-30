@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -118,7 +118,7 @@ export function AdminSignInContent() {
                   <div className="relative h-10 w-10 overflow-hidden rounded-xl bg-white p-1.5 shadow-sm ring-1 ring-slate-200">
                     <Image
                       src="/assets/images/favicon.png"
-                      alt="Dotch Flavours"
+                      alt="Dotch Flavour"
                       fill
                       className="object-contain p-1"
                     />

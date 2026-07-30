@@ -85,14 +85,16 @@ export function QuoteRequestContent() {
   }
 
   return (
-    <section className="bg-white py-12 sm:py-16">
-      <div className="container-fluid max-w-3xl min-w-0">
-        <Reveal className="mb-10 text-center">
+    <section className="w-full min-w-0 overflow-x-clip bg-white py-10 sm:py-16">
+      <div className="container-fluid w-full min-w-0 max-w-3xl">
+        <Reveal className="mb-8 text-center sm:mb-10">
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-secondary">
             Enquiries
           </p>
-          <h1 className="text-3xl font-bold text-title sm:text-4xl">Request a quote</h1>
-          <p className="mt-3 text-sm text-title/70 sm:text-base">
+          <h1 className="text-[clamp(1.5rem,6vw,2.25rem)] font-bold text-title">
+            Request a quote
+          </h1>
+          <p className="mt-3 text-sm leading-relaxed text-title/70 sm:text-base">
             For catering, corporate events, experiences, and wholesale interest. Ready Soups shop
             orders can be placed online; fresh customisations are best via{" "}
             <a
@@ -113,28 +115,27 @@ export function QuoteRequestContent() {
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-2xl border border-primary/20 bg-primary/5 p-8 text-center"
+            className="rounded-2xl border border-primary/20 bg-primary/5 p-5 text-center sm:p-8"
           >
             <span className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white">
               <Check className="h-7 w-7" />
             </span>
             <h2 className="text-xl font-bold text-title">Request sent</h2>
             <p className="mt-3 text-sm text-title/70">{feedback}</p>
-            <Button type="button" className="mt-6" onClick={() => setStatus("idle")}>
+            <Button type="button" className="mt-6" fullWidth onClick={() => setStatus("idle")}>
               Send another enquiry
             </Button>
           </motion.div>
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="min-w-0 space-y-8 rounded-2xl border border-surface bg-white p-5 shadow-sm sm:p-8"
+            className="box-border w-full min-w-0 max-w-full space-y-6 rounded-2xl border border-surface bg-white p-4 shadow-sm sm:space-y-8 sm:p-8"
           >
-            {/* Contact */}
             <fieldset className="min-w-0 space-y-4">
               <legend className="mb-1 text-sm font-semibold uppercase tracking-wider text-secondary">
                 Contact details
               </legend>
-              <div className="grid min-w-0 gap-4 sm:grid-cols-2">
+              <div className="grid w-full min-w-0 grid-cols-1 gap-4 md:grid-cols-2">
                 <label className="block min-w-0 space-y-1.5">
                   <span className="text-sm font-medium text-title">Full name</span>
                   <input
@@ -159,7 +160,7 @@ export function QuoteRequestContent() {
                   />
                 </label>
               </div>
-              <div className="grid min-w-0 gap-4 sm:grid-cols-2">
+              <div className="grid w-full min-w-0 grid-cols-1 gap-4 md:grid-cols-2">
                 <label className="block min-w-0 space-y-1.5">
                   <span className="text-sm font-medium text-title">Email address</span>
                   <input
@@ -185,11 +186,11 @@ export function QuoteRequestContent() {
               </div>
             </fieldset>
 
-            <fieldset className="space-y-4">
+            <fieldset className="min-w-0 space-y-4">
               <legend className="text-sm font-semibold uppercase tracking-wider text-secondary">
                 Event details
               </legend>
-              <label className="block space-y-1.5">
+              <label className="block min-w-0 space-y-1.5">
                 <span className="text-sm font-medium text-title">Event type</span>
                 <select
                   required
@@ -204,7 +205,7 @@ export function QuoteRequestContent() {
                   ))}
                 </select>
               </label>
-              <div className="grid min-w-0 gap-4 sm:grid-cols-3">
+              <div className="grid w-full min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
                 <label className="block min-w-0 space-y-1.5">
                   <span className="text-sm font-medium text-title">Event date</span>
                   <input
@@ -223,7 +224,7 @@ export function QuoteRequestContent() {
                     className={inputClassName}
                   />
                 </label>
-                <label className="block min-w-0 space-y-1.5 sm:col-span-1">
+                <label className="block min-w-0 space-y-1.5 sm:col-span-2 md:col-span-1">
                   <span className="text-sm font-medium text-title">Estimated guests</span>
                   <input
                     value={form.guestCount}
@@ -244,11 +245,11 @@ export function QuoteRequestContent() {
               </label>
             </fieldset>
 
-            <fieldset className="space-y-4">
+            <fieldset className="min-w-0 space-y-4">
               <legend className="text-sm font-semibold uppercase tracking-wider text-secondary">
                 Menu &amp; service
               </legend>
-              <label className="block space-y-1.5">
+              <label className="block min-w-0 space-y-1.5">
                 <span className="text-sm font-medium text-title">Preferred menu</span>
                 <textarea
                   rows={3}
@@ -258,7 +259,7 @@ export function QuoteRequestContent() {
                   className={inputClassName}
                 />
               </label>
-              <label className="block space-y-1.5">
+              <label className="block min-w-0 space-y-1.5">
                 <span className="text-sm font-medium text-title">Service style</span>
                 <select
                   value={form.serviceStyle}
@@ -273,7 +274,7 @@ export function QuoteRequestContent() {
                   ))}
                 </select>
               </label>
-              <label className="block space-y-1.5">
+              <label className="block min-w-0 space-y-1.5">
                 <span className="text-sm font-medium text-title">
                   Dietary and allergen requirements
                 </span>
@@ -285,7 +286,7 @@ export function QuoteRequestContent() {
                   className={inputClassName}
                 />
               </label>
-              <label className="block space-y-1.5">
+              <label className="block min-w-0 space-y-1.5">
                 <span className="text-sm font-medium text-title">Budget range</span>
                 <input
                   value={form.budgetRange}
@@ -296,11 +297,11 @@ export function QuoteRequestContent() {
               </label>
             </fieldset>
 
-            <fieldset className="space-y-4">
+            <fieldset className="min-w-0 space-y-4">
               <legend className="text-sm font-semibold uppercase tracking-wider text-secondary">
                 Logistics &amp; extras
               </legend>
-              <label className="block space-y-1.5">
+              <label className="block min-w-0 space-y-1.5">
                 <span className="text-sm font-medium text-title">
                   Delivery, collection, staffing or setup needs
                 </span>
@@ -312,7 +313,7 @@ export function QuoteRequestContent() {
                   className={inputClassName}
                 />
               </label>
-              <label className="block space-y-1.5">
+              <label className="block min-w-0 space-y-1.5">
                 <span className="text-sm font-medium text-title">Additional information</span>
                 <textarea
                   rows={4}
@@ -327,7 +328,7 @@ export function QuoteRequestContent() {
                   Inspiration / reference{" "}
                   <span className="font-normal text-title/45">(optional)</span>
                 </span>
-                <div className="min-w-0 rounded-xl border border-dashed border-surface bg-surface/10 px-4 py-5">
+                <div className="min-w-0 overflow-hidden rounded-xl border border-dashed border-surface bg-surface/10 px-3 py-4 sm:px-4 sm:py-5">
                   <div className="flex min-w-0 flex-col gap-3">
                     <div className="flex items-start gap-3 text-sm text-title/70">
                       <Upload className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
@@ -337,7 +338,7 @@ export function QuoteRequestContent() {
                       type="file"
                       accept=".pdf,.jpg,.jpeg,.png,.webp"
                       onChange={(e) => setReferenceFile(e.target.files?.[0] ?? null)}
-                      className="min-w-0 max-w-full text-sm text-title/70 file:mr-3 file:rounded-lg file:border-0 file:bg-primary file:px-3 file:py-2 file:text-sm file:font-semibold file:text-white"
+                      className="block w-full min-w-0 max-w-full text-sm text-title/70 file:mr-3 file:rounded-lg file:border-0 file:bg-primary file:px-3 file:py-2 file:text-sm file:font-semibold file:text-white"
                     />
                   </div>
                   {referenceFile && (
@@ -356,7 +357,7 @@ export function QuoteRequestContent() {
                 onChange={(e) => setConsent(e.target.checked)}
                 className="mt-0.5 h-4 w-4 shrink-0 rounded border-surface accent-primary"
               />
-              <span>
+              <span className="min-w-0">
                 I agree to be contacted by Dotch Flavour Foods about this enquiry. See our{" "}
                 <Link href="/privacy-policy" className="text-primary hover:underline">
                   privacy policy

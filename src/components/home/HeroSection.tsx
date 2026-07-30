@@ -104,7 +104,7 @@ export function HeroSection() {
 
       <div className="container-fluid relative flex min-h-[72vh] items-center py-14 sm:min-h-[80vh] sm:py-16 lg:min-h-[88vh] lg:py-20">
         <motion.div
-          className="max-w-xl"
+          className="w-full min-w-0 max-w-xl"
           initial="hidden"
           animate="visible"
           variants={heroStagger}
@@ -117,7 +117,7 @@ export function HeroSection() {
           </motion.p>
 
           <motion.h1
-            className="mb-5 font-display text-4xl font-bold leading-[1.05] text-white sm:text-5xl lg:text-[3.5rem]"
+            className="mb-5 font-display text-[clamp(1.75rem,8vw,3.5rem)] font-bold leading-[1.05] text-white"
             variants={heroFadeUp}
           >
             Roots in <span className="text-secondary">Flavour.</span>
@@ -153,40 +153,38 @@ export function HeroSection() {
             ))}
           </motion.div>
 
-          <motion.div className="mb-6 flex flex-wrap gap-3" variants={heroFadeUp}>
-            <motion.div whileHover={{ y: -3, scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <Button
-                href="/ready-to-eat-soups"
-                className="min-w-0 bg-secondary hover:bg-secondary/90"
-              >
-                <span className="inline-flex items-center gap-2 whitespace-nowrap">
-                  Shop Ready Soups
-                  <ArrowRight className="h-4 w-4 shrink-0" />
-                </span>
-              </Button>
-            </motion.div>
-            <motion.div whileHover={{ y: -3, scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <Button
-                href="/fresh-menu"
-                variant="outline"
-                className="min-w-36 border-white/35 text-white hover:bg-white/10"
-              >
-                Order Fresh
-              </Button>
-            </motion.div>
-            <motion.div whileHover={{ y: -3, scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <Button
-                href="/request-a-quote"
-                variant="outline"
-                className="min-w-36 border-white/35 text-white hover:bg-white/10"
-              >
-                Catering Quote
-              </Button>
-            </motion.div>
+          <motion.div
+            className="mb-6 flex w-full min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap"
+            variants={heroFadeUp}
+          >
+            <Button
+              href="/ready-to-eat-soups"
+              fullWidth
+              className="!bg-secondary hover:!bg-secondary/90 sm:!w-auto"
+            >
+              Shop Ready Soups
+              <ArrowRight className="h-4 w-4 shrink-0" />
+            </Button>
+            <Button
+              href="/fresh-menu"
+              variant="outline"
+              fullWidth
+              className="!border-white/35 !text-white hover:!bg-white/10 sm:!w-auto"
+            >
+              Order Fresh
+            </Button>
+            <Button
+              href="/request-a-quote"
+              variant="outline"
+              fullWidth
+              className="!border-white/35 !text-white hover:!bg-white/10 sm:!w-auto"
+            >
+              Catering Quote
+            </Button>
           </motion.div>
 
-          <motion.div className="mb-6 flex items-center gap-3" variants={heroFadeUp}>
-            <div className="flex -space-x-2">
+          <motion.div className="mb-6 flex min-w-0 items-center gap-3" variants={heroFadeUp}>
+            <div className="flex shrink-0 -space-x-2">
               {["A", "B", "C"].map((initial, index) => (
                 <motion.span
                   key={initial}
@@ -199,7 +197,7 @@ export function HeroSection() {
                 </motion.span>
               ))}
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-1 text-secondary">
                 {Array.from({ length: 5 }).map((_, index) => (
                   <motion.span
@@ -217,13 +215,13 @@ export function HeroSection() {
           </motion.div>
 
           <motion.div
-            className="grid grid-cols-2 gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:grid-cols-4"
+            className="grid w-full min-w-0 grid-cols-2 gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:grid-cols-4"
             variants={heroFadeUp}
           >
             {stats.map((stat, index) => (
               <motion.div
                 key={stat.label}
-                className="text-center sm:text-left"
+                className="min-w-0 text-center sm:text-left"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.1 + index * 0.08, duration: 0.4, ease: easeOut }}
@@ -244,11 +242,11 @@ export function HeroSection() {
         viewport={{ once: true, amount: 0.4 }}
         variants={guaranteeStagger}
       >
-        <div className="container-fluid grid grid-cols-2 gap-4 py-4 sm:grid-cols-4 sm:gap-6 sm:py-5">
+        <div className="container-fluid grid w-full min-w-0 grid-cols-2 gap-3 py-4 sm:grid-cols-4 sm:gap-6 sm:py-5">
           {guarantees.map((item) => (
             <motion.div
               key={item.label}
-              className="flex items-center gap-3"
+              className="flex min-w-0 items-center gap-2 sm:gap-3"
               variants={guaranteeItem}
               whileHover={{ y: -2, x: 2 }}
             >
@@ -258,7 +256,9 @@ export function HeroSection() {
               >
                 <item.icon className="h-4 w-4" />
               </motion.span>
-              <p className="text-xs font-semibold text-title sm:text-sm">{item.label}</p>
+              <p className="min-w-0 text-xs font-semibold leading-snug text-title sm:text-sm">
+                {item.label}
+              </p>
             </motion.div>
           ))}
         </div>

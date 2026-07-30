@@ -9,10 +9,10 @@ import { scaleIn } from "@/lib/motion";
 export function NewsletterSection() {
   return (
     <section className="overflow-hidden bg-[#192e22] py-12 text-white sm:py-16">
-      <div className="container-fluid">
-        <Reveal variants={scaleIn} className="mx-auto max-w-xl">
+      <div className="container-fluid min-w-0">
+        <Reveal className="mx-auto w-full min-w-0 max-w-xl">
           <motion.div
-            className="rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-8"
+            className="rounded-3xl border border-white/10 bg-white/5 p-5 sm:p-8"
             whileHover={{ y: -4, borderColor: "rgba(255,255,255,0.2)" }}
             transition={{ type: "spring", stiffness: 260, damping: 22 }}
           >

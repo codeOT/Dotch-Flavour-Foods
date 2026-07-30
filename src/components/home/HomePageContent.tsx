@@ -12,12 +12,12 @@ import { SocialProofSection } from "@/components/home/SocialProofSection";
 
 export function HomePageContent() {
   return (
-    <>
+    <div className="w-full min-w-0 overflow-x-clip">
       <HeroSection />
       <HowItWorksSection />
       <ProductCatalogSection />
       <MenuSection />
-      <section className="overflow-hidden bg-white py-12 sm:py-16">
+      <section className="overflow-x-clip bg-white py-12 sm:py-16">
         <div className="container-fluid min-w-0">
           <MeetFounderSection />
         </div>
@@ -26,6 +26,6 @@ export function HomePageContent() {
       <CateringCtaSection />
       <NewsletterSection />
       <FaqSection />
-    </>
+    </div>
   );
 }

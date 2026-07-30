@@ -57,18 +57,20 @@ export function Button({
   const isBusy = Boolean(loading || internalLoading);
   const isDisabled = Boolean(disabled || isBusy);
 
-  const classes = `inline-flex max-w-full flex-nowrap items-center justify-center gap-2 whitespace-nowrap rounded-md px-5 py-3 text-sm font-semibold uppercase tracking-wide transition sm:px-6 ${
+  const classes = `inline-flex max-w-full flex-nowrap items-center justify-center gap-2 rounded-md px-4 py-3 text-xs font-semibold uppercase tracking-wide transition sm:px-6 sm:text-sm ${
     fullWidth ? "w-full" : ""
   } ${variants[variant]} ${
     isBusy ? "pointer-events-none cursor-wait opacity-80" : ""
   } ${isDisabled && !isBusy ? "cursor-not-allowed opacity-60" : ""} ${className}`;
-  const wrapperClass = fullWidth ? "block w-full max-w-full" : "inline-block max-w-full";
+  const wrapperClass = fullWidth
+    ? "block w-full max-w-full"
+    : "inline-block max-w-full";
 
   const content = (
     <>
       {isBusy && <ButtonSpinner />}
       <span
-        className={`inline-flex flex-nowrap items-center justify-center gap-2 ${
+        className={`inline-flex max-w-full flex-nowrap items-center justify-center gap-2 whitespace-nowrap ${
           isBusy ? "opacity-90" : ""
         }`}
       >

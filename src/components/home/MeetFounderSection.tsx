@@ -3,18 +3,15 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
-import { useIsMobile } from "@/hooks/useIsMobile";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 import { meetAbi } from "@/lib/meet-abi";
-import { easeOut, scaleIn, slideRight } from "@/lib/motion";
+import { easeOut, scaleIn } from "@/lib/motion";
 
 export function MeetFounderSection() {
-  const isMobile = useIsMobile();
-
   return (
-    <div className="mt-6 min-w-0 overflow-hidden sm:mt-8">
-      <StaggerContainer className="mb-6 px-1 text-center sm:mb-10">
+    <div className="mt-6 w-full min-w-0 overflow-x-clip sm:mt-8">
+      <StaggerContainer className="mb-6 text-center sm:mb-10">
         <StaggerItem>
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-secondary sm:text-sm">
             {meetAbi.eyebrow}
@@ -27,8 +24,8 @@ export function MeetFounderSection() {
         </StaggerItem>
       </StaggerContainer>
 
-      <div className="grid min-w-0 grid-cols-1 items-start gap-6 sm:grid-cols-[minmax(0,24rem)_minmax(0,1fr)] sm:gap-4 lg:grid-cols-[minmax(0,28rem)_minmax(0,1fr)] lg:gap-6">
-        <Reveal variants={slideRight} className="min-w-0">
+      <div className="grid w-full min-w-0 grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,28rem)_minmax(0,1fr)] lg:gap-8">
+        <Reveal className="min-w-0">
           <div className="relative mx-auto w-full max-w-sm lg:mx-0 lg:max-w-md">
             <motion.div
               className="group relative aspect-[4/5] w-full overflow-hidden rounded-2xl shadow-xl"
@@ -45,7 +42,7 @@ export function MeetFounderSection() {
             </motion.div>
 
             <motion.div
-              className="mt-3 rounded-xl bg-primary px-4 py-3 text-white shadow-lg md:hidden"
+              className="mt-3 rounded-xl bg-primary px-4 py-3 text-white shadow-lg lg:absolute lg:-bottom-4 lg:-right-4 lg:mt-0"
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -54,24 +51,10 @@ export function MeetFounderSection() {
               <p className="text-xs uppercase tracking-wider text-white/80">{meetAbi.role}</p>
               <p className="text-sm font-semibold sm:text-base">{meetAbi.company}</p>
             </motion.div>
-
-            {!isMobile && (
-              <motion.div
-                className="absolute -bottom-4 -right-4 rounded-xl bg-primary px-5 py-3 text-white shadow-lg"
-                initial={{ opacity: 0, scale: 0.85, y: 12 }}
-                whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3, type: "spring", stiffness: 260, damping: 18 }}
-                whileHover={{ scale: 1.05, y: -2 }}
-              >
-                <p className="text-xs uppercase tracking-wider text-white/80">{meetAbi.role}</p>
-                <p className="font-semibold">{meetAbi.company}</p>
-              </motion.div>
-            )}
           </div>
         </Reveal>
 
-        <StaggerContainer className="min-w-0 space-y-4 px-1">
+        <StaggerContainer className="min-w-0 space-y-4">
           <StaggerItem>
             <p className="text-sm leading-relaxed text-title/75 sm:text-base">{meetAbi.intro}</p>
           </StaggerItem>
@@ -83,11 +66,11 @@ export function MeetFounderSection() {
             </Reveal>
           </StaggerItem>
           <StaggerItem>
-            <motion.div className="flex flex-wrap gap-3 pt-2" whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
-              <Button href="/meet-abi" fullWidth className="sm:w-auto">
+            <div className="pt-2">
+              <Button href="/meet-abi" fullWidth className="sm:!w-auto">
                 Read Abi&apos;s story
               </Button>
-            </motion.div>
+            </div>
           </StaggerItem>
         </StaggerContainer>
       </div>

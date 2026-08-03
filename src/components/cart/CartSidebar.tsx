@@ -6,11 +6,12 @@ import { Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import {
   cartHasReadySoups,
-  getDeliveryFee,
+  getDeliveryLabel,
   getOrderTotal,
   getReadySoupUnitCount,
   meetsReadySoupMinimum,
   READY_SOUP_MIN_ORDER,
+  readySoupDeliveryInfo,
 } from "@/lib/cart-utils";
 import { formatPrice } from "@/lib/site";
 import { Button } from "@/components/ui/Button";
@@ -60,8 +61,7 @@ export function CartSidebar() {
     clearCart,
   } = useCart();
 
-  const deliveryFee = getDeliveryFee(subtotal, "delivery");
-  const total = getOrderTotal(subtotal, "delivery");
+  const total = getOrderTotal(subtotal, "delivery", items);
   const readySoupUnits = getReadySoupUnitCount(items);
   const readySoupOk = meetsReadySoupMinimum(items);
   const showReadySoupWarning = cartHasReadySoups(items) && !readySoupOk;
@@ -224,13 +224,17 @@ export function CartSidebar() {
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-title/70">Delivery</dt>
-                    <dd className="text-secondary">{formatPrice(deliveryFee)} flat</dd>
+                    <dd className="text-secondary">{getDeliveryLabel("delivery", items)}</dd>
                   </div>
                   <div className="flex justify-between border-t border-surface pt-2 text-base">
                     <dt className="font-bold">Total</dt>
                     <dd className="font-bold text-primary">{formatPrice(total)}</dd>
                   </div>
                 </dl>
+                <p className="mb-3 text-[11px] leading-relaxed text-title/55">
+                  Order {readySoupDeliveryInfo.orderWindow} for next-day delivery.{" "}
+                  {readySoupDeliveryInfo.feeSummary}
+                </p>
                 {showReadySoupWarning && (
                   <p className="mb-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
                     Ready Soups need at least {READY_SOUP_MIN_ORDER} soups online. You have{" "}

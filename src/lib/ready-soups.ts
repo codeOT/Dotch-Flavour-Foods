@@ -48,12 +48,14 @@ export const howItWorksSteps = [
   {
     step: "02",
     title: "Checkout online",
-    description: "Pay securely by card. A flat £9.99 delivery fee is added once per delivery order.",
+    description:
+      "Pay securely by card. Delivery is £13.99 up to 20 litres, or £16.99 up to 25 litres.",
   },
   {
     step: "03",
-    title: "Frozen delivery",
-    description: "Your soups arrive frozen in insulated packaging, ready for the freezer.",
+    title: "Next-day delivery",
+    description:
+      "Order between 8am and 3pm for next-day frozen delivery. Your soups arrive ready for the freezer.",
   },
   {
     step: "04",
@@ -94,9 +96,9 @@ export const launchOffers = [
   },
   {
     id: "flat-delivery",
-    title: "Flat £9.99 delivery",
+    title: "Delivery by volume",
     description:
-      "One delivery charge per eligible order — not per product. Collection remains available at checkout where offered.",
+      "£13.99 for orders up to 20 litres, £16.99 up to 25 litres. Order 8am–3pm for next-day delivery. Collection remains available at checkout where offered.",
     code: null,
     badge: "Delivery",
   },

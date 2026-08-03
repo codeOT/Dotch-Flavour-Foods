@@ -5,11 +5,14 @@ import { auth } from "@/auth";
 import { connectDB } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
 import {
+  exceedsReadySoupOnlineLimit,
   generateOrderId,
+  getCartReadySoupLiters,
   getDeliveryFee,
   getOrderTotal,
   getReadySoupUnitCount,
   meetsReadySoupMinimum,
+  READY_SOUP_MAX_ONLINE_LITERS,
   READY_SOUP_MIN_ORDER,
   type DeliveryMethod,
 } from "@/lib/cart-utils";
@@ -94,6 +97,16 @@ export async function POST(request: Request) {
       );
     }
 
+    if (exceedsReadySoupOnlineLimit(items)) {
+      const liters = getCartReadySoupLiters(items);
+      return NextResponse.json(
+        {
+          error: `Online Ready Soups delivery is available up to ${READY_SOUP_MAX_ONLINE_LITERS} litres. Your order is ${liters}L — please contact us for a custom quote.`,
+        },
+        { status: 400 },
+      );
+    }
+
     if (fullName.length < 2) {
       return NextResponse.json({ error: "Please enter your full name." }, { status: 400 });
     }
@@ -114,8 +127,8 @@ export async function POST(request: Request) {
     }
 
     const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const deliveryFee = getDeliveryFee(subtotal, deliveryMethod);
-    const total = getOrderTotal(subtotal, deliveryMethod);
+    const deliveryFee = getDeliveryFee(deliveryMethod, items);
+    const total = getOrderTotal(subtotal, deliveryMethod, items);
     const orderNumber = generateOrderId();
 
     const session = await auth();

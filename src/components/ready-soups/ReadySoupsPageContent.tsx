@@ -28,7 +28,12 @@ import {
 } from "@/lib/ready-soups";
 import { useCart } from "@/context/CartContext";
 import { ReadySoupBundleBuilder } from "@/components/ready-soups/ReadySoupBundleBuilder";
-import { DELIVERY_FEE, READY_SOUP_MIN_ORDER } from "@/lib/cart-utils";
+import {
+  DELIVERY_FEE_UP_TO_20L,
+  DELIVERY_FEE_UP_TO_25L,
+  READY_SOUP_MIN_ORDER,
+  READY_SOUP_ORDER_WINDOW,
+} from "@/lib/cart-utils";
 import { formatPrice } from "@/lib/site";
 
 function SectionHeading({
@@ -191,6 +196,17 @@ export function ReadySoupsPageContent() {
                   View bundles
                 </Button>
               </div>
+              <div className="mt-6 space-y-2 rounded-2xl border border-white/15 bg-white/5 p-4 text-sm text-white/80 sm:p-5">
+                <p>
+                  <span className="font-semibold text-secondary">Order window:</span>{" "}
+                  {READY_SOUP_ORDER_WINDOW} for next-day delivery.
+                </p>
+                <p>
+                  <span className="font-semibold text-secondary">Delivery:</span>{" "}
+                  {formatPrice(DELIVERY_FEE_UP_TO_20L)} up to 20 litres ·{" "}
+                  {formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25 litres.
+                </p>
+              </div>
             </div>
 
             <div className="order-1 min-w-0 lg:order-2">
@@ -279,7 +295,7 @@ export function ReadySoupsPageContent() {
           <SectionHeading
             eyebrow="Save more"
             title="Mix & match bundles" 
-            description={`Choose 3, 5, 10 soups and mix any flavours. Minimum online order is ${READY_SOUP_MIN_ORDER} soups. Flat delivery ${formatPrice(DELIVERY_FEE)} once per order.`}
+            description={`Choose 3, 5, 10 soups and mix any flavours. Minimum online order is ${READY_SOUP_MIN_ORDER} soups. Delivery ${formatPrice(DELIVERY_FEE_UP_TO_20L)} up to 20L, or ${formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25L.`}
             light
           />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -309,9 +325,11 @@ export function ReadySoupsPageContent() {
                 </p>
                 <h2 className="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl">Ready when you are</h2>
                 <p className="mb-6 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">
-                  Mix flavours in a 3, 5, 10 bundle (minimum {READY_SOUP_MIN_ORDER} online),
-                  then checkout with a flat {formatPrice(DELIVERY_FEE)} delivery fee once per order —
-                  or choose collection where available.
+                  Mix flavours in a 3, 5, 10 bundle (minimum {READY_SOUP_MIN_ORDER} online). Order
+                  between {READY_SOUP_ORDER_WINDOW} for next-day delivery. Delivery is{" "}
+                  {formatPrice(DELIVERY_FEE_UP_TO_20L)} up to 20 litres, or{" "}
+                  {formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25 litres — or choose collection where
+                  available.
                 </p>
                 <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
                   <Button type="button" onClick={openCart} variant="white" fullWidth className="sm:w-auto">

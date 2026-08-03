@@ -10,7 +10,7 @@ const shopChannels = [
   {
     title: "Ready Soups by Dotch Flavour",
     description:
-      "Our premium frozen soup range — mix flavours in 3, 5, 10, or 18 packs, with flat £9.99 delivery.",
+      "Our premium frozen soup range — mix flavours in 3, 5, 10, or 18 packs. Delivery £13.99 up to 20L / £16.99 up to 25L. Order 8am–3pm for next-day delivery.",
     href: "/ready-to-eat-soups",
     cta: "Shop Ready Soups",
     image: "/assets/images/hero-bg.png",

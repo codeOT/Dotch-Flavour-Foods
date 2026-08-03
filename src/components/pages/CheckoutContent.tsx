@@ -279,7 +279,8 @@ export function CheckoutContent() {
                       {
                         id: "delivery" as const,
                         label: "Home delivery",
-                        description: "Delivered to your door",
+                        description:
+                          "Order 8am–3pm for next-day delivery. £13.99 up to 20L / £16.99 up to 25L",
                         icon: Truck,
                       },
                       {

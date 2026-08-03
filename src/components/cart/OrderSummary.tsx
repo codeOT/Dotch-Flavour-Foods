@@ -5,9 +5,9 @@ import Link from "next/link";
 import type { CartItem } from "@/context/CartContext";
 import {
   type DeliveryMethod,
-  getDeliveryFee,
   getDeliveryLabel,
   getOrderTotal,
+  readySoupDeliveryInfo,
 } from "@/lib/cart-utils";
 import { formatPrice } from "@/lib/site";
 import { Button } from "@/components/ui/Button";
@@ -33,8 +33,7 @@ export function OrderSummary({
   checkoutLabel = "Proceed to Checkout",
   children,
 }: OrderSummaryProps) {
-  const deliveryFee = getDeliveryFee(subtotal, deliveryMethod);
-  const total = getOrderTotal(subtotal, deliveryMethod);
+  const total = getOrderTotal(subtotal, deliveryMethod, items);
 
   return (
     <div className="rounded-2xl border border-surface bg-gradient-to-b from-surface/30 to-white p-6 shadow-sm">
@@ -65,9 +64,15 @@ export function OrderSummary({
         <div className="flex justify-between">
           <dt className="text-title/70">Delivery</dt>
           <dd className="font-medium text-secondary">
-            {deliveryFee === 0 ? getDeliveryLabel(subtotal, deliveryMethod) : formatPrice(deliveryFee)}
+            {getDeliveryLabel(deliveryMethod, items)}
           </dd>
         </div>
+        {deliveryMethod === "delivery" && (
+          <p className="text-[11px] leading-relaxed text-title/55">
+            Order {readySoupDeliveryInfo.orderWindow} for next-day delivery.{" "}
+            {readySoupDeliveryInfo.feeSummary}
+          </p>
+        )}
         <div className="border-t border-surface pt-3">
           <div className="flex justify-between text-base">
             <dt className="font-bold">Total</dt>

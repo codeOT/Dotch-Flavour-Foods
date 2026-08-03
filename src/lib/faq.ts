@@ -42,17 +42,17 @@ export const faqs: FaqItem[] = [
   {
     question: "How much is delivery?",
     answer:
-      "Delivery is charged at a flat rate shown at checkout. The current working rate is £9.99 per eligible parcel, subject to final courier confirmation.",
+      "Ready Soups delivery is £13.99 for orders up to 20 litres, and £16.99 for orders up to 25 litres. The fee is shown at checkout based on your order volume. Collection may also be available.",
   },
   {
     question: "Is delivery still the same price if I order more?",
     answer:
-      "The flat parcel rate is expected to apply within the courier’s weight limit. This is why bundle ordering gives better delivery value. Final parcel limits will be confirmed after packed-weight testing.",
+      "Delivery rises with volume: £13.99 up to 20 litres, then £16.99 up to 25 litres. Orders above 25 litres need a custom quote — contact us. Each Ready Soup tub is 1 litre.",
   },
   {
     question: "When will my Ready Soups arrive?",
     answer:
-      "Ready Soups are intended for next-day delivery after dispatch. Processing time, order cut-offs, weekends, public holidays, postcode and courier conditions apply.",
+      "Orders placed between 8am and 3pm (UK time) are prepared for next-day delivery. Orders after 3pm are treated as the next working day's order. Weekends, public holidays, postcode and courier conditions also apply.",
   },
   {
     question: "How are frozen products packed?",

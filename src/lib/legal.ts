@@ -92,7 +92,7 @@ export const websiteTerms: LegalDocument = {
     {
       title: "1.11 Delivery",
       paragraphs: [
-        "We deliver within the United Kingdom to eligible addresses. Ready Soups are intended for next-day delivery after dispatch, but courier timings are estimates and are not guaranteed. Delivery charges and available services are displayed at checkout. Our Delivery Policy forms part of these terms.",
+        "We deliver within the United Kingdom to eligible addresses. Ready Soups orders placed between 8am and 3pm are prepared for next-day delivery; courier timings remain estimates and are not guaranteed. Delivery charges and available services are displayed at checkout. Our Delivery Policy forms part of these terms.",
       ],
     },
     {
@@ -423,19 +423,19 @@ export const deliveryTerms: LegalDocument = {
     {
       title: "4.2 Courier and timing",
       paragraphs: [
-        'Ready Soups are dispatched frozen using a next-day courier service. We currently plan to use a DHL business service, but may use another suitable courier. "Next-day delivery" means the next eligible delivery day after dispatch, not necessarily the day after the order is placed. Processing time, cut-off times, weekends and public holidays apply.',
+        'Ready Soups are dispatched frozen using a next-day courier service. Orders placed between 8am and 3pm (UK time) are prepared for next-day delivery. Orders placed after 3pm are treated as the following working day\'s order. Weekends, public holidays, postcode eligibility and courier conditions apply. "Next-day delivery" means the next eligible delivery day after dispatch.',
       ],
     },
     {
-      title: "4.3 Flat-rate charge",
+      title: "4.3 Delivery charges",
       paragraphs: [
-        "A flat-rate delivery charge is added at checkout. The working charge is £9.99 per eligible parcel, but the live checkout price applies and may be updated when the courier account and packaging weights are finalised. Delivery is not free.",
+        "Ready Soups delivery is charged by order volume: £13.99 for orders up to and including 20 litres, and £16.99 for orders over 20 litres up to and including 25 litres. Each Ready Soup tub is 1 litre. The live checkout price applies. Delivery is not free. Orders above 25 litres should be arranged with us directly.",
       ],
     },
     {
       title: "4.4 Weight and parcel limits",
       paragraphs: [
-        "The flat rate applies only within the courier's applicable parcel limits, currently expected to be up to 25 kg. Ready Soup bundles are structured as 3, 5, 10 and 18 tubs, subject to final packed-weight testing. We may split, adjust or contact you about an order that exceeds the safe or contractual parcel limit.",
+        "Online Ready Soups delivery is available up to 25 litres per order. Ready Soup bundles are structured as 3, 5, 10 and 18 tubs. We may split, adjust or contact you about an order that exceeds the safe online limit or courier parcel constraints.",
       ],
     },
     {

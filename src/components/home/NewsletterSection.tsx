@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { NewsletterSignup } from "@/components/forms/NewsletterSignup";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
-import { scaleIn } from "@/lib/motion";
 
 export function NewsletterSection() {
   return (

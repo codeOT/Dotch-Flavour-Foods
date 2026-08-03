@@ -1,5 +1,6 @@
 "use client";
 
+import { AboutUsSection } from "@/components/home/AboutUsSection";
 import { CateringCtaSection } from "@/components/home/CateringCtaSection";
 import { FaqSection } from "@/components/home/FaqSection";
 import { HeroSection } from "@/components/home/HeroSection";
@@ -22,6 +23,7 @@ export function HomePageContent() {
           <MeetFounderSection />
         </div>
       </section>
+      <AboutUsSection />
       <SocialProofSection />
       <CateringCtaSection />
       <NewsletterSection />

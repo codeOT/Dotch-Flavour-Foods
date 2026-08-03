@@ -11,7 +11,9 @@ export const READY_SOUP_MIN_ORDER = 3;
 export type DeliveryMethod = "delivery" | "pickup";
 
 export function menuItemToCartItem(item: MenuItem, liters?: LiterSize): Omit<CartItem, "quantity"> {
-  const price = liters ? getPriceForLiters(item.priceValue, liters) : item.priceValue;
+  const price = liters
+    ? getPriceForLiters(item.priceValue, liters, item.literSizes)
+    : item.priceValue;
   return {
     id: liters ? `${item.id}-${liters}l` : item.id,
     name: liters ? `${item.name} (${liters}L)` : item.name,

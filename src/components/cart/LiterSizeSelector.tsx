@@ -1,14 +1,22 @@
 "use client";
 
-import { literSizeOptions, type LiterSize } from "@/lib/liter-sizes";
+import { getLiterSizeOptions, type LiterSize } from "@/lib/liter-sizes";
 
 type LiterSizeSelectorProps = {
   value: LiterSize;
   onChange: (liters: LiterSize) => void;
+  availableSizes?: readonly LiterSize[];
   className?: string;
 };
 
-export function LiterSizeSelector({ value, onChange, className = "" }: LiterSizeSelectorProps) {
+export function LiterSizeSelector({
+  value,
+  onChange,
+  availableSizes,
+  className = "",
+}: LiterSizeSelectorProps) {
+  const options = getLiterSizeOptions(availableSizes);
+
   return (
     <div
       className={`flex flex-wrap gap-2 ${className}`}
@@ -16,7 +24,7 @@ export function LiterSizeSelector({ value, onChange, className = "" }: LiterSize
       aria-label="Select portion size"
       onClick={(event) => event.stopPropagation()}
     >
-      {literSizeOptions.map((option) => {
+      {options.map((option) => {
         const isSelected = value === option.liters;
 
         return (

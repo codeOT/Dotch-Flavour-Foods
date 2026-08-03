@@ -20,10 +20,10 @@ export function MenuSection() {
 
   return (
     <section className="overflow-hidden py-12 sm:py-16">
-      <Reveal className="container-fluid mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
-        <StaggerContainer>
+      <Reveal className="container-fluid mb-6 flex min-w-0 flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
+        <StaggerContainer className="min-w-0">
           <StaggerItem>
-            <h2 className="text-2xl font-bold text-title sm:text-3xl md:text-4xl capitalize">
+            <h2 className="text-[clamp(1.35rem,5vw,2.25rem)] font-bold capitalize leading-snug text-title sm:text-3xl md:text-4xl">
               Fresh food from the{" "}
               <motion.span className="text-secondary" whileHover={{ scale: 1.08 }}>
                 Dotch Flavour menu

@@ -9,11 +9,11 @@ import { HoverCard } from "@/components/motion/HoverCard";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 import { Button } from "@/components/ui/Button";
-import { formatLiterPrice, type LiterSize } from "@/lib/liter-sizes";
+import { formatLiterPrice, getDefaultLiterSize, type LiterSize } from "@/lib/liter-sizes";
 import { siteConfig } from "@/lib/site";
 
 function FreshMenuCard({ item }: { item: MenuItem }) {
-  const [liters, setLiters] = useState<LiterSize>(2);
+  const [liters, setLiters] = useState<LiterSize>(() => getDefaultLiterSize(item.literSizes));
   const whatsappNumber = siteConfig.contact.phone.replace(/\D/g, "");
   const message = `Hi Dotch Flavour Foods, I'd like to place a Fresh Food WhatsApp order for ${item.name} (${liters}L). Please confirm availability, price, and ordering deadline.`;
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -26,9 +26,16 @@ function FreshMenuCard({ item }: { item: MenuItem }) {
       <div className="p-5 sm:p-6">
         <h2 className="mb-2 text-xl font-semibold">{item.name}</h2>
         <p className="mb-4 text-sm text-title/70">{item.description}</p>
-        <LiterSizeSelector value={liters} onChange={setLiters} className="mb-4" />
+        <LiterSizeSelector
+          value={liters}
+          onChange={setLiters}
+          availableSizes={item.literSizes}
+          className="mb-4"
+        />
         <div className="flex items-center justify-between gap-3">
-          <span className="font-bold text-primary">{formatLiterPrice(item.priceValue, liters)}</span>
+          <span className="font-bold text-primary">
+            {formatLiterPrice(item.priceValue, liters, item.literSizes)}
+          </span>
           <Button href={whatsappHref} className="!bg-secondary !px-4 !py-2 !text-xs hover:!bg-orange">
             Order on WhatsApp
           </Button>

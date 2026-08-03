@@ -215,7 +215,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
     shortDescription: "Iconic green pepper sauce with palm oil and locust beans.",
     price: 15.0,
     size: "1000ml",
-    image: "/assets/images/Ayamase.png",
+    image: "/assets/images/Ayam.png",
     ingredients: [
       "Green bell peppers",
       "Scotch bonnet",
@@ -249,7 +249,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
     shortDescription: "Smoky, slow-cooked tomato stew with bold Nigerian spices.",
     price: 13.5,
     size: "1000ml",
-    image: "/assets/images/Buka Stew.png",
+    image: "/assets/images/Bukas.png",
     ingredients: [
       "Tomatoes",
       "Red peppers",

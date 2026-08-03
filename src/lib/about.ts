@@ -71,8 +71,8 @@ export const founder = {
 
 export const aboutImages = {
   hero: {
-    src: "/assets/images/gallery/grid/pic2.jpg",
-    alt: "Overhead view of the Dotch Flavour kitchen at work",
+    src: "/assets/images/egusi.jpg",
+    alt: "A bowl of Dotch Flavour Egusi soup, cooked with care",
   },
   founder: {
     src: "/assets/images/Mrs A. Olurin .jpeg",

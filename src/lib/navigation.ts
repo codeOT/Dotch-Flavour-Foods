@@ -1,4 +1,5 @@
 import { formatPrice } from "./site";
+import type { LiterSize } from "./liter-sizes";
 
 export type NavItem = {
   label: string;
@@ -13,6 +14,8 @@ export type MenuItem = {
   price: string;
   priceValue: number;
   image: string;
+  /** Available tray sizes. Defaults to 2L, 4L and 6L. */
+  literSizes?: LiterSize[];
 };
 export const mainNav: NavItem[] = [
   { label: "Home", href: "/" },
@@ -64,7 +67,7 @@ export const menuItems: MenuItem[] = [
   { id: "pepper-fish", name: "Fried Pepper Fish", description: "Delicious and Spicy", price: formatPrice(25), priceValue: 25, image: "/assets/images/fpepper fish r.jpg" },
   { id: "Fish-in-stew", name: "Fresh Fish in Stew", description: "Delicious and Spicy", price: formatPrice(45), priceValue: 45, image: "/assets/images/fish in stew.jpg" },
   { id: "Asaro-sauce", name: "Asaro with Sauce", description: "Delicious and Spicy", price: formatPrice(20), priceValue: 20, image: "/assets/images/porridge.jpg" },
-  { id: "Gizdodo", name: "Gizdodo", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/gizdodo r.jpg" },
+  { id: "Gizdodo", name: "Gizdodo", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/gizd.jpeg" },
   { id: "Ogbono", name: "Ogbono", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/ogbono r.jpg" },
   { id: "Buka-stew", name: "Buka Stew", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/bstew.jpg" },
   { id: "Fried-fish-in-stew", name: "Fried Fish in Stew", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/ffs.jpg" },
@@ -72,11 +75,11 @@ export const menuItems: MenuItem[] = [
   { id: "pepper-turkey", name: "Peppered Fried Turkey", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/pfturkey.jpg" },
   { id: "Efo-Elegusi", name: "Efo Elegusi", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/efo elegusi.jpg" },
   { id: "Ayamase-Ofada-Sauce", name: "Ayamase / Ofada Sauce", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/aya-ofada.jpg" },
-  { id: "Ewa-Riro-Ewa-Agoyin", name: "Ewa Riro / Ewa Agoyin", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/ewa riro.jpg" },
-  { id: "Ila-Alasepo", name: "Ila Alasepo", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/Ila Asepo f.png" },
-  { id: "Chicken-Beef-Stew", name: "Chicken-Beef-Stew", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/cbs.jpg" },
-  { id: "Moi-Moi", name: "Moi Moi", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/moi.jpg" },
-  { id: "Abula-combo", name: "Abula Combo", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/ama.jpg" },
+  { id: "Ewa-Riro-Ewa-Agoyin", name: "Ewa Riro / Ewa Agoyin", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/beans.jpeg" },
+  { id: "Ila-Alasepo", name: "Ila Alasepo", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/ilaasepo.jpeg" },
+  { id: "Chicken-Beef-Stew", name: "Chicken-Beef-Stew", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/cbs.jpeg" },
+  { id: "Moi-Moi", name: "Moi Moi", description: "Delicious and Spicy", price: formatPrice(90), priceValue: 90, image: "/assets/images/moimoi.jpg" },
+  { id: "Abula-combo", name: "Abula Combo", description: "Available in 4L and 6L", price: formatPrice(90), priceValue: 90, image: "/assets/images/ama.jpg", literSizes: [4, 6] },
 ];
 
 export const todaysMenu: MenuItem[] = [

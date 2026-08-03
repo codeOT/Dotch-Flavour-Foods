@@ -210,7 +210,7 @@ export function ReadySoupsPageContent() {
                     <p className="text-[10px] font-semibold uppercase tracking-widest text-cream sm:text-xs">
                       Each tub
                     </p>
-                    <p className="text-lg font-bold sm:text-2xl">2000ml · Serves 3–4</p>
+                    <p className="text-lg font-bold sm:text-2xl">1 Liter · Serves 3–4</p>
                   </div>
                 </div>
               </div>
@@ -278,8 +278,8 @@ export function ReadySoupsPageContent() {
         <div className="container-fluid min-w-0">
           <SectionHeading
             eyebrow="Save more"
-            title="Mix & match bundles"
-            description={`Choose 3, 5, 10 or 18 soups and mix any flavours. Minimum online order is ${READY_SOUP_MIN_ORDER} soups. Flat delivery ${formatPrice(DELIVERY_FEE)} once per order.`}
+            title="Mix & match bundles" 
+            description={`Choose 3, 5, 10 soups and mix any flavours. Minimum online order is ${READY_SOUP_MIN_ORDER} soups. Flat delivery ${formatPrice(DELIVERY_FEE)} once per order.`}
             light
           />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -309,7 +309,7 @@ export function ReadySoupsPageContent() {
                 </p>
                 <h2 className="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl">Ready when you are</h2>
                 <p className="mb-6 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">
-                  Mix flavours in a 3, 5, 10 or 18 soup bundle (minimum {READY_SOUP_MIN_ORDER} online),
+                  Mix flavours in a 3, 5, 10 bundle (minimum {READY_SOUP_MIN_ORDER} online),
                   then checkout with a flat {formatPrice(DELIVERY_FEE)} delivery fee once per order —
                   or choose collection where available.
                 </p>

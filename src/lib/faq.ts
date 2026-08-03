@@ -7,7 +7,7 @@ export const faqs: FaqItem[] = [
   {
     question: "What is Dotch Flavour?",
     answer:
-      "Dotch Flavour is the trading brand of Dutch Flavour Foods Limited, offering fresh Nigerian food, catering, frozen Ready Soups, food experiences and selected branded merchandise.",
+      "Dotch Flavour is the trading brand of Dotch Flavour Foods Limited, offering fresh Nigerian food, catering, frozen Ready Soups, food experiences and selected branded merchandise.",
   },
   {
     question: "What is the difference between fresh food and Ready Soups?",
@@ -156,7 +156,7 @@ export const faqs: FaqItem[] = [
   {
     question: "How can I contact you?",
     answer:
-      "Email hello@dutchflavourfoods.com. Telephone and WhatsApp details will be added before launch.",
+      "Email hello@dotchflavourfoods.com. Telephone and WhatsApp details will be added before launch.",
   },
 ];
 

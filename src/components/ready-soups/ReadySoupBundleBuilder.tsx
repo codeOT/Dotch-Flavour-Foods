@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import {
   buildMixedBundleCartItem,
   formatReadySoupPrice,
+  getMixedBundlePrice,
   getMixSelectionTotal,
   readySoupProducts,
   type MixSelection,
@@ -26,6 +27,8 @@ export function ReadySoupBundleBuilder({ bundle, onClose }: ReadySoupBundleBuild
 
   const selectedTotal = useMemo(() => getMixSelectionTotal(selection), [selection]);
   const remaining = bundle.soupCount - selectedTotal;
+  const selectionPrice = useMemo(() => getMixedBundlePrice(selection), [selection]);
+  const displayPrice = selectedTotal > 0 ? selectionPrice : bundle.price;
 
   function setQty(productId: string, next: number) {
     setError("");
@@ -70,7 +73,7 @@ export function ReadySoupBundleBuilder({ bundle, onClose }: ReadySoupBundleBuild
               {bundle.name}
             </h2>
             <p className="mt-1 text-sm text-title/65">
-              Choose {bundle.soupCount} soups · {formatReadySoupPrice(bundle.price)} ·{" "}
+              Choose {bundle.soupCount} soups · from {formatReadySoupPrice(bundle.price)} ·{" "}
               {remaining === 0 ? "Ready to add" : `${remaining} remaining`}
             </p>
           </div>
@@ -103,7 +106,9 @@ export function ReadySoupBundleBuilder({ bundle, onClose }: ReadySoupBundleBuild
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-semibold text-title">{product.name}</p>
-                  <p className="text-xs text-title/55">{product.size}</p>
+                  <p className="text-xs text-title/55">
+                    {product.size} · {formatReadySoupPrice(product.price)}
+                  </p>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
@@ -137,9 +142,15 @@ export function ReadySoupBundleBuilder({ bundle, onClose }: ReadySoupBundleBuild
             <p className="text-sm text-title/70">
               Selected <span className="font-bold text-title">{selectedTotal}</span> of{" "}
               <span className="font-bold text-title">{bundle.soupCount}</span>
+              {selectedTotal > 0 && (
+                <>
+                  {" "}
+                  · <span className="font-bold text-primary">{formatReadySoupPrice(displayPrice)}</span>
+                </>
+              )}
             </p>
             <Button type="button" onClick={addBundleToCart} disabled={selectedTotal !== bundle.soupCount}>
-              Add bundle · {formatReadySoupPrice(bundle.price)}
+              Add bundle · {formatReadySoupPrice(displayPrice)}
             </Button>
           </div>
         </div>

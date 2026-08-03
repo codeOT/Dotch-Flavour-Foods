@@ -22,7 +22,7 @@ export const faqs: FaqItem[] = [
   {
     question: "How much are the Ready Soups?",
     answer:
-      "Current prices are £22.99 for Efo Riro, Efo Egusi and Ila Asepo, and £24.99 for Ayamase and Buka Stew. The price shown at checkout is the current price.",
+      "Current prices are £70.00 for Efo Riro, Efo Egusi and Ila Asepo, and £85.00 for Ayamase and Buka Stew. The price shown at checkout is the current price.",
   },
   {
     question: "What is the minimum Ready Soups order?",
@@ -32,7 +32,7 @@ export const faqs: FaqItem[] = [
   {
     question: "What bundles are available?",
     answer:
-      "Planned bundle sizes are 3, 5, 10 and 18 tubs. Customers will be able to mix flavours subject to availability.",
+      "Planned bundle sizes are 3, 5, 10 and 18 tubs. Customers will be able to mix soups subject to availability.",
   },
   {
     question: "Where do you deliver?",
@@ -42,17 +42,17 @@ export const faqs: FaqItem[] = [
   {
     question: "How much is delivery?",
     answer:
-      "Ready Soups delivery is £13.99 for orders up to 20 litres, and £16.99 for orders up to 25 litres. The fee is shown at checkout based on your order volume. Collection may also be available.",
+      "Delivery is charged at a flat rate shown at checkout. The current price for orders up to 20kg is £13.99 and £16.99 for 25kg. Live checkout price applies.",
   },
   {
     question: "Is delivery still the same price if I order more?",
     answer:
-      "Delivery rises with volume: £13.99 up to 20 litres, then £16.99 up to 25 litres. Orders above 25 litres need a custom quote — contact us. Each Ready Soup tub is 1 litre.",
+      "The flat parcel rate applies within the courier’s weight bands: £13.99 up to 20kg and £16.99 up to 25kg. This is why bundle ordering gives better delivery value. Final parcel limits will be confirmed after packed-weight testing.",
   },
   {
     question: "When will my Ready Soups arrive?",
     answer:
-      "Orders placed between 8am and 3pm (UK time) are prepared for next-day delivery. Orders after 3pm are treated as the next working day's order. Weekends, public holidays, postcode and courier conditions also apply.",
+      "Orders placed between 8am and 3pm are prepared for next-day delivery. Processing time, weekends, public holidays, postcode and courier conditions apply.",
   },
   {
     question: "How are frozen products packed?",
@@ -149,14 +149,8 @@ export const faqs: FaqItem[] = [
       "Do not consume food you believe is unsafe. Contact us promptly, preferably within two hours, with photographs of the product, packaging and delivery label.",
   },
   {
-    question: "What is your food hygiene rating?",
-    answer:
-      "The inspection is pending. We will publish the official rating only after it has been issued.",
-  },
-  {
     question: "How can I contact you?",
-    answer:
-      "Email hello@dotchflavourfoods.com. Telephone and WhatsApp details will be added before launch.",
+    answer: "Email hello@dotchflavours.com. Telephone/WhatsApp: +447889490189.",
   },
 ];
 

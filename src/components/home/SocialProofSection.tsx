@@ -1,8 +1,8 @@
 "use client";
 
-import { Star } from "lucide-react";
 import { motion } from "framer-motion";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
+import { ReviewStars } from "@/components/ready-soups/ReadySoupCards";
 import { readySoupReviews } from "@/lib/ready-soups";
 
 export function SocialProofSection() {
@@ -32,18 +32,8 @@ export function SocialProofSection() {
                 whileHover={{ y: -6, boxShadow: "0 16px 40px rgba(87, 72, 33, 0.1)" }}
                 transition={{ type: "spring", stiffness: 260, damping: 20 }}
               >
-                <div className="mb-3 flex gap-0.5 text-secondary">
-                  {Array.from({ length: review.rating }).map((_, i) => (
-                    <motion.span
-                      key={i}
-                      initial={{ opacity: 0, scale: 0 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.15 + i * 0.06, type: "spring", stiffness: 400 }}
-                    >
-                      <Star className="h-4 w-4 fill-current" />
-                    </motion.span>
-                  ))}
+                <div className="mb-3">
+                  <ReviewStars rating={review.rating} />
                 </div>
                 <p className="mb-4 text-sm leading-relaxed text-title/80">
                   &ldquo;{review.quote}&rdquo;

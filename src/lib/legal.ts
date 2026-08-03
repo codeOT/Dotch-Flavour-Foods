@@ -18,7 +18,13 @@ export type LegalDocument = {
   sections: LegalSection[];
 };
 
-const legalEmail = "hello@dutchflavourfoods.com";
+const legalEmail = "hello@dotchflavours.com";
+const legalPhone = "+447889490189";
+const companyName = "Dotch Flavour Foods Limited";
+const tradingAs = "Dotch Flavour";
+const companyNumber = "17246871";
+const registeredOffice =
+  "5 The Grazings, Hemel Hempstead, United Kingdom, HP2 5JN";
 
 export const websiteTerms: LegalDocument = {
   title: "Website Terms and Conditions",
@@ -31,7 +37,7 @@ export const websiteTerms: LegalDocument = {
     {
       title: "1.1 About us",
       paragraphs: [
-        `The website is operated by Dutch Flavour Foods Limited, trading as Dotch Flavour. Registered company number: [INSERT]. Registered office: [INSERT]. Customer service email: ${legalEmail}. Telephone/WhatsApp: [INSERT].`,
+        `The website is operated by ${companyName}, trading as ${tradingAs}. Registered company number: ${companyNumber}. Registered office: ${registeredOffice}. Customer service email: ${legalEmail}. Telephone/WhatsApp: ${legalPhone}.`,
       ],
     },
     {
@@ -62,7 +68,7 @@ export const websiteTerms: LegalDocument = {
       title: "1.6 Prices",
       paragraphs: [
         "Prices are shown in pounds sterling and include VAT where applicable. Delivery charges are added at checkout. We may change prices, bundles and promotional offers at any time, but changes will not affect an order already accepted.",
-        "Current Ready Soups prices at the date of this policy are £22.99 for Efo Riro, Efo Egusi and Ila Asepo, and £24.99 for Ayamase and Buka Stew. These prices remain subject to the live website at checkout.",
+        "Current minimum Ready Soups prices at the date of this policy are £70.00 for Efo Riro, Efo Egusi and Ila Asepo, and £85.00 for Ayamase and Buka Stew. These prices remain subject to the live website at checkout.",
       ],
     },
     {
@@ -74,7 +80,7 @@ export const websiteTerms: LegalDocument = {
     {
       title: "1.8 Placing an order",
       paragraphs: [
-        "Your order is an offer to buy. An automated acknowledgement confirms receipt, not acceptance. A contract is formed when we send an order confirmation or begin preparing or dispatching the order, whichever occurs first. We may decline an order where a product is unavailable, payment fails, delivery is not reasonably possible, information is incomplete or we suspect fraud or misuse.",
+        "Delivery has to be placed between 8am to 3pm for next day delivery. Your order is an offer to buy. An automated acknowledgement confirms receipt, not acceptance. A contract is formed when we send an order confirmation or begin preparing or dispatching the order, whichever occurs first. We may decline an order where a product is unavailable, payment fails, delivery is not reasonably possible, information is incomplete or we suspect fraud or misuse.",
       ],
     },
     {
@@ -92,7 +98,7 @@ export const websiteTerms: LegalDocument = {
     {
       title: "1.11 Delivery",
       paragraphs: [
-        "We deliver within the United Kingdom to eligible addresses. Ready Soups orders placed between 8am and 3pm are prepared for next-day delivery; courier timings remain estimates and are not guaranteed. Delivery charges and available services are displayed at checkout. Our Delivery Policy forms part of these terms.",
+        "We deliver within the United Kingdom to eligible addresses. Ready Soups are intended for next-day delivery after dispatch, but courier timings are estimates and are not guaranteed. Delivery charges and available services are displayed at checkout. Our Delivery Policy forms part of these terms.",
       ],
     },
     {
@@ -134,17 +140,17 @@ export const websiteTerms: LegalDocument = {
     {
       title: "1.18 Intellectual property",
       paragraphs: [
-        "The website, logos, brand assets, packaging, photography, videos, recipes, written content and designs are owned by or licensed to Dutch Flavour Foods Limited. They may not be copied, reproduced, adapted or used commercially without written permission.",
+        `The website, logos, brand assets, packaging, photography, videos, recipes, written content and designs are owned by or licensed to ${companyName}. They may not be copied, reproduced, adapted or used commercially without written permission.`,
       ],
     },
     {
       title: "1.19 Acceptable website use",
-      paragraphs: ["You must not:"],
+      paragraphs: [],
       bullets: [
-        "Interfere with the website, introduce malware or attempt unauthorised access.",
-        "Use false identities, payment information or addresses.",
-        "Scrape, reproduce or commercially exploit website content without permission.",
-        "Submit unlawful, abusive, defamatory or misleading material.",
+        "Do not interfere with the website, introduce malware or attempt unauthorised access.",
+        "Do not use false identities, payment information or addresses.",
+        "Do not scrape, reproduce or commercially exploit website content without permission.",
+        "Do not submit unlawful, abusive, defamatory or misleading material.",
       ],
     },
     {
@@ -180,21 +186,19 @@ export const websiteTerms: LegalDocument = {
 
 export const privacyPolicy: LegalDocument = {
   title: "Privacy Policy",
-  description:
-    "How Dutch Flavour Foods Limited uses personal information in accordance with UK data-protection law.",
+  description: `How ${companyName} uses personal information in accordance with UK data-protection law.`,
   lastUpdated: "24 July 2026",
-  intro:
-    "This policy explains how Dutch Flavour Foods Limited uses personal information in accordance with UK data-protection law. It must be updated after the final systems and providers are confirmed.",
+  intro: `This policy explains how ${companyName} uses personal information in accordance with UK data-protection law.`,
   sections: [
     {
       title: "2.1 Data controller",
       paragraphs: [
-        `Dutch Flavour Foods Limited, trading as Dotch Flavour, is the controller of personal information collected through the website and direct customer relationships. Registered office: [INSERT]. Company number: [INSERT]. Privacy contact: ${legalEmail}.`,
+        `${companyName}, trading as Dotch Flavour Foods, is the controller of personal information collected through the website and direct customer relationships. Registered office: ${registeredOffice}. Company number: ${companyNumber}. Privacy contact: ${legalEmail}.`,
       ],
     },
     {
       title: "2.2 Information we may collect",
-      paragraphs: ["We may collect:"],
+      paragraphs: [],
       bullets: [
         "Identity and contact details, including name, email, telephone number, delivery address and billing address.",
         "Account details, login information and preferences.",
@@ -216,7 +220,7 @@ export const privacyPolicy: LegalDocument = {
     },
     {
       title: "2.4 Why we use information and lawful bases",
-      paragraphs: ["We use personal information for the purposes set out below."],
+      paragraphs: [],
       table: {
         headers: ["Purpose", "Typical information", "Lawful basis"],
         rows: [
@@ -278,7 +282,7 @@ export const privacyPolicy: LegalDocument = {
     {
       title: "2.7 International transfers",
       paragraphs: [
-        "Some service providers may process information outside the United Kingdom. Where this occurs, we will use an approved transfer mechanism or rely on another lawful safeguard. The final policy should list or link to the relevant providers once confirmed.",
+        "Some service providers may process information outside the United Kingdom. Where this occurs, we will use an approved transfer mechanism or rely on another lawful safeguard.",
       ],
     },
     {
@@ -295,7 +299,9 @@ export const privacyPolicy: LegalDocument = {
     },
     {
       title: "2.10 Your rights",
-      paragraphs: ["You may:"],
+      paragraphs: [
+        `To exercise a right, email ${legalEmail}. We may need to verify your identity. You may also contact the Information Commissioner's Office through its official website.`,
+      ],
       bullets: [
         "Ask for access to your personal information.",
         "Ask us to correct inaccurate or incomplete information.",
@@ -305,12 +311,6 @@ export const privacyPolicy: LegalDocument = {
         "Ask for portability of information you supplied where applicable.",
         "Withdraw consent at any time where processing relies on consent.",
         "Complain to the Information Commissioner's Office.",
-      ],
-    },
-    {
-      title: "Exercising your rights",
-      paragraphs: [
-        `To exercise a right, email ${legalEmail}. We may need to verify your identity. You may also contact the Information Commissioner's Office through its official website.`,
       ],
     },
     {
@@ -334,7 +334,7 @@ export const cookiePolicy: LegalDocument = {
     "How Dotch Flavour uses cookies and similar technologies, and how you can manage consent.",
   lastUpdated: "24 July 2026",
   intro:
-    "This policy should be implemented alongside a consent-management banner that blocks non-essential cookies until consent is given.",
+    "This policy explains how Dotch Flavour uses cookies and similar technologies on the website.",
   sections: [
     {
       title: "3.1 What cookies are",
@@ -356,24 +356,6 @@ export const cookiePolicy: LegalDocument = {
       title: "3.3 Third-party cookies",
       paragraphs: [
         "Third parties such as payment providers, analytics services, embedded social-media tools, video platforms and advertising partners may set cookies. The final cookie table should be generated from the live website and name each cookie, provider, purpose and duration.",
-      ],
-    },
-    {
-      title: "3.4 Consent",
-      paragraphs: [
-        "When you first visit, the cookie banner should allow you to accept or reject non-essential cookies and manage categories. Rejecting non-essential cookies must be as easy as accepting them. Strictly necessary cookies remain active because the service cannot operate properly without them.",
-      ],
-    },
-    {
-      title: "3.5 Changing preferences",
-      paragraphs: [
-        'You can change your choices through the "Cookie Settings" link in the website footer and through browser settings. Blocking some cookies may affect functionality.',
-      ],
-    },
-    {
-      title: "3.6 Example cookie register to complete before launch",
-      paragraphs: [
-        "The following register is a template and must be completed from the live website before launch.",
       ],
       table: {
         headers: ["Cookie/provider", "Category", "Purpose", "Duration", "Consent required?"],
@@ -403,6 +385,18 @@ export const cookiePolicy: LegalDocument = {
         ],
       },
     },
+    {
+      title: "3.4 Consent",
+      paragraphs: [
+        "When you first visit, the cookie banner should allow you to accept or reject non-essential cookies and manage categories. Rejecting non-essential cookies must be as easy as accepting them. Strictly necessary cookies remain active because the service cannot operate properly without them.",
+      ],
+    },
+    {
+      title: "3.5 Changing preferences",
+      paragraphs: [
+        'You can change your choices through the "Cookie Settings" link in the website footer and through browser settings. Blocking some cookies may affect functionality.',
+      ],
+    },
   ],
 };
 
@@ -423,19 +417,19 @@ export const deliveryTerms: LegalDocument = {
     {
       title: "4.2 Courier and timing",
       paragraphs: [
-        'Ready Soups are dispatched frozen using a next-day courier service. Orders placed between 8am and 3pm (UK time) are prepared for next-day delivery. Orders placed after 3pm are treated as the following working day\'s order. Weekends, public holidays, postcode eligibility and courier conditions apply. "Next-day delivery" means the next eligible delivery day after dispatch.',
+        'Ready Soups are dispatched frozen using a next-day courier service. We currently plan to use a DHL business service, but may use another suitable courier. "Next-day delivery" means the next eligible delivery day after dispatch, not necessarily the day after the order is placed. Processing time, cut-off times, weekends and public holidays apply.',
       ],
     },
     {
-      title: "4.3 Delivery charges",
+      title: "4.3 Flat-rate charge",
       paragraphs: [
-        "Ready Soups delivery is charged by order volume: £13.99 for orders up to and including 20 litres, and £16.99 for orders over 20 litres up to and including 25 litres. Each Ready Soup tub is 1 litre. The live checkout price applies. Delivery is not free. Orders above 25 litres should be arranged with us directly.",
+        "A flat-rate delivery charge is added at checkout. The current price for orders up to 20kg is £13.99 and £16.99 for 25kg. Live checkout price applies and may be updated when the courier account and packaging weights are finalised. Delivery is not free.",
       ],
     },
     {
       title: "4.4 Weight and parcel limits",
       paragraphs: [
-        "Online Ready Soups delivery is available up to 25 litres per order. Ready Soup bundles are structured as 3, 5, 10 and 18 tubs. We may split, adjust or contact you about an order that exceeds the safe online limit or courier parcel constraints.",
+        "The flat rate applies only within the courier's applicable parcel limits. Ready Soup bundles are structured as 3, 5, 10 and 18 tubs, subject to final packed-weight testing. We may split, adjust or contact you about an order that exceeds the safe or contractual parcel limit.",
       ],
     },
     {
@@ -447,7 +441,7 @@ export const deliveryTerms: LegalDocument = {
     {
       title: "4.6 Dispatch notification",
       paragraphs: [
-        "We will send confirmation when an order is processed or dispatched, where contact details permit. Tracking availability depends on the courier service. Customers are responsible for monitoring tracking and ensuring someone can receive the parcel.",
+        "We will send confirmation when an order is processed or dispatched, where contact details permit. Tracking availability depends on the courier service. Customers are responsible for monitoring, tracking and ensuring someone can receive the parcel.",
       ],
     },
     {
@@ -464,7 +458,7 @@ export const deliveryTerms: LegalDocument = {
     },
     {
       title: "4.9 On receipt",
-      paragraphs: ["When your parcel arrives:"],
+      paragraphs: [],
       bullets: [
         "Open the parcel promptly.",
         "Check that the products remain frozen or safely chilled.",
@@ -536,7 +530,7 @@ export const refundReturnsPolicy: LegalDocument = {
     {
       title: "5.7 Catering cancellations",
       paragraphs: [
-        "Catering cancellations are governed by the Catering Booking Policy. Any amount retained must be fair and reflect reasonable non-recoverable costs and losses arising from the cancellation.",
+        "Catering cancellations are governed by the Catering Booking Policy below. Any amount retained must be fair and reflect reasonable non-recoverable costs and losses arising from the cancellation.",
       ],
     },
     {
@@ -559,7 +553,7 @@ export const cateringBookingPolicy: LegalDocument = {
     {
       title: "6.1 Enquiries and quotations",
       paragraphs: [
-        "Customers should use the \"Request a Quote\" form and provide the event date, location, guest count, service style, menu preferences, dietary requirements, budget and contact information. Quotations are valid for the period stated and remain subject to availability until payment is received and acceptance is confirmed.",
+        'Customers should use the "Request a Quote" form and provide the event date, location, guest count, service style, menu preferences, dietary requirements, budget and contact information. Quotations are valid for the period stated and remain subject to availability until payment is received and acceptance is confirmed.',
       ],
     },
     {
@@ -621,27 +615,6 @@ export const cateringBookingPolicy: LegalDocument = {
         "Where food is left with the customer, responsibility for safe temperature control, storage, reheating and disposal passes to the customer once handed over. We may decline to leave food where doing so would present a safety risk.",
       ],
     },
-    {
-      title: "6.10 Request a Quote form fields",
-      paragraphs: ["Please include:"],
-      bullets: [
-        "Full name and organisation, if applicable.",
-        "Email address and telephone number.",
-        "Event type, date, start time and location.",
-        "Estimated guest numbers.",
-        "Preferred menu and service style.",
-        "Dietary and allergen requirements.",
-        "Budget range.",
-        "Delivery, collection, staffing or setup needs.",
-        "Additional information and optional inspiration/reference upload.",
-      ],
-    },
-    {
-      title: "Confirmation message",
-      paragraphs: [
-        "Suggested confirmation message: \"Thank you for contacting Dotch Flavour. We have received your enquiry and aim to respond within one business day.\"",
-      ],
-    },
   ],
 };
 
@@ -689,21 +662,15 @@ export const allergensFoodSafety: LegalDocument = {
       ],
     },
     {
-      title: "7.6 Free-from, vegan and halal claims",
+      title: '7.6 "Free-from", vegan and halal claims',
       paragraphs: [
         'We will not make a "free-from", vegan, gluten-free, nut-free or halal claim unless the recipe, sourcing, production controls and evidence support it. No halal claim should be added to the website unless separately confirmed and approved by the company.',
       ],
     },
     {
-      title: "7.7 Food business registration and hygiene rating",
+      title: "7.7 Reporting a reaction or safety concern",
       paragraphs: [
-        "The food hygiene inspection/rating is pending. The website must not display a rating until formally issued. Company and food-business registration information should be verified and inserted where required before launch.",
-      ],
-    },
-    {
-      title: "7.8 Reporting a reaction or safety concern",
-      paragraphs: [
-        `Stop eating the product and seek medical help where needed. In an emergency call 999. Contact us at ${legalEmail} with the order number, product, batch/use-by information and details of the concern. Keep the packaging and remaining product safely stored for investigation if advised.`,
+        `Stop eating the product and seek medical help where needed. In an emergency call 999 or contact us at ${legalEmail} with the order number, product, batch/use-by information and details of the concern. Keep the packaging and remaining product safely stored for investigation if advised.`,
       ],
     },
   ],
@@ -850,19 +817,13 @@ export const accessibilityStatement: LegalDocument = {
     {
       title: "10.4 Requesting assistance",
       paragraphs: [
-        `If you cannot access information or complete an order because of a disability or access need, email ${legalEmail} or contact us by telephone/WhatsApp at [INSERT]. We will consider a reasonable alternative, such as taking an order or providing information in another accessible format.`,
+        `If you cannot access information or complete an order because of a disability or access need, email ${legalEmail} or contact us by telephone/WhatsApp at ${legalPhone}. We will consider a reasonable alternative, such as taking an order or providing information in another accessible format.`,
       ],
     },
     {
       title: "10.5 Reporting a problem",
       paragraphs: [
         "Tell us the page, task, device and assistive technology involved. We aim to acknowledge accessibility enquiries within two business days and provide a substantive response as soon as reasonably practical.",
-      ],
-    },
-    {
-      title: "10.6 Review",
-      paragraphs: [
-        "This statement should be reviewed after the website is built and accessibility testing is completed. Insert the date of the last test, testing method and known issues before publication.",
       ],
     },
   ],

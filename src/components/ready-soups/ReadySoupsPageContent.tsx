@@ -203,8 +203,8 @@ export function ReadySoupsPageContent() {
                 </p>
                 <p>
                   <span className="font-semibold text-secondary">Delivery:</span>{" "}
-                  {formatPrice(DELIVERY_FEE_UP_TO_20L)} up to 20 litres ·{" "}
-                  {formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25 litres.
+                  {formatPrice(DELIVERY_FEE_UP_TO_20L)} up to 20kg ·{" "}
+                  {formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25kg.
                 </p>
               </div>
             </div>
@@ -295,7 +295,7 @@ export function ReadySoupsPageContent() {
           <SectionHeading
             eyebrow="Save more"
             title="Mix & match bundles" 
-            description={`Choose 3, 5, 10 soups and mix any flavours. Minimum online order is ${READY_SOUP_MIN_ORDER} soups. Delivery ${formatPrice(DELIVERY_FEE_UP_TO_20L)} up to 20L, or ${formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25L.`}
+            description={`Choose 3, 5, 10 soups and mix any flavours. Minimum online order is ${READY_SOUP_MIN_ORDER} soups. Delivery ${formatPrice(DELIVERY_FEE_UP_TO_20L)} up to 20kg, or ${formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25kg.`}
             light
           />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -327,8 +327,8 @@ export function ReadySoupsPageContent() {
                 <p className="mb-6 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">
                   Mix flavours in a 3, 5, 10 bundle (minimum {READY_SOUP_MIN_ORDER} online). Order
                   between {READY_SOUP_ORDER_WINDOW} for next-day delivery. Delivery is{" "}
-                  {formatPrice(DELIVERY_FEE_UP_TO_20L)} up to 20 litres, or{" "}
-                  {formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25 litres — or choose collection where
+                  {formatPrice(DELIVERY_FEE_UP_TO_20L)} up to 20kg, or{" "}
+                  {formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25kg — or choose collection where
                   available.
                 </p>
                 <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">

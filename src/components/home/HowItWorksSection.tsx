@@ -22,7 +22,7 @@ const steps = [
   {
     icon: Truck,
     title: "Delivered to you",
-    text: `Flat ${formatPrice(DELIVERY_FEE_UP_TO_20L)} delivery up to 20 litres (or ${formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25 litres) — or collect. Order 8am–3pm for next-day delivery. Minimum 3 Ready Soups online.`,
+    text: `Flat ${formatPrice(DELIVERY_FEE_UP_TO_20L)} delivery up to 20kg (or ${formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25kg) — or collect. Order 8am–3pm for next-day delivery. Minimum 3 Ready Soups online.`,
   },
   {
     icon: Snowflake,

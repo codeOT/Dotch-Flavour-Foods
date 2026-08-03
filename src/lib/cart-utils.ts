@@ -32,7 +32,7 @@ export const readySoupDeliveryInfo = {
     "Ready Soups orders placed between 8am and 3pm (UK time) are prepared for next-day delivery. Orders after 3pm are treated as the next working day's order.",
   feeUpTo20L: DELIVERY_FEE_UP_TO_20L,
   feeUpTo25L: DELIVERY_FEE_UP_TO_25L,
-  feeSummary: `Delivery is ${formatPrice(DELIVERY_FEE_UP_TO_20L)} for orders up to 20 litres, and ${formatPrice(DELIVERY_FEE_UP_TO_25L)} for orders up to 25 litres.`,
+  feeSummary: `Delivery is ${formatPrice(DELIVERY_FEE_UP_TO_20L)} for orders up to 20kg, and ${formatPrice(DELIVERY_FEE_UP_TO_25L)} for orders up to 25kg.`,
 } as const;
 
 export type DeliveryMethod = "delivery" | "pickup";
@@ -98,9 +98,9 @@ export function getDeliveryLabel(method: DeliveryMethod, items: CartLikeItem[] =
 
   const liters = getCartReadySoupLiters(items);
   if (liters <= 20) {
-    return `${formatPrice(DELIVERY_FEE_UP_TO_20L)} (up to 20L)`;
+    return `${formatPrice(DELIVERY_FEE_UP_TO_20L)} (up to 20kg)`;
   }
-  return `${formatPrice(DELIVERY_FEE_UP_TO_25L)} (up to 25L)`;
+  return `${formatPrice(DELIVERY_FEE_UP_TO_25L)} (up to 25kg)`;
 }
 
 export function getOrderTotal(

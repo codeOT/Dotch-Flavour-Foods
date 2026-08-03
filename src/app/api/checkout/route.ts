@@ -101,7 +101,7 @@ export async function POST(request: Request) {
       const liters = getCartReadySoupLiters(items);
       return NextResponse.json(
         {
-          error: `Online Ready Soups delivery is available up to ${READY_SOUP_MAX_ONLINE_LITERS} litres. Your order is ${liters}L — please contact us for a custom quote.`,
+          error: `Online Ready Soups delivery is available up to ${READY_SOUP_MAX_ONLINE_LITERS}kg. Your order is about ${liters}kg equivalent — please contact us for a custom quote.`,
         },
         { status: 400 },
       );

@@ -2,6 +2,7 @@ export type SiteContact = {
   phone: string;
   email: string;
   address: string;
+  companyNumber?: string;
 };
 
 export const siteConfig = {
@@ -11,8 +12,9 @@ export const siteConfig = {
   currencySymbol: "£",
   contact: {
     phone: "+447889490189",
-    email: "hello@dotchflavourfoods.com",
-    address: "United Kingdom",
+    email: "hello@dotchflavours.com",
+    address: "5 The Grazings, Hemel Hempstead, United Kingdom, HP2 5JN",
+    companyNumber: "17246871",
   } satisfies SiteContact,
 } as const;
 

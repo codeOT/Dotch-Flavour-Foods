@@ -127,14 +127,23 @@ export function ReadySoupBundleCard({
 }
 
 export function ReviewStars({ rating }: { rating: number }) {
+  const clamped = Math.max(0, Math.min(5, Math.round(rating)));
+
   return (
-    <div className="flex gap-0.5" aria-label={`${rating} out of 5 stars`}>
-      {Array.from({ length: 5 }).map((_, index) => (
-        <Star
-          key={index}
-          className={`h-4 w-4 ${index < rating ? "fill-secondary text-secondary" : "text-surface"}`}
-        />
-      ))}
+    <div className="flex gap-0.5" aria-label={`${clamped} out of 5 stars`}>
+      {Array.from({ length: 5 }).map((_, index) => {
+        const filled = index < clamped;
+        return (
+          <Star
+            key={index}
+            className={`h-4 w-4 ${
+              filled
+                ? "fill-secondary text-secondary"
+                : "fill-none text-title/25"
+            }`}
+          />
+        );
+      })}
     </div>
   );
 }

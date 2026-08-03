@@ -49,7 +49,7 @@ export const howItWorksSteps = [
     step: "02",
     title: "Checkout online",
     description:
-      "Pay securely by card. Delivery is £13.99 up to 20 litres, or £16.99 up to 25 litres.",
+      "Pay securely by card. Delivery is £13.99 up to 20kg, or £16.99 up to 25kg.",
   },
   {
     step: "03",
@@ -98,7 +98,7 @@ export const launchOffers = [
     id: "flat-delivery",
     title: "Delivery by volume",
     description:
-      "£13.99 for orders up to 20 litres, £16.99 up to 25 litres. Order 8am–3pm for next-day delivery. Collection remains available at checkout where offered.",
+      "£13.99 for orders up to 20kg, £16.99 up to 25kg. Order 8am–3pm for next-day delivery. Collection remains available at checkout where offered.",
     code: null,
     badge: "Delivery",
   },
@@ -115,21 +115,21 @@ export const readySoupReviews = [
   {
     name: "James T.",
     location: "London",
-    rating: 5,
+    rating: 4,
     quote:
       "Discovery Bundle was perfect for trying the range. Ayamase is now a weekly staple in our house.",
   },
   {
     name: "Priya S.",
     location: "Birmingham",
-    rating: 5,
+    rating: 4,
     quote:
       "Heating instructions are clear and the 1000ml size feeds our family of four with leftovers. Brilliant product.",
   },
   {
     name: "Chidi E.",
     location: "Leeds",
-    rating: 5,
+    rating: 4,
     quote:
       "Freezer Bundle is incredible value. Arrived perfectly frozen and the Buka Stew is outstanding.",
   },
@@ -144,7 +144,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
     description:
       "A vibrant Yoruba classic — tender spinach simmered in a rich pepper and tomato base with locust beans, crayfish, and traditional seasonings. Bold, earthy, and deeply satisfying.",
     shortDescription: "Spinach stew with peppers, locust beans, and aromatic spices.",
-    price: 14.5,
+    price: 70,
     size: "1000ml",
     image: "/assets/images/Efo.png",
     ingredients: [
@@ -180,7 +180,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
     description:
       "Ground egusi seeds cooked into a velvety, nutty soup with spinach, palm oil, and seasoned stock. A West African favourite that delivers comfort in every spoonful.",
     shortDescription: "Rich melon seed soup with spinach and traditional seasonings.",
-    price: 14.5,
+    price: 70,
     size: "1000ml",
     image: "/assets/images/Egus.png",
     ingredients: [
@@ -215,7 +215,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
     description:
       "The legendary Ofada sauce — green bell peppers and scotch bonnet blended with fermented locust beans and palm oil. Smoky, spicy, and unforgettable.",
     shortDescription: "Iconic green pepper sauce with palm oil and locust beans.",
-    price: 15.0,
+    price: 85,
     size: "1000ml",
     image: "/assets/images/Ayam.png",
     ingredients: [
@@ -249,7 +249,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
     description:
       "Inspired by the legendary buka joints of Lagos — a deep, smoky tomato stew with layered spices, perfect for rice, yams, or bread.",
     shortDescription: "Smoky, slow-cooked tomato stew with bold Nigerian spices.",
-    price: 13.5,
+    price: 85,
     size: "1000ml",
     image: "/assets/images/Bukas.png",
     ingredients: [
@@ -285,7 +285,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
     description:
       "A silky okra soup cooked one-pot style with palm oil, crayfish, and traditional seasonings. Light, nourishing, and perfect with any swallow.",
     shortDescription: "Silky okra soup with palm oil and crayfish — the one-pot classic.",
-    price: 14.0,
+    price: 70,
     size: "1000ml",
     image: "/assets/images/Ila Asepo.png",
     ingredients: [
@@ -320,8 +320,8 @@ export const readySoupBundles: ReadySoupBundle[] = [
     name: "3-Soup Bundle",
     description: "Mix any three flavours — ideal for first-time customers exploring the range.",
     soupCount: 3,
-    price: 39.99,
-    originalPrice: 43.5,
+    price: 210,
+    originalPrice: 255,
     badge: "Starter",
     image: "/assets/images/gallery/grid2/pic4.jpg",
   },
@@ -331,8 +331,8 @@ export const readySoupBundles: ReadySoupBundle[] = [
     name: "5-Soup Bundle",
     description: "Five soups to feed the household — mix and match your favourites.",
     soupCount: 5,
-    price: 64.99,
-    originalPrice: 72.5,
+    price: 350,
+    originalPrice: 425,
     badge: "Popular",
     image: "/assets/images/gallery/grid2/pic2.jpg",
   },
@@ -342,8 +342,8 @@ export const readySoupBundles: ReadySoupBundle[] = [
     name: "10-Soup Bundle",
     description: "Stock your freezer for busy weeks with ten soups of your choice.",
     soupCount: 10,
-    price: 119.99,
-    originalPrice: 145.0,
+    price: 700,
+    originalPrice: 850,
     badge: "Best value",
     image: "/assets/images/gallery/grid2/pic6.jpg",
   },
@@ -353,8 +353,8 @@ export const readySoupBundles: ReadySoupBundle[] = [
     name: "18-Soup Bundle",
     description: "Our largest mix-and-match collection for families and meal planners.",
     soupCount: 18,
-    price: 199.99,
-    originalPrice: 261.0,
+    price: 1260,
+    originalPrice: 1530,
     badge: "Family stock",
     image: "/assets/images/gallery/grid2/pic5.jpg",
   },
@@ -397,6 +397,16 @@ export function getMixSelectionTotal(selection: MixSelection): number {
   return Object.values(selection).reduce((sum, qty) => sum + qty, 0);
 }
 
+export function getMixedBundlePrice(
+  selection: MixSelection,
+  products: ReadySoupProduct[] = readySoupProducts,
+): number {
+  return products.reduce((sum, product) => {
+    const qty = selection[product.id] ?? 0;
+    return sum + qty * product.price;
+  }, 0);
+}
+
 export function buildMixedBundleCartItem(
   bundle: ReadySoupBundle,
   selection: MixSelection,
@@ -412,7 +422,7 @@ export function buildMixedBundleCartItem(
   return {
     id: `ready-soup-bundle-mix-${bundle.soupCount}-${Date.now().toString(36)}`,
     name: `${bundle.name}: ${lines.join(", ")}`,
-    price: bundle.price,
+    price: getMixedBundlePrice(selection, products),
     image: bundle.image,
   };
 }

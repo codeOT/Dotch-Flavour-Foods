@@ -35,7 +35,7 @@ export const cateringPage = {
     },
     {
       title: "Delivery",
-      text: `Where delivery applies, fees are confirmed in your quote. Online Ready Soups shop orders are ${formatPrice(DELIVERY_FEE_UP_TO_20L)} up to 20 litres, or ${formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25 litres.`,
+      text: `Where delivery applies, fees are confirmed in your quote. Online Ready Soups shop orders are ${formatPrice(DELIVERY_FEE_UP_TO_20L)} up to 20kg, or ${formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25kg.`,
     },
   ],
 } as const;

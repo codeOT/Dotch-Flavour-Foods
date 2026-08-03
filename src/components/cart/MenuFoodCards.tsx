@@ -11,7 +11,7 @@ import { LiterSizeSelector } from "@/components/cart/LiterSizeSelector";
 import { HoverCard } from "@/components/motion/HoverCard";
 import { Button } from "@/components/ui/Button";
 import { formatLiterPrice, getDefaultLiterSize, type LiterSize } from "@/lib/liter-sizes";
-import { siteConfig } from "@/lib/site";
+import { formatPrice, siteConfig } from "@/lib/site";
 
 type TodaysMenuCardProps = {
   item: MenuItem;
@@ -57,9 +57,16 @@ type MenuCarouselCardProps = {
 };
 
 export function MenuCarouselCard({ item }: MenuCarouselCardProps) {
-  const [liters, setLiters] = useState<LiterSize>(() => getDefaultLiterSize(item.literSizes));
+  const isUnit = item.pricingMode === "unit";
+  const [liters, setLiters] = useState<LiterSize>(() =>
+    getDefaultLiterSize(item.literSizes, item.pricesByLiter),
+  );
   const whatsappNumber = siteConfig.contact.phone.replace(/\D/g, "");
-  const message = `Hi Dotch Flavour Foods, I want to customize an order for ${item.name} (${liters}L). Please share available options.`;
+  const sizeLabel = isUnit ? (item.unitLabel ?? "per wrap") : `${liters}L`;
+  const priceLabel = isUnit
+    ? `${formatPrice(item.priceValue)} ${item.unitLabel ?? ""}`.trim()
+    : formatLiterPrice(item.priceValue, liters, item.literSizes, item.pricesByLiter);
+  const message = `Hi Dotch Flavour Foods, I want to customize an order for ${item.name} (${sizeLabel}) at ${priceLabel}. Please share available options.`;
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
   return (
@@ -81,17 +88,18 @@ export function MenuCarouselCard({ item }: MenuCarouselCardProps) {
           <p className="text-sm text-title/60">{item.description}</p>
         </div>
       </div>
-      <LiterSizeSelector
-        value={liters}
-        onChange={setLiters}
-        availableSizes={item.literSizes}
-        className="mb-4"
-      />
+      {!isUnit && (
+        <LiterSizeSelector
+          value={liters}
+          onChange={setLiters}
+          availableSizes={item.literSizes}
+          pricesByLiter={item.pricesByLiter}
+          className="mb-4"
+        />
+      )}
       <div className="flex items-center justify-between border-t border-surface pt-4 text-sm">
         <span className="text-title/60">Price</span>
-        <span className="font-semibold text-primary">
-          {formatLiterPrice(item.priceValue, liters, item.literSizes)}
-        </span>
+        <span className="font-semibold text-primary">{priceLabel}</span>
       </div>
       <div className="mt-4">
         <Button
@@ -105,4 +113,3 @@ export function MenuCarouselCard({ item }: MenuCarouselCardProps) {
     </HoverCard>
   );
 }
-

@@ -9,13 +9,24 @@ import { HoverCard } from "@/components/motion/HoverCard";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 import { Button } from "@/components/ui/Button";
-import { formatLiterPrice, getDefaultLiterSize, type LiterSize } from "@/lib/liter-sizes";
-import { siteConfig } from "@/lib/site";
+import {
+  formatLiterPrice,
+  getDefaultLiterSize,
+  type LiterSize,
+} from "@/lib/liter-sizes";
+import { formatPrice, siteConfig } from "@/lib/site";
 
 function FreshMenuCard({ item }: { item: MenuItem }) {
-  const [liters, setLiters] = useState<LiterSize>(() => getDefaultLiterSize(item.literSizes));
+  const isUnit = item.pricingMode === "unit";
+  const [liters, setLiters] = useState<LiterSize>(() =>
+    getDefaultLiterSize(item.literSizes, item.pricesByLiter),
+  );
   const whatsappNumber = siteConfig.contact.phone.replace(/\D/g, "");
-  const message = `Hi Dotch Flavour Foods, I'd like to place a Fresh Food WhatsApp order for ${item.name} (${liters}L). Please confirm availability, price, and ordering deadline.`;
+  const sizeLabel = isUnit ? (item.unitLabel ?? "per wrap") : `${liters}L`;
+  const priceLabel = isUnit
+    ? `${formatPrice(item.priceValue)} ${item.unitLabel ?? ""}`.trim()
+    : formatLiterPrice(item.priceValue, liters, item.literSizes, item.pricesByLiter);
+  const message = `Hi Dotch Flavour Foods, I'd like to place a Fresh Food WhatsApp order for ${item.name} (${sizeLabel}) at ${priceLabel}. Please confirm availability, price, and ordering deadline.`;
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
   return (
@@ -24,18 +35,24 @@ function FreshMenuCard({ item }: { item: MenuItem }) {
         <Image src={item.image} alt={item.name} fill className="object-cover" />
       </div>
       <div className="p-5 sm:p-6">
+        {item.category && (
+          <p className="mb-1 text-[11px] font-semibold uppercase tracking-wider text-secondary">
+            {item.category}
+          </p>
+        )}
         <h2 className="mb-2 text-xl font-semibold">{item.name}</h2>
         <p className="mb-4 text-sm text-title/70">{item.description}</p>
-        <LiterSizeSelector
-          value={liters}
-          onChange={setLiters}
-          availableSizes={item.literSizes}
-          className="mb-4"
-        />
+        {!isUnit && (
+          <LiterSizeSelector
+            value={liters}
+            onChange={setLiters}
+            availableSizes={item.literSizes}
+            pricesByLiter={item.pricesByLiter}
+            className="mb-4"
+          />
+        )}
         <div className="flex items-center justify-between gap-3">
-          <span className="font-bold text-primary">
-            {formatLiterPrice(item.priceValue, liters, item.literSizes)}
-          </span>
+          <span className="font-bold text-primary">{priceLabel}</span>
           <Button href={whatsappHref} className="!bg-secondary !px-4 !py-2 !text-xs hover:!bg-orange">
             Order on WhatsApp
           </Button>
@@ -88,4 +105,3 @@ export function FreshMenuContent() {
     </>
   );
 }
-

@@ -1,11 +1,12 @@
 "use client";
 
-import { getLiterSizeOptions, type LiterSize } from "@/lib/liter-sizes";
+import { getLiterSizeOptions, type LiterSize, type PricesByLiter } from "@/lib/liter-sizes";
 
 type LiterSizeSelectorProps = {
   value: LiterSize;
   onChange: (liters: LiterSize) => void;
   availableSizes?: readonly LiterSize[];
+  pricesByLiter?: PricesByLiter;
   className?: string;
 };
 
@@ -13,9 +14,10 @@ export function LiterSizeSelector({
   value,
   onChange,
   availableSizes,
+  pricesByLiter,
   className = "",
 }: LiterSizeSelectorProps) {
-  const options = getLiterSizeOptions(availableSizes);
+  const options = getLiterSizeOptions(availableSizes, pricesByLiter);
 
   return (
     <div

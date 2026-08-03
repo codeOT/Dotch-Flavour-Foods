@@ -4,6 +4,8 @@ export type LiterSize = 2 | 4 | 6;
 
 export const ALL_LITER_SIZES: LiterSize[] = [2, 4, 6];
 
+export type PricesByLiter = Partial<Record<LiterSize, number>>;
+
 export const literSizeOptions: {
   liters: LiterSize;
   label: string;
@@ -14,24 +16,37 @@ export const literSizeOptions: {
   { liters: 6, label: "6L", serving: "Serves 9–12" },
 ];
 
-/** Base product price is the price of the smallest available size (usually 2L). */
+/** Fallback multipliers when an item has no explicit size prices. */
 const literPriceMultipliers: Record<LiterSize, number> = {
   2: 1,
   4: 1.85,
   6: 2.7,
 };
 
-export function resolveLiterSizes(availableSizes?: readonly LiterSize[]): LiterSize[] {
+export function resolveLiterSizes(
+  availableSizes?: readonly LiterSize[],
+  pricesByLiter?: PricesByLiter,
+): LiterSize[] {
+  if (pricesByLiter) {
+    const fromPrices = ALL_LITER_SIZES.filter((size) => pricesByLiter[size] != null);
+    if (fromPrices.length) return fromPrices;
+  }
   if (!availableSizes?.length) return [...ALL_LITER_SIZES];
   return ALL_LITER_SIZES.filter((size) => availableSizes.includes(size));
 }
 
-export function getDefaultLiterSize(availableSizes?: readonly LiterSize[]): LiterSize {
-  return resolveLiterSizes(availableSizes)[0] ?? 2;
+export function getDefaultLiterSize(
+  availableSizes?: readonly LiterSize[],
+  pricesByLiter?: PricesByLiter,
+): LiterSize {
+  return resolveLiterSizes(availableSizes, pricesByLiter)[0] ?? 2;
 }
 
-export function getLiterSizeOptions(availableSizes?: readonly LiterSize[]) {
-  const sizes = resolveLiterSizes(availableSizes);
+export function getLiterSizeOptions(
+  availableSizes?: readonly LiterSize[],
+  pricesByLiter?: PricesByLiter,
+) {
+  const sizes = resolveLiterSizes(availableSizes, pricesByLiter);
   return literSizeOptions.filter((option) => sizes.includes(option.liters));
 }
 
@@ -39,8 +54,13 @@ export function getPriceForLiters(
   basePrice: number,
   liters: LiterSize,
   availableSizes?: readonly LiterSize[],
+  pricesByLiter?: PricesByLiter,
 ): number {
-  const baseSize = getDefaultLiterSize(availableSizes);
+  if (pricesByLiter?.[liters] != null) {
+    return pricesByLiter[liters]!;
+  }
+
+  const baseSize = getDefaultLiterSize(availableSizes, pricesByLiter);
   const scaled =
     basePrice * (literPriceMultipliers[liters] / literPriceMultipliers[baseSize]);
   return Math.round(scaled * 100) / 100;
@@ -50,8 +70,9 @@ export function formatLiterPrice(
   basePrice: number,
   liters: LiterSize,
   availableSizes?: readonly LiterSize[],
+  pricesByLiter?: PricesByLiter,
 ): string {
-  return formatPrice(getPriceForLiters(basePrice, liters, availableSizes));
+  return formatPrice(getPriceForLiters(basePrice, liters, availableSizes, pricesByLiter));
 }
 
 export function getServingForLiters(liters: LiterSize): string {

@@ -40,12 +40,20 @@ export type DeliveryMethod = "delivery" | "pickup";
 type CartLikeItem = Pick<CartItem, "id" | "quantity" | "name">;
 
 export function menuItemToCartItem(item: MenuItem, liters?: LiterSize): Omit<CartItem, "quantity"> {
-  const price = liters
-    ? getPriceForLiters(item.priceValue, liters, item.literSizes)
-    : item.priceValue;
+  const price =
+    item.pricingMode === "unit"
+      ? item.priceValue
+      : liters
+        ? getPriceForLiters(item.priceValue, liters, item.literSizes, item.pricesByLiter)
+        : item.priceValue;
   return {
-    id: liters ? `${item.id}-${liters}l` : item.id,
-    name: liters ? `${item.name} (${liters}L)` : item.name,
+    id: liters && item.pricingMode !== "unit" ? `${item.id}-${liters}l` : item.id,
+    name:
+      liters && item.pricingMode !== "unit"
+        ? `${item.name} (${liters}L)`
+        : item.unitLabel
+          ? `${item.name} (${item.unitLabel})`
+          : item.name,
     price,
     image: item.image,
   };

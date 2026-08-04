@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import type { Product } from "@/lib/products";
-import { getPriceForLiters, type LiterSize } from "@/lib/liter-sizes";
+import { getPriceForLitres, type LitreSize } from "@/lib/litre-sizes";
 
 export type CartItem = {
   id: string;
@@ -69,25 +69,25 @@ function readStoredCart(): CartItem[] {
   }
 }
 
-export function productToCartItem(product: Product, liters?: LiterSize | 1): CartItemInput {
+export function productToCartItem(product: Product, litres?: LitreSize | 1): CartItemInput {
   const basePrice =
     typeof product.price === "number" && Number.isFinite(product.price) ? product.price : 0;
 
-  // Homepage Our Soups are Ready Soup tubs (fixed 1 Liter) — use the same cart id
+  // Homepage Our Soups are Ready Soup tubs (fixed 1 Litre) — use the same cart id
   // prefix so min-order, weight, and delivery bands apply.
-  if (liters === 1 || product.category === "soups-and-stews") {
+  if (litres === 1 || product.category === "soups-and-stews") {
     return {
       id: `ready-soup-${product.id}`,
-      name: `${product.name} (1 Liter)`,
+      name: `${product.name} (1 Litre)`,
       price: basePrice,
       image: product.image,
     };
   }
 
-  const price = liters ? getPriceForLiters(basePrice, liters) : basePrice;
+  const price = litres ? getPriceForLitres(basePrice, litres) : basePrice;
   return {
-    id: liters ? `${product.id}-${liters}l` : product.id,
-    name: liters ? `${product.name} (${liters}L)` : product.name,
+    id: litres ? `${product.id}-${litres}l` : product.id,
+    name: litres ? `${product.name} (${litres}L)` : product.name,
     price,
     image: product.image,
   };

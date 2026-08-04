@@ -1,10 +1,10 @@
-﻿import type { MenuItem } from "@/lib/navigation";
+import type { MenuItem } from "@/lib/navigation";
 import type { CartItem } from "@/context/CartContext";
-import { getPriceForLiters, type LiterSize } from "@/lib/liter-sizes";
+import { getPriceForLitres, type LitreSize } from "@/lib/litre-sizes";
 import { formatPrice } from "@/lib/site";
 
-/** Each Ready Soup tub is 1 Liter. */
-export const READY_SOUP_TUB_LITERS = 1;
+/** Each Ready Soup tub is 1 Litre. */
+export const READY_SOUP_TUB_LITRES = 1;
 
 /** Delivery fee for Ready Soups orders up to and including 20 litres. */
 export const DELIVERY_FEE_UP_TO_20L = 13.99;
@@ -13,7 +13,7 @@ export const DELIVERY_FEE_UP_TO_20L = 13.99;
 export const DELIVERY_FEE_UP_TO_25L = 16.99;
 
 /** Maximum Ready Soup volume fulfilled online without a custom quote. */
-export const READY_SOUP_MAX_ONLINE_LITERS = 25;
+export const READY_SOUP_MAX_ONLINE_LITRES = 25;
 
 /**
  * @deprecated Prefer DELIVERY_FEE_UP_TO_20L / getDeliveryFee — kept for transitional imports.
@@ -48,18 +48,18 @@ export type DeliveryMethod = "delivery" | "pickup";
 
 type CartLikeItem = Pick<CartItem, "id" | "quantity" | "name">;
 
-export function menuItemToCartItem(item: MenuItem, liters?: LiterSize): Omit<CartItem, "quantity"> {
+export function menuItemToCartItem(item: MenuItem, litres?: LitreSize): Omit<CartItem, "quantity"> {
   const price =
     item.pricingMode === "unit"
       ? item.priceValue
-      : liters
-        ? getPriceForLiters(item.priceValue, liters, item.literSizes, item.pricesByLiter)
+      : litres
+        ? getPriceForLitres(item.priceValue, litres, item.litreSizes, item.pricesByLitre)
         : item.priceValue;
   return {
-    id: liters && item.pricingMode !== "unit" ? `${item.id}-${liters}l` : item.id,
+    id: litres && item.pricingMode !== "unit" ? `${item.id}-${litres}l` : item.id,
     name:
-      liters && item.pricingMode !== "unit"
-        ? `${item.name} (${liters}L)`
+      litres && item.pricingMode !== "unit"
+        ? `${item.name} (${litres}L)`
         : item.unitLabel
           ? `${item.name} (${item.unitLabel})`
           : item.name,
@@ -130,23 +130,23 @@ export function formatWeightKg(kg: number): string {
 }
 
 /** Total Ready Soup volume in litres (1 tub = 1L). */
-export function getCartReadySoupLiters(items: CartLikeItem[]): number {
-  return getReadySoupUnitCount(items) * READY_SOUP_TUB_LITERS;
+export function getCartReadySoupLitres(items: CartLikeItem[]): number {
+  return getReadySoupUnitCount(items) * READY_SOUP_TUB_LITRES;
 }
 
 export function getDeliveryFee(method: DeliveryMethod, items: CartLikeItem[] = []): number {
   if (method === "pickup") return 0;
 
-  const weightKg = Math.max(getCartReadySoupLiters(items), getCartWeightKg(items));
+  const weightKg = Math.max(getCartReadySoupLitres(items), getCartWeightKg(items));
   if (weightKg <= 20) return DELIVERY_FEE_UP_TO_20L;
-  if (weightKg <= READY_SOUP_MAX_ONLINE_LITERS) return DELIVERY_FEE_UP_TO_25L;
+  if (weightKg <= READY_SOUP_MAX_ONLINE_LITRES) return DELIVERY_FEE_UP_TO_25L;
   return DELIVERY_FEE_UP_TO_25L;
 }
 
 export function getDeliveryLabel(method: DeliveryMethod, items: CartLikeItem[] = []): string {
   if (method === "pickup") return "Free — collection";
 
-  const weightKg = Math.max(getCartReadySoupLiters(items), getCartWeightKg(items));
+  const weightKg = Math.max(getCartReadySoupLitres(items), getCartWeightKg(items));
   if (weightKg <= 20) {
     return `${formatPrice(DELIVERY_FEE_UP_TO_20L)} (up to 20kg)`;
   }
@@ -171,8 +171,8 @@ export function meetsReadySoupMinimum(items: CartLikeItem[]): boolean {
 }
 
 export function exceedsReadySoupOnlineLimit(items: CartLikeItem[]): boolean {
-  const weightKg = Math.max(getCartReadySoupLiters(items), getCartWeightKg(items));
-  return weightKg > READY_SOUP_MAX_ONLINE_LITERS;
+  const weightKg = Math.max(getCartReadySoupLitres(items), getCartWeightKg(items));
+  return weightKg > READY_SOUP_MAX_ONLINE_LITRES;
 }
 
 export function generateOrderId(): string {

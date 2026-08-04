@@ -1,15 +1,15 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { AlertTriangle, Leaf, X } from "lucide-react";
 import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
-import { LiterSizeSelector } from "@/components/cart/LiterSizeSelector";
+import { LitreSizeSelector } from "@/components/cart/LitreSizeSelector";
 import { productToCartItem } from "@/context/CartContext";
 import type { Product } from "@/lib/products";
 import { formatProductPrice } from "@/lib/products";
-import { formatLiterPrice, getServingForLiters, type LiterSize } from "@/lib/liter-sizes";
+import { formatLitrePrice, getServingForLitres, type LitreSize } from "@/lib/litre-sizes";
 
 type ProductDetailModalProps = {
   product: Product | null;
@@ -17,11 +17,11 @@ type ProductDetailModalProps = {
 };
 
 export function ProductDetailModal({ product, onClose }: ProductDetailModalProps) {
-  const [liters, setLiters] = useState<LiterSize>(2);
-  const isOneLiter = product?.category === "soups-and-stews";
+  const [litres, setLitres] = useState<LitreSize>(2);
+  const isOneLitre = product?.category === "soups-and-stews";
 
   useEffect(() => {
-    setLiters(2);
+    setLitres(2);
   }, [product?.id]);
 
   return (
@@ -71,25 +71,25 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
                     <p className="mt-1 text-sm text-title/70">{product.shortDescription}</p>
                   </div>
                   <p className="text-2xl font-bold text-primary">
-                    {isOneLiter
+                    {isOneLitre
                       ? formatProductPrice(product)
-                      : formatLiterPrice(product.price, liters)}
+                      : formatLitrePrice(product.price, litres)}
                   </p>
                 </div>
 
                 <div className="mb-6">
                   <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-title/50">
-                    {isOneLiter ? "Size" : "Choose size"}
+                    {isOneLitre ? "Size" : "Choose size"}
                   </p>
-                  {isOneLiter ? (
+                  {isOneLitre ? (
                     <>
-                      <p className="text-sm font-semibold text-title">1 Liter</p>
+                      <p className="text-sm font-semibold text-title">1 Litre</p>
                       <p className="mt-1 text-xs text-title/60">Serves 3–4</p>
                     </>
                   ) : (
                     <>
-                      <LiterSizeSelector value={liters} onChange={setLiters} />
-                      <p className="mt-2 text-xs text-title/60">{getServingForLiters(liters)}</p>
+                      <LitreSizeSelector value={litres} onChange={setLitres} />
+                      <p className="mt-2 text-xs text-title/60">{getServingForLitres(litres)}</p>
                     </>
                   )}
                 </div>
@@ -136,9 +136,9 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
                   <p className="text-sm font-semibold text-title">Add to cart</p>
                   <CartQuantityControls
                     item={
-                      isOneLiter
+                      isOneLitre
                         ? productToCartItem(product, 1)
-                        : productToCartItem(product, liters)
+                        : productToCartItem(product, litres)
                     }
                   />
                 </div>

@@ -54,7 +54,7 @@ const initialForm: FormState = {
   shortDescription: "",
   tagline: "",
   price: "",
-  size: "1 Liter",
+  size: "1 Litre",
   image: "",
   ingredients: "",
   allergens: "",
@@ -171,7 +171,7 @@ export function AdminProductsSection() {
       setForm({
         ...initialForm,
         category: form.category,
-        size: form.category === "ready-soup" ? "1 Liter" : "",
+        size: form.category === "ready-soup" ? "1 Litre" : "",
       });
     } catch {
       setError("Unable to create product.");
@@ -225,7 +225,7 @@ export function AdminProductsSection() {
                 setForm((prev) => ({
                   ...prev,
                   category: option.id,
-                  size: option.id === "ready-soup" ? prev.size || "1 Liter" : "",
+                  size: option.id === "ready-soup" ? prev.size || "1 Litre" : "",
                 }))
               }
               className={`rounded-lg px-3 py-1.5 text-sm font-semibold transition ${
@@ -309,7 +309,7 @@ export function AdminProductsSection() {
                   className={inputClass}
                   value={form.size}
                   onChange={(e) => updateField("size", e.target.value)}
-                  placeholder="1 Liter"
+                  placeholder="1 Litre"
                   required
                 />
               </Field>

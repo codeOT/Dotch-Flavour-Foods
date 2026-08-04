@@ -7,12 +7,12 @@ import { stripe } from "@/lib/stripe";
 import {
   exceedsReadySoupOnlineLimit,
   generateOrderId,
-  getCartReadySoupLiters,
+  getCartReadySoupLitres,
   getDeliveryFee,
   getOrderTotal,
   getReadySoupUnitCount,
   meetsReadySoupMinimum,
-  READY_SOUP_MAX_ONLINE_LITERS,
+  READY_SOUP_MAX_ONLINE_LITRES,
   READY_SOUP_MIN_ORDER,
   type DeliveryMethod,
 } from "@/lib/cart-utils";
@@ -98,10 +98,10 @@ export async function POST(request: Request) {
     }
 
     if (exceedsReadySoupOnlineLimit(items)) {
-      const liters = getCartReadySoupLiters(items);
+      const litres = getCartReadySoupLitres(items);
       return NextResponse.json(
         {
-          error: `Online Ready Soups delivery is available up to ${READY_SOUP_MAX_ONLINE_LITERS}kg. Your order is about ${liters}kg equivalent — please contact us for a custom quote.`,
+          error: `Online Ready Soups delivery is available up to ${READY_SOUP_MAX_ONLINE_LITRES}kg. Your order is about ${litres}kg equivalent — please contact us for a custom quote.`,
         },
         { status: 400 },
       );

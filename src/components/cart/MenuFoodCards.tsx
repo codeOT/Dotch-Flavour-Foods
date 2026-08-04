@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -7,10 +7,10 @@ import { motion } from "framer-motion";
 import type { MenuItem } from "@/lib/navigation";
 import { menuItemToCartItem } from "@/lib/cart-utils";
 import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
-import { LiterSizeSelector } from "@/components/cart/LiterSizeSelector";
+import { LitreSizeSelector } from "@/components/cart/LitreSizeSelector";
 import { HoverCard } from "@/components/motion/HoverCard";
 import { Button } from "@/components/ui/Button";
-import { formatLiterPrice, getDefaultLiterSize, type LiterSize } from "@/lib/liter-sizes";
+import { formatLitrePrice, getDefaultLitreSize, type LitreSize } from "@/lib/litre-sizes";
 import { formatPrice, siteConfig } from "@/lib/site";
 
 type TodaysMenuCardProps = {
@@ -58,14 +58,14 @@ type MenuCarouselCardProps = {
 
 export function MenuCarouselCard({ item }: MenuCarouselCardProps) {
   const isUnit = item.pricingMode === "unit";
-  const [liters, setLiters] = useState<LiterSize>(() =>
-    getDefaultLiterSize(item.literSizes, item.pricesByLiter),
+  const [litres, setLitres] = useState<LitreSize>(() =>
+    getDefaultLitreSize(item.litreSizes, item.pricesByLitre),
   );
   const whatsappNumber = siteConfig.contact.phone.replace(/\D/g, "");
-  const sizeLabel = isUnit ? (item.unitLabel ?? "per wrap") : `${liters}L`;
+  const sizeLabel = isUnit ? (item.unitLabel ?? "per wrap") : `${litres}L`;
   const priceLabel = isUnit
     ? `${formatPrice(item.priceValue)} ${item.unitLabel ?? ""}`.trim()
-    : formatLiterPrice(item.priceValue, liters, item.literSizes, item.pricesByLiter);
+    : formatLitrePrice(item.priceValue, litres, item.litreSizes, item.pricesByLitre);
   const message = `Hi Dotch Flavour Foods, I want to customize an order for ${item.name} (${sizeLabel}) at ${priceLabel}. Please share available options.`;
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
@@ -89,11 +89,11 @@ export function MenuCarouselCard({ item }: MenuCarouselCardProps) {
         </div>
       </div>
       {!isUnit && (
-        <LiterSizeSelector
-          value={liters}
-          onChange={setLiters}
-          availableSizes={item.literSizes}
-          pricesByLiter={item.pricesByLiter}
+        <LitreSizeSelector
+          value={litres}
+          onChange={setLitres}
+          availableSizes={item.litreSizes}
+          pricesByLitre={item.pricesByLitre}
           className="mb-4"
         />
       )}

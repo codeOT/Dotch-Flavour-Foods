@@ -1,5 +1,5 @@
 import { formatPrice } from "./site";
-import type { LiterSize, PricesByLiter } from "./liter-sizes";
+import type { LitreSize, PricesByLitre } from "./litre-sizes";
 
 export type NavItem = {
   label: string;
@@ -15,12 +15,12 @@ export type MenuItem = {
   /** Base / display price (smallest available size, or unit price). */
   priceValue: number;
   image: string;
-  /** Available tray sizes. Defaults to sizes present in pricesByLiter, else 2/4/6L. */
-  literSizes?: LiterSize[];
+  /** Available tray sizes. Defaults to sizes present in pricesByLitre, else 2/4/6L. */
+  litreSizes?: LitreSize[];
   /** Exact prices per litre size from the official price list. */
-  pricesByLiter?: PricesByLiter;
+  pricesByLitre?: PricesByLitre;
   /** "unit" for items sold per wrap/piece (e.g. Moi Moi). */
-  pricingMode?: "liters" | "unit";
+  pricingMode?: "litres" | "unit";
   unitLabel?: string;
   category?: string;
 };
@@ -30,11 +30,11 @@ function tray(
   name: string,
   description: string,
   image: string,
-  prices: PricesByLiter,
+  prices: PricesByLitre,
   category: string,
 ): MenuItem {
-  const literSizes = ([2, 4, 6] as const).filter((size) => prices[size] != null);
-  const priceValue = prices[literSizes[0]] ?? 0;
+  const litreSizes = ([2, 4, 6] as const).filter((size) => prices[size] != null);
+  const priceValue = prices[litreSizes[0]] ?? 0;
   return {
     id,
     name,
@@ -42,9 +42,9 @@ function tray(
     image,
     price: formatPrice(priceValue),
     priceValue,
-    literSizes,
-    pricesByLiter: prices,
-    pricingMode: "liters",
+    litreSizes,
+    pricesByLitre: prices,
+    pricingMode: "litres",
     category,
   };
 }

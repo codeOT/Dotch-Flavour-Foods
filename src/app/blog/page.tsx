@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { BlogGrid } from "@/components/pages/BlogContent";
 
 export const metadata: Metadata = {

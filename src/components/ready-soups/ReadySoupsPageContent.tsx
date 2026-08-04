@@ -232,7 +232,7 @@ export function ReadySoupsPageContent() {
                     <p className="text-[10px] font-semibold uppercase tracking-widest text-cream sm:text-xs">
                       Each tub
                     </p>
-                    <p className="text-lg font-bold sm:text-2xl">1 Liter · Serves 3–4</p>
+                    <p className="text-lg font-bold sm:text-2xl">1 Litre · Serves 3–4</p>
                   </div>
                 </div>
               </div>
@@ -259,7 +259,7 @@ export function ReadySoupsPageContent() {
           <SectionHeading
             eyebrow="The range"
             title="Frozen product range"
-            description="Five authentic Nigerian soups, slow-cooked and frozen at peak freshness. Every tub is 1 Liter."
+            description="Five authentic Nigerian soups, slow-cooked and frozen at peak freshness. Every tub is 1 Litre."
           />
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {readySoupProducts.map((product, index) => (

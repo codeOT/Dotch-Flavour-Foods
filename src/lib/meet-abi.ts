@@ -1,4 +1,4 @@
-﻿import { siteConfig } from "./site";
+import { siteConfig } from "./site";
 
 export const meetAbi = {
   name: "Mrs Abimbola Olurin",

@@ -157,7 +157,7 @@ export async function POST(request: Request) {
       }
       if (!body.size?.trim()) {
         return NextResponse.json(
-          { error: "Size is required for ready soups (e.g. 1 Liter or 2L)." },
+          { error: "Size is required for ready soups (e.g. 1 Litre or 2L)." },
           { status: 400 },
         );
       }

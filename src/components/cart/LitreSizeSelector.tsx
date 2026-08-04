@@ -1,23 +1,23 @@
 "use client";
 
-import { getLiterSizeOptions, type LiterSize, type PricesByLiter } from "@/lib/liter-sizes";
+import { getLitreSizeOptions, type LitreSize, type PricesByLitre } from "@/lib/litre-sizes";
 
-type LiterSizeSelectorProps = {
-  value: LiterSize;
-  onChange: (liters: LiterSize) => void;
-  availableSizes?: readonly LiterSize[];
-  pricesByLiter?: PricesByLiter;
+type LitreSizeSelectorProps = {
+  value: LitreSize;
+  onChange: (litres: LitreSize) => void;
+  availableSizes?: readonly LitreSize[];
+  pricesByLitre?: PricesByLitre;
   className?: string;
 };
 
-export function LiterSizeSelector({
+export function LitreSizeSelector({
   value,
   onChange,
   availableSizes,
-  pricesByLiter,
+  pricesByLitre,
   className = "",
-}: LiterSizeSelectorProps) {
-  const options = getLiterSizeOptions(availableSizes, pricesByLiter);
+}: LitreSizeSelectorProps) {
+  const options = getLitreSizeOptions(availableSizes, pricesByLitre);
 
   return (
     <div
@@ -27,18 +27,18 @@ export function LiterSizeSelector({
       onClick={(event) => event.stopPropagation()}
     >
       {options.map((option) => {
-        const isSelected = value === option.liters;
+        const isSelected = value === option.litres;
 
         return (
           <button
-            key={option.liters}
+            key={option.litres}
             type="button"
             role="radio"
             aria-checked={isSelected}
             onClick={(event) => {
               event.preventDefault();
               event.stopPropagation();
-              onChange(option.liters);
+              onChange(option.litres);
             }}
             className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
               isSelected

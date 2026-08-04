@@ -1,31 +1,31 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import Image from "next/image";
 import type { MenuItem } from "@/lib/navigation";
 import { menuItems } from "@/lib/navigation";
-import { LiterSizeSelector } from "@/components/cart/LiterSizeSelector";
+import { LitreSizeSelector } from "@/components/cart/LitreSizeSelector";
 import { HoverCard } from "@/components/motion/HoverCard";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 import { Button } from "@/components/ui/Button";
 import {
-  formatLiterPrice,
-  getDefaultLiterSize,
-  type LiterSize,
-} from "@/lib/liter-sizes";
+  formatLitrePrice,
+  getDefaultLitreSize,
+  type LitreSize,
+} from "@/lib/litre-sizes";
 import { formatPrice, siteConfig } from "@/lib/site";
 
 function FreshMenuCard({ item }: { item: MenuItem }) {
   const isUnit = item.pricingMode === "unit";
-  const [liters, setLiters] = useState<LiterSize>(() =>
-    getDefaultLiterSize(item.literSizes, item.pricesByLiter),
+  const [litres, setLitres] = useState<LitreSize>(() =>
+    getDefaultLitreSize(item.litreSizes, item.pricesByLitre),
   );
   const whatsappNumber = siteConfig.contact.phone.replace(/\D/g, "");
-  const sizeLabel = isUnit ? (item.unitLabel ?? "per wrap") : `${liters}L`;
+  const sizeLabel = isUnit ? (item.unitLabel ?? "per wrap") : `${litres}L`;
   const priceLabel = isUnit
     ? `${formatPrice(item.priceValue)} ${item.unitLabel ?? ""}`.trim()
-    : formatLiterPrice(item.priceValue, liters, item.literSizes, item.pricesByLiter);
+    : formatLitrePrice(item.priceValue, litres, item.litreSizes, item.pricesByLitre);
   const message = `Hi Dotch Flavour Foods, I'd like to place a Fresh Food WhatsApp order for ${item.name} (${sizeLabel}) at ${priceLabel}. Please confirm availability, price, and ordering deadline.`;
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
@@ -43,11 +43,11 @@ function FreshMenuCard({ item }: { item: MenuItem }) {
         <h2 className="mb-2 text-xl font-semibold">{item.name}</h2>
         <p className="mb-4 text-sm text-title/70">{item.description}</p>
         {!isUnit && (
-          <LiterSizeSelector
-            value={liters}
-            onChange={setLiters}
-            availableSizes={item.literSizes}
-            pricesByLiter={item.pricesByLiter}
+          <LitreSizeSelector
+            value={litres}
+            onChange={setLitres}
+            availableSizes={item.litreSizes}
+            pricesByLitre={item.pricesByLitre}
             className="mb-4"
           />
         )}

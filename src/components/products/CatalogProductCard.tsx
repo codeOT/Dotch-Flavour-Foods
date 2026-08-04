@@ -1,14 +1,14 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
-import { LiterSizeSelector } from "@/components/cart/LiterSizeSelector";
+import { LitreSizeSelector } from "@/components/cart/LitreSizeSelector";
 import { productToCartItem } from "@/context/CartContext";
 import type { Product } from "@/lib/products";
 import { formatProductPrice } from "@/lib/products";
-import { formatLiterPrice, getServingForLiters, type LiterSize } from "@/lib/liter-sizes";
+import { formatLitrePrice, getServingForLitres, type LitreSize } from "@/lib/litre-sizes";
 
 type CatalogProductCardProps = {
   product: Product;
@@ -16,14 +16,14 @@ type CatalogProductCardProps = {
 };
 
 export function CatalogProductCard({ product, onSelect }: CatalogProductCardProps) {
-  const isOneLiter = product.category === "soups-and-stews";
-  const [liters, setLiters] = useState<LiterSize>(2);
-  const cartItem = isOneLiter
+  const isOneLitre = product.category === "soups-and-stews";
+  const [litres, setLitres] = useState<LitreSize>(2);
+  const cartItem = isOneLitre
     ? productToCartItem(product, 1)
-    : productToCartItem(product, liters);
-  const priceLabel = isOneLiter
+    : productToCartItem(product, litres);
+  const priceLabel = isOneLitre
     ? formatProductPrice(product)
-    : formatLiterPrice(product.price, liters);
+    : formatLitrePrice(product.price, litres);
 
   return (
     <motion.div
@@ -54,17 +54,17 @@ export function CatalogProductCard({ product, onSelect }: CatalogProductCardProp
       <div className="mt-auto shrink-0 border-t border-surface px-5 py-4">
         <div className="mb-3">
           <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-title/50">
-            {isOneLiter ? "Size" : "Choose size"}
+            {isOneLitre ? "Size" : "Choose size"}
           </p>
-          {isOneLiter ? (
+          {isOneLitre ? (
             <>
-              <p className="text-sm font-semibold text-title">1 Liter</p>
+              <p className="text-sm font-semibold text-title">1 Litre</p>
               <p className="mt-1 text-xs text-title/60">Serves 3–4</p>
             </>
           ) : (
             <>
-              <LiterSizeSelector value={liters} onChange={setLiters} />
-              <p className="mt-2 text-xs text-title/60">{getServingForLiters(liters)}</p>
+              <LitreSizeSelector value={litres} onChange={setLitres} />
+              <p className="mt-2 text-xs text-title/60">{getServingForLitres(litres)}</p>
             </>
           )}
         </div>

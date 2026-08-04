@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { MeetAbiContent } from "@/components/pages/MeetAbiContent";
 
 export const metadata: Metadata = {

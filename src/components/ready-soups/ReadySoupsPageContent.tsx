@@ -32,7 +32,9 @@ import {
   DELIVERY_FEE_UP_TO_20L,
   DELIVERY_FEE_UP_TO_25L,
   READY_SOUP_MIN_ORDER,
+  READY_SOUP_ORDER_DAYS,
   READY_SOUP_ORDER_WINDOW,
+  readySoupDeliveryInfo,
 } from "@/lib/cart-utils";
 import { formatPrice } from "@/lib/site";
 
@@ -198,8 +200,12 @@ export function ReadySoupsPageContent() {
               </div>
               <div className="mt-6 space-y-2 rounded-2xl border border-white/15 bg-white/5 p-4 text-sm text-white/80 sm:p-5">
                 <p>
-                  <span className="font-semibold text-secondary">Order window:</span>{" "}
-                  {READY_SOUP_ORDER_WINDOW} for next-day delivery.
+                  <span className="font-semibold text-secondary">Next-day delivery:</span>{" "}
+                  Order {READY_SOUP_ORDER_DAYS}, {READY_SOUP_ORDER_WINDOW} (UK time).
+                </p>
+                <p>
+                  <span className="font-semibold text-secondary">Fri–Sun orders:</span>{" "}
+                  Delivered on Tuesday.
                 </p>
                 <p>
                   <span className="font-semibold text-secondary">Delivery:</span>{" "}
@@ -253,7 +259,7 @@ export function ReadySoupsPageContent() {
           <SectionHeading
             eyebrow="The range"
             title="Frozen product range"
-            description="Five authentic Nigerian soups, slow-cooked and frozen at peak freshness. Every tub is 1000ml."
+            description="Five authentic Nigerian soups, slow-cooked and frozen at peak freshness. Every tub is 1 Liter."
           />
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {readySoupProducts.map((product, index) => (
@@ -325,8 +331,8 @@ export function ReadySoupsPageContent() {
                 </p>
                 <h2 className="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl">Ready when you are</h2>
                 <p className="mb-6 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">
-                  Mix flavours in a 3, 5, 10 bundle (minimum {READY_SOUP_MIN_ORDER} online). Order
-                  between {READY_SOUP_ORDER_WINDOW} for next-day delivery. Delivery is{" "}
+                  Mix flavours in a 3, 5, 10 bundle (minimum {READY_SOUP_MIN_ORDER} online).{" "}
+                  {readySoupDeliveryInfo.scheduleSummary} Delivery is{" "}
                   {formatPrice(DELIVERY_FEE_UP_TO_20L)} up to 20kg, or{" "}
                   {formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25kg — or choose collection where
                   available.

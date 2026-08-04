@@ -3,7 +3,7 @@ import type { CartItem } from "@/context/CartContext";
 import { getPriceForLiters, type LiterSize } from "@/lib/liter-sizes";
 import { formatPrice } from "@/lib/site";
 
-/** Each Ready Soup tub is 1000ml (1 litre). */
+/** Each Ready Soup tub is 1 Liter. */
 export const READY_SOUP_TUB_LITERS = 1;
 
 /** Delivery fee for Ready Soups orders up to and including 20 litres. */
@@ -26,10 +26,19 @@ export const READY_SOUP_MIN_ORDER = 3;
 /** Same-day order window for next-day Ready Soups dispatch (UK time). */
 export const READY_SOUP_ORDER_WINDOW = "8am–3pm";
 
+/** Weekdays when next-day Ready Soups delivery is available. */
+export const READY_SOUP_ORDER_DAYS = "Monday–Thursday";
+
 export const readySoupDeliveryInfo = {
   orderWindow: READY_SOUP_ORDER_WINDOW,
+  orderDays: READY_SOUP_ORDER_DAYS,
+  /** Short line for cart / checkout footers. */
+  scheduleSummary:
+    "Next-day delivery: order Monday–Thursday, 8am–3pm (UK time). Orders placed Friday–Sunday are delivered on Tuesday.",
   nextDayNote:
-    "Ready Soups orders placed between 8am and 3pm (UK time) are prepared for next-day delivery. Orders after 3pm are treated as the next working day's order.",
+    "Ready Soups next-day delivery is available for orders placed Monday to Thursday between 8am and 3pm (UK time). Orders placed Friday, Saturday or Sunday are scheduled for Tuesday delivery. Orders after 3pm on a weekday are treated as the next eligible order day's order.",
+  weekendNote:
+    "Orders placed from Friday to Sunday are delivered on the following Tuesday.",
   feeUpTo20L: DELIVERY_FEE_UP_TO_20L,
   feeUpTo25L: DELIVERY_FEE_UP_TO_25L,
   feeSummary: `Delivery is ${formatPrice(DELIVERY_FEE_UP_TO_20L)} for orders up to 20kg, and ${formatPrice(DELIVERY_FEE_UP_TO_25L)} for orders up to 25kg.`,
@@ -87,6 +96,39 @@ export function getReadySoupUnitCount(items: CartLikeItem[]): number {
   }, 0);
 }
 
+/**
+ * Estimated packed weight for one cart line (kg).
+ * Ready Soup tubs use 1 tub ≈ 1kg; sized trays use their litre size as kg.
+ */
+export function getCartItemWeightKg(item: CartLikeItem & { quantity: number }): number {
+  if (isReadySoupCartItem(item)) {
+    return getReadySoupUnitCount([item]);
+  }
+
+  const idMatch = item.id.match(/-(\d+(?:\.\d+)?)l$/i);
+  if (idMatch) {
+    return Number(idMatch[1]) * item.quantity;
+  }
+
+  const nameMatch = item.name.match(/\((\d+(?:\.\d+)?)\s*L\)/i);
+  if (nameMatch) {
+    return Number(nameMatch[1]) * item.quantity;
+  }
+
+  return 0;
+}
+
+/** Total estimated cart weight in kg. */
+export function getCartWeightKg(items: CartLikeItem[]): number {
+  return items.reduce((total, item) => total + getCartItemWeightKg(item), 0);
+}
+
+export function formatWeightKg(kg: number): string {
+  if (kg <= 0) return "0kg";
+  const rounded = Math.round(kg * 10) / 10;
+  return Number.isInteger(rounded) ? `${rounded}kg` : `${rounded.toFixed(1)}kg`;
+}
+
 /** Total Ready Soup volume in litres (1 tub = 1L). */
 export function getCartReadySoupLiters(items: CartLikeItem[]): number {
   return getReadySoupUnitCount(items) * READY_SOUP_TUB_LITERS;
@@ -95,17 +137,17 @@ export function getCartReadySoupLiters(items: CartLikeItem[]): number {
 export function getDeliveryFee(method: DeliveryMethod, items: CartLikeItem[] = []): number {
   if (method === "pickup") return 0;
 
-  const liters = getCartReadySoupLiters(items);
-  if (liters <= 20) return DELIVERY_FEE_UP_TO_20L;
-  if (liters <= READY_SOUP_MAX_ONLINE_LITERS) return DELIVERY_FEE_UP_TO_25L;
+  const weightKg = Math.max(getCartReadySoupLiters(items), getCartWeightKg(items));
+  if (weightKg <= 20) return DELIVERY_FEE_UP_TO_20L;
+  if (weightKg <= READY_SOUP_MAX_ONLINE_LITERS) return DELIVERY_FEE_UP_TO_25L;
   return DELIVERY_FEE_UP_TO_25L;
 }
 
 export function getDeliveryLabel(method: DeliveryMethod, items: CartLikeItem[] = []): string {
   if (method === "pickup") return "Free — collection";
 
-  const liters = getCartReadySoupLiters(items);
-  if (liters <= 20) {
+  const weightKg = Math.max(getCartReadySoupLiters(items), getCartWeightKg(items));
+  if (weightKg <= 20) {
     return `${formatPrice(DELIVERY_FEE_UP_TO_20L)} (up to 20kg)`;
   }
   return `${formatPrice(DELIVERY_FEE_UP_TO_25L)} (up to 25kg)`;
@@ -129,7 +171,8 @@ export function meetsReadySoupMinimum(items: CartLikeItem[]): boolean {
 }
 
 export function exceedsReadySoupOnlineLimit(items: CartLikeItem[]): boolean {
-  return getCartReadySoupLiters(items) > READY_SOUP_MAX_ONLINE_LITERS;
+  const weightKg = Math.max(getCartReadySoupLiters(items), getCartWeightKg(items));
+  return weightKg > READY_SOUP_MAX_ONLINE_LITERS;
 }
 
 export function generateOrderId(): string {

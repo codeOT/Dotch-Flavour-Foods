@@ -40,9 +40,9 @@ export function ProductCatalogSection() {
             </StaggerItem>
           </StaggerContainer>
 
-          <StaggerContainer className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:flex lg:flex-wrap lg:justify-center">
+          <StaggerContainer className="mx-auto grid w-full max-w-6xl grid-cols-1 items-stretch gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {soups.map((product) => (
-              <StaggerItem key={product.id} className="w-full lg:max-w-[260px]">
+              <StaggerItem key={product.id} className="flex h-full w-full">
                 <CatalogProductCard product={product} onSelect={setSelectedProduct} />
               </StaggerItem>
             ))}

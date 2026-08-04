@@ -12,13 +12,9 @@ export function MeetFounderSection() {
   return (
     <div className="mt-6 w-full min-w-0 overflow-x-clip sm:mt-8">
       <StaggerContainer className="mb-6 text-center sm:mb-10">
+      
         <StaggerItem>
-          <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-secondary sm:text-sm">
-            {meetAbi.eyebrow}
-          </p>
-        </StaggerItem>
-        <StaggerItem>
-          <h2 className="text-balance text-[clamp(1.35rem,5.5vw,2.25rem)] font-bold leading-snug sm:text-3xl md:text-4xl">
+          <h2 className="text-balance text-[clamp(1.35rem,5.5vw,2.25rem)] font-bold leading-snug sm:text-3xl md:text-4xl text-secondary">
             Meet {meetAbi.shortName}
           </h2>
         </StaggerItem>

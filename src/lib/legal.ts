@@ -80,7 +80,7 @@ export const websiteTerms: LegalDocument = {
     {
       title: "1.8 Placing an order",
       paragraphs: [
-        "Delivery has to be placed between 8am to 3pm for next day delivery. Your order is an offer to buy. An automated acknowledgement confirms receipt, not acceptance. A contract is formed when we send an order confirmation or begin preparing or dispatching the order, whichever occurs first. We may decline an order where a product is unavailable, payment fails, delivery is not reasonably possible, information is incomplete or we suspect fraud or misuse.",
+        "Next-day delivery is available for orders placed Monday to Thursday between 8am and 3pm (UK time). Orders placed Friday, Saturday or Sunday are scheduled for Tuesday delivery. Orders after 3pm on a weekday are treated as the next eligible order day's order. Your order is an offer to buy. An automated acknowledgement confirms receipt, not acceptance. A contract is formed when we send an order confirmation or begin preparing or dispatching the order, whichever occurs first. We may decline an order where a product is unavailable, payment fails, delivery is not reasonably possible, information is incomplete or we suspect fraud or misuse.",
       ],
     },
     {
@@ -417,7 +417,7 @@ export const deliveryTerms: LegalDocument = {
     {
       title: "4.2 Courier and timing",
       paragraphs: [
-        'Ready Soups are dispatched frozen using a next-day courier service. We currently plan to use a DHL business service, but may use another suitable courier. "Next-day delivery" means the next eligible delivery day after dispatch, not necessarily the day after the order is placed. Processing time, cut-off times, weekends and public holidays apply.',
+        'Ready Soups are dispatched frozen using a next-day courier service. We currently plan to use a DHL business service, but may use another suitable courier. Next-day delivery applies to orders placed Monday to Thursday between 8am and 3pm (UK time). Orders placed Friday to Sunday are scheduled for Tuesday delivery. "Next-day delivery" means the next eligible delivery day after dispatch, not necessarily the calendar day after the order is placed. Public holidays, postcode and courier conditions also apply.',
       ],
     },
     {

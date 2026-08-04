@@ -13,11 +13,12 @@ export const siteConfig = {
   contact: {
     phone: "+447889490189",
     email: "hello@dotchflavours.com",
-    address: "5 The Grazings, Hemel Hempstead, United Kingdom, HP2 5JN",
+    address: "Hemel Hempstead, United Kingdom, HP2 5JN",
     companyNumber: "17246871",
   } satisfies SiteContact,
 } as const;
 
-export function formatPrice(amount: number): string {
-  return `${siteConfig.currencySymbol}${amount.toFixed(2)}`;
+export function formatPrice(amount: number | null | undefined): string {
+  const value = typeof amount === "number" && Number.isFinite(amount) ? amount : 0;
+  return `${siteConfig.currencySymbol}${value.toFixed(2)}`;
 }

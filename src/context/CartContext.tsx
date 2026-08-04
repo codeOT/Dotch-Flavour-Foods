@@ -41,20 +41,50 @@ const STORAGE_KEY = "dotch-cart";
 
 const CartContext = createContext<CartContextValue | null>(null);
 
+function normalizeCartItem(item: CartItem): CartItem | null {
+  if (!item?.id || !item.name || !(item.quantity > 0)) return null;
+  const price = typeof item.price === "number" && Number.isFinite(item.price) ? item.price : null;
+  if (price == null || price < 0) return null;
+  return {
+    id: String(item.id),
+    name: String(item.name),
+    price,
+    image: typeof item.image === "string" ? item.image : "",
+    quantity: Math.floor(item.quantity),
+  };
+}
+
 function readStoredCart(): CartItem[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw) as CartItem[];
-    return Array.isArray(parsed) ? parsed.filter((item) => item.id && item.quantity > 0) : [];
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .map((item) => normalizeCartItem(item))
+      .filter((item): item is CartItem => item != null);
   } catch {
     return [];
   }
 }
 
-export function productToCartItem(product: Product, liters?: LiterSize): CartItemInput {
-  const price = liters ? getPriceForLiters(product.price, liters) : product.price;
+export function productToCartItem(product: Product, liters?: LiterSize | 1): CartItemInput {
+  const basePrice =
+    typeof product.price === "number" && Number.isFinite(product.price) ? product.price : 0;
+
+  // Homepage Our Soups are Ready Soup tubs (fixed 1 Liter) — use the same cart id
+  // prefix so min-order, weight, and delivery bands apply.
+  if (liters === 1 || product.category === "soups-and-stews") {
+    return {
+      id: `ready-soup-${product.id}`,
+      name: `${product.name} (1 Liter)`,
+      price: basePrice,
+      image: product.image,
+    };
+  }
+
+  const price = liters ? getPriceForLiters(basePrice, liters) : basePrice;
   return {
     id: liters ? `${product.id}-${liters}l` : product.id,
     name: liters ? `${product.name} (${liters}L)` : product.name,
@@ -80,16 +110,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const addItem = useCallback((item: CartItemInput, quantity = 1) => {
     if (quantity < 1) return;
+    const normalized = normalizeCartItem({ ...item, quantity });
+    if (!normalized) return;
+
     setItems((current) => {
-      const existing = current.find((entry) => entry.id === item.id);
+      const existing = current.find((entry) => entry.id === normalized.id);
       if (existing) {
         return current.map((entry) =>
-          entry.id === item.id
+          entry.id === normalized.id
             ? { ...entry, quantity: entry.quantity + quantity }
             : entry,
         );
       }
-      return [...current, { ...item, quantity }];
+      return [...current, normalized];
     });
   }, []);
 

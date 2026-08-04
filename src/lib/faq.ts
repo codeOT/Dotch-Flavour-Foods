@@ -52,7 +52,7 @@ export const faqs: FaqItem[] = [
   {
     question: "When will my Ready Soups arrive?",
     answer:
-      "Orders placed between 8am and 3pm are prepared for next-day delivery. Processing time, weekends, public holidays, postcode and courier conditions apply.",
+      "Next-day delivery is available for orders placed Monday to Thursday between 8am and 3pm (UK time). Orders placed Friday, Saturday or Sunday are scheduled for Tuesday delivery. Public holidays, postcode and courier conditions may also affect timing.",
   },
   {
     question: "How are frozen products packed?",

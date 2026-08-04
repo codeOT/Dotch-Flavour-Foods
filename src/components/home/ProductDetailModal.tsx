@@ -8,6 +8,7 @@ import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
 import { LiterSizeSelector } from "@/components/cart/LiterSizeSelector";
 import { productToCartItem } from "@/context/CartContext";
 import type { Product } from "@/lib/products";
+import { formatProductPrice } from "@/lib/products";
 import { formatLiterPrice, getServingForLiters, type LiterSize } from "@/lib/liter-sizes";
 
 type ProductDetailModalProps = {
@@ -17,6 +18,7 @@ type ProductDetailModalProps = {
 
 export function ProductDetailModal({ product, onClose }: ProductDetailModalProps) {
   const [liters, setLiters] = useState<LiterSize>(2);
+  const isOneLiter = product?.category === "soups-and-stews";
 
   useEffect(() => {
     setLiters(2);
@@ -69,16 +71,27 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
                     <p className="mt-1 text-sm text-title/70">{product.shortDescription}</p>
                   </div>
                   <p className="text-2xl font-bold text-primary">
-                    {formatLiterPrice(product.price, liters)}
+                    {isOneLiter
+                      ? formatProductPrice(product)
+                      : formatLiterPrice(product.price, liters)}
                   </p>
                 </div>
 
                 <div className="mb-6">
                   <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-title/50">
-                    Choose size
+                    {isOneLiter ? "Size" : "Choose size"}
                   </p>
-                  <LiterSizeSelector value={liters} onChange={setLiters} />
-                  <p className="mt-2 text-xs text-title/60">{getServingForLiters(liters)}</p>
+                  {isOneLiter ? (
+                    <>
+                      <p className="text-sm font-semibold text-title">1 Liter</p>
+                      <p className="mt-1 text-xs text-title/60">Serves 3–4</p>
+                    </>
+                  ) : (
+                    <>
+                      <LiterSizeSelector value={liters} onChange={setLiters} />
+                      <p className="mt-2 text-xs text-title/60">{getServingForLiters(liters)}</p>
+                    </>
+                  )}
                 </div>
 
                 <div className="mb-6 rounded-xl bg-surface/60 p-4">
@@ -121,7 +134,13 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
 
                 <div className="mt-6 flex flex-col gap-3 border-t border-surface pt-6 sm:flex-row sm:items-center sm:justify-between">
                   <p className="text-sm font-semibold text-title">Add to cart</p>
-                  <CartQuantityControls item={productToCartItem(product, liters)} />
+                  <CartQuantityControls
+                    item={
+                      isOneLiter
+                        ? productToCartItem(product, 1)
+                        : productToCartItem(product, liters)
+                    }
+                  />
                 </div>
               </div>
             </div>

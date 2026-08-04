@@ -55,7 +55,7 @@ export const howItWorksSteps = [
     step: "03",
     title: "Next-day delivery",
     description:
-      "Order between 8am and 3pm for next-day frozen delivery. Your soups arrive ready for the freezer.",
+      "Order Monday–Thursday between 8am and 3pm for next-day frozen delivery. Orders placed Friday–Sunday are delivered on Tuesday. Your soups arrive ready for the freezer.",
   },
   {
     step: "04",
@@ -98,7 +98,7 @@ export const launchOffers = [
     id: "flat-delivery",
     title: "Delivery by volume",
     description:
-      "£13.99 for orders up to 20kg, £16.99 up to 25kg. Order 8am–3pm for next-day delivery. Collection remains available at checkout where offered.",
+      "£13.99 for orders up to 20kg, £16.99 up to 25kg. Next-day delivery: order Monday–Thursday 8am–3pm. Friday–Sunday orders arrive Tuesday. Collection remains available at checkout where offered.",
     code: null,
     badge: "Delivery",
   },
@@ -124,7 +124,7 @@ export const readySoupReviews = [
     location: "Birmingham",
     rating: 4,
     quote:
-      "Heating instructions are clear and the 1000ml size feeds our family of four with leftovers. Brilliant product.",
+      "Heating instructions are clear and the 1 Liter size feeds our family of four with leftovers. Brilliant product.",
   },
   {
     name: "Chidi E.",
@@ -145,7 +145,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
       "A vibrant Yoruba classic — tender spinach simmered in a rich pepper and tomato base with locust beans, crayfish, and traditional seasonings. Bold, earthy, and deeply satisfying.",
     shortDescription: "Spinach stew with peppers, locust beans, and aromatic spices.",
     price: 70,
-    size: "1000ml",
+    size: "1 Liter",
     image: "/assets/images/Efo.png",
     ingredients: [
       "Fresh spinach",
@@ -181,7 +181,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
       "Ground egusi seeds cooked into a velvety, nutty soup with spinach, palm oil, and seasoned stock. A West African favourite that delivers comfort in every spoonful.",
     shortDescription: "Rich melon seed soup with spinach and traditional seasonings.",
     price: 70,
-    size: "1000ml",
+    size: "1 Liter",
     image: "/assets/images/Egus.png",
     ingredients: [
       "Ground egusi (melon seeds)",
@@ -216,7 +216,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
       "The legendary Ofada sauce — green bell peppers and scotch bonnet blended with fermented locust beans and palm oil. Smoky, spicy, and unforgettable.",
     shortDescription: "Iconic green pepper sauce with palm oil and locust beans.",
     price: 85,
-    size: "1000ml",
+    size: "1 Liter",
     image: "/assets/images/Ayam.png",
     ingredients: [
       "Green bell peppers",
@@ -250,7 +250,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
       "Inspired by the legendary buka joints of Lagos — a deep, smoky tomato stew with layered spices, perfect for rice, yams, or bread.",
     shortDescription: "Smoky, slow-cooked tomato stew with bold Nigerian spices.",
     price: 85,
-    size: "1000ml",
+    size: "1 Liter",
     image: "/assets/images/Bukas.png",
     ingredients: [
       "Tomatoes",
@@ -286,7 +286,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
       "A silky okra soup cooked one-pot style with palm oil, crayfish, and traditional seasonings. Light, nourishing, and perfect with any swallow.",
     shortDescription: "Silky okra soup with palm oil and crayfish — the one-pot classic.",
     price: 70,
-    size: "1000ml",
+    size: "1 Liter",
     image: "/assets/images/Ila Asepo.png",
     ingredients: [
       "Fresh okra",

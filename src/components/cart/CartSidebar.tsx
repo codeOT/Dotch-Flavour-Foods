@@ -6,6 +6,9 @@ import { Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import {
   cartHasReadySoups,
+  formatWeightKg,
+  getCartItemWeightKg,
+  getCartWeightKg,
   getDeliveryLabel,
   getOrderTotal,
   getReadySoupUnitCount,
@@ -65,6 +68,7 @@ export function CartSidebar() {
   const readySoupUnits = getReadySoupUnitCount(items);
   const readySoupOk = meetsReadySoupMinimum(items);
   const showReadySoupWarning = cartHasReadySoups(items) && !readySoupOk;
+  const cartWeightKg = getCartWeightKg(items);
 
   return (
     <AnimatePresence>
@@ -162,7 +166,10 @@ export function CartSidebar() {
 
                   <ul className="flex-1 space-y-3 overflow-y-auto px-5 py-4">
                     <AnimatePresence initial={false}>
-                      {items.map((item) => (
+                      {items.map((item) => {
+                        const unitWeight = getCartItemWeightKg({ ...item, quantity: 1 });
+                        const lineWeight = getCartItemWeightKg(item);
+                        return (
                         <motion.li
                           key={item.id}
                           layout
@@ -184,7 +191,10 @@ export function CartSidebar() {
                             <div className="flex items-start justify-between gap-2">
                               <div className="min-w-0">
                                 <p className="truncate text-sm font-semibold text-title">{item.name}</p>
-                                <p className="text-xs text-title/60">{formatPrice(item.price)} each</p>
+                                <p className="text-xs text-title/60">
+                                  {formatPrice(item.price)} each
+                                  {unitWeight > 0 ? ` · ${formatWeightKg(unitWeight)} each` : ""}
+                                </p>
                               </div>
                               <button
                                 type="button"
@@ -201,13 +211,19 @@ export function CartSidebar() {
                                 onDecrease={() => updateQuantity(item.id, item.quantity - 1)}
                                 onIncrease={() => updateQuantity(item.id, item.quantity + 1)}
                               />
-                              <p className="text-sm font-bold text-primary">
-                                {formatPrice(item.price * item.quantity)}
-                              </p>
+                              <div className="text-right">
+                                <p className="text-sm font-bold text-primary">
+                                  {formatPrice(item.price * item.quantity)}
+                                </p>
+                                {lineWeight > 0 && (
+                                  <p className="text-[11px] text-title/50">{formatWeightKg(lineWeight)}</p>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </motion.li>
-                      ))}
+                        );
+                      })}
                     </AnimatePresence>
                   </ul>
                 </>
@@ -223,6 +239,10 @@ export function CartSidebar() {
                     <dd className="font-semibold">{formatPrice(subtotal)}</dd>
                   </div>
                   <div className="flex justify-between">
+                    <dt className="text-title/70">Total weight</dt>
+                    <dd className="font-semibold text-secondary">{formatWeightKg(cartWeightKg)}</dd>
+                  </div>
+                  <div className="flex justify-between">
                     <dt className="text-title/70">Delivery</dt>
                     <dd className="text-secondary">{getDeliveryLabel("delivery", items)}</dd>
                   </div>
@@ -232,8 +252,7 @@ export function CartSidebar() {
                   </div>
                 </dl>
                 <p className="mb-3 text-[11px] leading-relaxed text-title/55">
-                  Order {readySoupDeliveryInfo.orderWindow} for next-day delivery.{" "}
-                  {readySoupDeliveryInfo.feeSummary}
+                  {readySoupDeliveryInfo.scheduleSummary} {readySoupDeliveryInfo.feeSummary}
                 </p>
                 {showReadySoupWarning && (
                   <p className="mb-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">

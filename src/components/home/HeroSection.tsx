@@ -90,7 +90,7 @@ export function HeroSection() {
         variants={heroBgFade}
       >
         <Image
-          src="/assets/images/hero-bg.png"
+          src="/assets/images/df.png"
           alt="Steaming Dotch Flavour soup bowl with braised meat and greens"
           fill
           priority

@@ -5,6 +5,9 @@ import Link from "next/link";
 import type { CartItem } from "@/context/CartContext";
 import {
   type DeliveryMethod,
+  formatWeightKg,
+  getCartItemWeightKg,
+  getCartWeightKg,
   getDeliveryLabel,
   getOrderTotal,
   readySoupDeliveryInfo,
@@ -34,6 +37,7 @@ export function OrderSummary({
   children,
 }: OrderSummaryProps) {
   const total = getOrderTotal(subtotal, deliveryMethod, items);
+  const cartWeightKg = getCartWeightKg(items);
 
   return (
     <div className="rounded-2xl border border-surface bg-gradient-to-b from-surface/30 to-white p-6 shadow-sm">
@@ -41,18 +45,24 @@ export function OrderSummary({
 
       {showItems && items.length > 0 && (
         <ul className="mb-5 max-h-48 space-y-3 overflow-y-auto border-b border-surface pb-5">
-          {items.map((item) => (
-            <li key={item.id} className="flex items-center gap-3 text-sm">
-              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg">
-                <Image src={item.image} alt={item.name} fill className="object-cover" sizes="40px" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="truncate font-medium">{item.name}</p>
-                <p className="text-xs text-title/60">Qty {item.quantity}</p>
-              </div>
-              <span className="shrink-0 font-semibold">{formatPrice(item.price * item.quantity)}</span>
-            </li>
-          ))}
+          {items.map((item) => {
+            const lineWeight = getCartItemWeightKg(item);
+            return (
+              <li key={item.id} className="flex items-center gap-3 text-sm">
+                <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg">
+                  <Image src={item.image} alt={item.name} fill className="object-cover" sizes="40px" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-medium">{item.name}</p>
+                  <p className="text-xs text-title/60">
+                    Qty {item.quantity}
+                    {lineWeight > 0 ? ` · ${formatWeightKg(lineWeight)}` : ""}
+                  </p>
+                </div>
+                <span className="shrink-0 font-semibold">{formatPrice(item.price * item.quantity)}</span>
+              </li>
+            );
+          })}
         </ul>
       )}
 
@@ -62,6 +72,10 @@ export function OrderSummary({
           <dd className="font-semibold">{formatPrice(subtotal)}</dd>
         </div>
         <div className="flex justify-between">
+          <dt className="text-title/70">Total weight</dt>
+          <dd className="font-semibold text-secondary">{formatWeightKg(cartWeightKg)}</dd>
+        </div>
+        <div className="flex justify-between">
           <dt className="text-title/70">Delivery</dt>
           <dd className="font-medium text-secondary">
             {getDeliveryLabel(deliveryMethod, items)}
@@ -69,8 +83,7 @@ export function OrderSummary({
         </div>
         {deliveryMethod === "delivery" && (
           <p className="text-[11px] leading-relaxed text-title/55">
-            Order {readySoupDeliveryInfo.orderWindow} for next-day delivery.{" "}
-            {readySoupDeliveryInfo.feeSummary}
+            {readySoupDeliveryInfo.scheduleSummary} {readySoupDeliveryInfo.feeSummary}
           </p>
         )}
         <div className="border-t border-surface pt-3">

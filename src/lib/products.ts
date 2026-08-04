@@ -62,7 +62,7 @@ export const catalogProducts: Product[] = [
     category: "soups-and-stews",
     price: 70,
     shortDescription: "Rich, hearty okra soup delight.",
-    image: "/assets/images/Ila Asepo f.png",
+    image: "/assets/images/ilaasepo.jpeg",
     ingredients: [
       "Fresh okra",
       "Assorted meat stock",

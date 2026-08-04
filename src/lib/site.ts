@@ -13,7 +13,7 @@ export const siteConfig = {
   contact: {
     phone: "+447889490189",
     email: "hello@dotchflavours.com",
-    address: "Hemel Hempstead, United Kingdom, HP2 5JN",
+    address: "Hemel Hempstead, United Kingdom",
     companyNumber: "17246871",
   } satisfies SiteContact,
 } as const;

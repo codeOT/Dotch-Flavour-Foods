@@ -220,100 +220,10 @@ export const menuItems: MenuItem[] = [
   ),
 ];
 
-export const todaysMenu: MenuItem[] = [
-  {
-    id: "jollof-rice",
-    name: "Jollof Rice",
-    description: "Lorem ipsum dolor sit amet, dipiscing elit, sed",
-    price: formatPrice(35),
-    priceValue: 35,
-    image: "/assets/images/jollof new.jpg",
-  },
-  {
-    id: "egusi-soup-today",
-    name: "Egusi Soup",
-    description: "Lorem ipsum dolor sit amet, dipiscing elit, sed",
-    price: formatPrice(55),
-    priceValue: 55,
-    image: "/assets/images/egusi.jpg",
-  },
-  {
-    id: "vegetable-soup-today",
-    name: "Vegetable Soup",
-    description: "Lorem ipsum dolor sit amet, dipiscing elit, sed",
-    price: formatPrice(25),
-    priceValue: 25,
-    image: "/assets/images/efo.jpg",
-  },
-  {
-    id: "ogbono-soup-today",
-    name: "Ogbono Soup",
-    description: "Lorem ipsum dolor sit amet, dipiscing elit, sed",
-    price: formatPrice(90),
-    priceValue: 90,
-    image: "/assets/images/ogbono.jpg",
-  },
-];
 
-export const readyToEatSoups: MenuItem[] = [
-  {
-    id: "egusi-soup-ready",
-    name: "Egusi Soup",
-    description: "Rich melon seed soup with leafy greens and seasoned protein.",
-    price: formatPrice(18),
-    priceValue: 18,
-    image: "/assets/images/gallery/grid2/pic4.jpg",
-  },
-  {
-    id: "ogbono-soup-ready",
-    name: "Ogbono Soup",
-    description: "Silky draw soup with a deep, nutty flavour — heat and serve.",
-    price: formatPrice(16),
-    priceValue: 16,
-    image: "/assets/images/ogbono r.jpg",
-  },
-  {
-    id: "pepper-soup-ready",
-    name: "Pepper Soup",
-    description: "Bold, aromatic broth — perfect as a starter or light meal.",
-    price: formatPrice(14),
-    priceValue: 14,
-    image: "/assets/images/pepper soup r.jpg",
-  },
-  {
-    id: "vegetable-soup-ready",
-    name: "Vegetable Soup",
-    description: "Wholesome mix of fresh vegetables in a savoury base.",
-    price: formatPrice(15),
-    priceValue: 15,
-    image: "/assets/images/vg stew r.jpg",
-  },
-];
 
-export const features = [
-  { title: "Fresh Healthy Food", description: "lorem ipsum dolor shit amet lorem ipsum" },
-  { title: "Fast Serve On Table", description: "lorem ipsum dolor shit amet lorem ipsum" },
-];
 
-export const services = [
-  {
-    title: "Restaurant",
-    description: "Lorem ipsum dolor sit amet, dipiscing elit, sed",
-    image: "/assets/images/gallery/grid/pic1.jpg",
-  },
-  {
-    title: "Bar",
-    description: "Lorem ipsum dolor sit amet, dipiscing elit, sed",
-    image: "/assets/images/gallery/grid/pic2.jpg",
-  },
-  {
-    title: "Cafe",
-    description: "Lorem ipsum dolor sit amet, dipiscing elit, sed",
-    image: "/assets/images/gallery/grid/pic3.jpg",
-  },
-  {
-    title: "Dessert",
-    description: "Lorem ipsum dolor sit amet, dipiscing elit, sed",
-    image: "/assets/images/gallery/grid/pic4.jpg",
-  },
-];
+
+
+
+

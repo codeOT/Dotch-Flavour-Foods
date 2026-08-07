@@ -220,9 +220,55 @@ export const menuItems: MenuItem[] = [
   ),
 ];
 
+export const todaysMenu: MenuItem[] = [
+  {
+    id: "jollof-rice",
+    name: "Jollof Rice",
+    description: "Party-style jollof with deep smoky flavour.",
+    price: formatPrice(35),
+    priceValue: 35,
+    image: "/assets/images/jollof new.jpg",
+  },
+  {
+    id: "egusi-soup-today",
+    name: "Egusi Soup",
+    description: "Rich melon seed soup with leafy greens.",
+    price: formatPrice(55),
+    priceValue: 55,
+    image: "/assets/images/egusi.jpg",
+  },
+  {
+    id: "vegetable-soup-today",
+    name: "Vegetable Soup",
+    description: "Hearty greens in a savoury pepper base.",
+    price: formatPrice(25),
+    priceValue: 25,
+    image: "/assets/images/efo.jpg",
+  },
+  {
+    id: "ogbono-soup-today",
+    name: "Ogbono Soup",
+    description: "Silky draw soup with a deep, nutty flavour.",
+    price: formatPrice(90),
+    priceValue: 90,
+    image: "/assets/images/ogbono.jpg",
+  },
+];
 
-
-
+export const features = [
+  {
+    title: "Authentic Flavour",
+    description: "Traditional recipes, cooked in small batches and frozen at peak freshness.",
+  },
+  {
+    title: "Ready in Minutes",
+    description: "Heat and serve — restaurant-quality Nigerian soups without the wait.",
+  },
+  {
+    title: "Made for Sharing",
+    description: "From family meals to catering trays — sized for real gatherings.",
+  },
+];
 
 
 

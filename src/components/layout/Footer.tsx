@@ -142,7 +142,7 @@ export function Footer() {
             <p>
               Made with 🫶 by{" "}
               <a
-                href="https://codeot.com"
+                href="https://github.com/codeOT"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white/70 transition hover:text-secondary"

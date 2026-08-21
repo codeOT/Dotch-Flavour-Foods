@@ -48,6 +48,15 @@
   }
 }
 
+/* iOS Safari zooms focused fields under 16px — keep form controls at least 16px on small screens */
+@media (max-width: 639px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="image"]):not([type="file"]):not([type="hidden"]):not([type="color"]),
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
 @layer utilities {
   .container-fluid {
     @apply mx-auto w-full min-w-0 max-w-[1400px] px-4 sm:px-6 lg:px-8;

@@ -18,7 +18,7 @@ export type LegalDocument = {
   sections: LegalSection[];
 };
 
-const legalEmail = "hello@dotchflavours.com";
+const legalEmail = "hello@dotchflavourfoods.com";
 const legalPhone = "+447889490189";
 const companyName = "Dotch Flavour Foods Limited";
 const tradingAs = "Dotch Flavour";

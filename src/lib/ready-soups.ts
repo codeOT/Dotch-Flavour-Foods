@@ -144,7 +144,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
     description:
       "Frozen Efo riro • Net Volume: 1 Litre • Fully Cooked • Ready to Heat • Keep Frozen at -18°C or BelowRich • Spicy • Homemade Style (No Artificial colours or Preservatives) • Produced in a Home Kitchen in the UK",
     shortDescription: "A rich vibrant Nigerian spinach stew",
-    price: 70,
+    price: 25.99,
     size: "1 Litre",
     image: "/assets/images/Efo.png",
     ingredients: [
@@ -184,7 +184,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
     description:
       "Egusi Soup • Net Volume: 1 litre • Fully Cooked • Ready to Heat • Keep Frozen at -18°C or BelowRich • Spicy • Homemade Style (No Artificial colours or Preservatives) • Produced in a Home Kitchen in the UK",
     shortDescription: "Authentic Nigerian Egusi soup",
-    price: 70,
+    price: 24.99,
     size: "1 Litre",
     image: "/assets/images/Egus.png",
     ingredients: [
@@ -223,7 +223,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
     description:
       "Frozen Ayamase stew • Net volume: 1 Litre • Fully Cooked • Ready to Heat • Keep Frozen at -18°C or BelowRich • Spicy • Bold • Homemade Style (No Artificial colours or Preservatives) • Produced in a Home Kitchen in the UK",
     shortDescription: "Rich spicy and savory green bell pepper stew",
-    price: 85,
+    price: 25.99,
     size: "1 Litre",
     image: "/assets/images/Ayam.png",
     ingredients: [
@@ -261,7 +261,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
     description:
       "Frozen assorted meat in stew • Net Volume: 1 Litre • Fully Cooked • Ready to Heat • Keep Frozen at -18°C or BelowRich • Spicy • Homemade Style (No Artificial colours or Preservatives) • Produced in a Home Kitchen in the UK",
     shortDescription: "A rich and flavorful Nigerian Stew",
-    price: 85,
+    price: 25.99,
     size: "1 Litre",
     image: "/assets/images/Bukas.png",
     ingredients: [
@@ -302,7 +302,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
     description:
       "Frozen Ila asepo • Net Volume: 1 Litre • Fully Cooked • Ready to Heat • Keep Frozen at -18°C or BelowRich • Spicy • Homemade Style (No Artificial colours or Preservatives) • Produced in a Home Kitchen in the UK",
     shortDescription: "A traditional one-pot Nigerian soup.",
-    price: 70,
+    price: 24.99,
     size: "1 Litre",
     image: "/assets/images/Ila Asepo.png",
     ingredients: [

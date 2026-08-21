@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import {
   Building2,
@@ -45,11 +46,48 @@ export function ContactContent() {
     "Hi Dotch Flavour Foods, I have a question about ordering / catering / Ready Soups.",
   )}`;
 
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
   const contactItems = [
     { icon: Phone, title: "Phone", text: contact.phone, href: `tel:${whatsappNumber}` },
     { icon: Mail, title: "Email", text: contact.email, href: `mailto:${contact.email}` },
     { icon: MapPin, title: "Address", text: contact.address },
   ] as const;
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setLoading(true);
+    setError("");
+    setSuccess("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      });
+      const data = (await response.json()) as { message?: string; error?: string };
+
+      if (!response.ok) {
+        setError(data.error ?? "Unable to send your message. Please try again.");
+        return;
+      }
+
+      setSuccess(data.message ?? "Message sent. We’ll reply within 1–2 working days.");
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch {
+      setError("Unable to send your message. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="w-full min-w-0 overflow-x-clip">
@@ -139,7 +177,7 @@ export function ContactContent() {
             <Reveal className="min-w-0">
               <form
                 className="box-border w-full min-w-0 max-w-full space-y-4 rounded-2xl border border-surface bg-white p-4 shadow-sm sm:p-6"
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={handleSubmit}
               >
                 <p className="text-sm font-semibold text-title">General message</p>
                 <label className="block w-full min-w-0 space-y-1.5">
@@ -149,6 +187,8 @@ export function ContactContent() {
                     required
                     placeholder="Your Name"
                     autoComplete="name"
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
                     className={inputClassName}
                   />
                 </label>
@@ -159,6 +199,8 @@ export function ContactContent() {
                     required
                     placeholder="Your Email"
                     autoComplete="email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
                     className={inputClassName}
                   />
                 </label>
@@ -168,10 +210,22 @@ export function ContactContent() {
                     required
                     rows={5}
                     placeholder="Your Message"
+                    value={message}
+                    onChange={(event) => setMessage(event.target.value)}
                     className={inputClassName}
                   />
                 </label>
-                <Button type="submit" fullWidth className="!w-full">
+                {error && (
+                  <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+                    {error}
+                  </p>
+                )}
+                {success && (
+                  <p className="rounded-lg border border-primary/20 bg-primary/5 px-3 py-2 text-sm text-primary">
+                    {success}
+                  </p>
+                )}
+                <Button type="submit" fullWidth loading={loading} className="!w-full">
                   Send Message
                 </Button>
               </form>

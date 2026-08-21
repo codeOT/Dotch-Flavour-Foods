@@ -61,6 +61,9 @@ export async function GET(_request: Request, context: RouteContext) {
         notes: order.notes,
         createdAt: order.createdAt,
         updatedAt: order.updatedAt,
+        paidAt: order.paidAt,
+        shippedAt: order.shippedAt,
+        deliveredAt: order.deliveredAt,
       },
     });
   } catch (error) {

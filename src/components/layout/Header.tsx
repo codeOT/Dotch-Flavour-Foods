@@ -117,21 +117,12 @@ export function Header({ mobileOpen, onToggleMobile, onCloseMobile }: HeaderProp
               <>
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                   <Link
-                    href="/orders"
-                    className="hidden rounded-md px-3 py-2 text-sm font-medium text-title transition hover:bg-surface hover:text-primary lg:inline-flex"
+                    href="/account"
+                    className="hidden items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-title transition hover:bg-surface hover:text-primary lg:inline-flex"
                   >
-                    My Orders
+                    <User className="h-4 w-4 text-primary" />
+                    Account
                   </Link>
-                </motion.div>
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="hidden items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-title lg:flex"
-                >
-                  <User className="h-4 w-4 text-primary" />
-                  <span className="max-w-[10rem] truncate">
-                    {session?.user?.name || session?.user?.email}
-                  </span>
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                   <button
@@ -269,18 +260,19 @@ export function Header({ mobileOpen, onToggleMobile, onCloseMobile }: HeaderProp
                 </button>
                 {isSignedIn ? (
                   <>
-                    <p className="px-2 py-2 text-sm text-title/70">
-                      Signed in as{" "}
-                      <span className="font-semibold text-title">
-                        {session?.user?.name || session?.user?.email}
-                      </span>
-                    </p>
                     <Link
-                      href="/orders"
+                      href="/account"
                       onClick={onCloseMobile}
                       className="flex items-center justify-center rounded-md border border-primary px-4 py-2 text-sm font-semibold text-primary"
                     >
-                      My Orders
+                      Account
+                    </Link>
+                    <Link
+                      href="/account?section=orders"
+                      onClick={onCloseMobile}
+                      className="flex items-center justify-center rounded-md px-4 py-2 text-sm font-semibold text-title hover:bg-surface"
+                    >
+                      Orders
                     </Link>
                     <button
                       type="button"

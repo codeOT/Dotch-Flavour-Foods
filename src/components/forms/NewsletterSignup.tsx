@@ -13,13 +13,14 @@ type NewsletterSignupProps = {
 export function NewsletterSignup({ variant = "light", className = "" }: NewsletterSignupProps) {
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [feedback, setFeedback] = useState("");
 
   const isDark = variant === "dark";
   const isHome = variant === "home";
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!consent) {
       setStatus("error");
@@ -27,10 +28,37 @@ export function NewsletterSignup({ variant = "light", className = "" }: Newslett
       return;
     }
 
-    setStatus("success");
-    setFeedback("You’re on the list — thank you. We’ll only send launch updates and offers you’ve opted into.");
-    setEmail("");
-    setConsent(false);
+    setLoading(true);
+    setStatus("idle");
+    setFeedback("");
+
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, consent: true }),
+      });
+      const data = (await response.json()) as { message?: string; error?: string };
+
+      if (!response.ok) {
+        setStatus("error");
+        setFeedback(data.error ?? "Unable to subscribe right now. Please try again.");
+        return;
+      }
+
+      setStatus("success");
+      setFeedback(
+        data.message ??
+          "You’re on the list — thank you. We’ll only send launch updates and offers you’ve opted into.",
+      );
+      setEmail("");
+      setConsent(false);
+    } catch {
+      setStatus("error");
+      setFeedback("Unable to subscribe right now. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   if (status === "success") {
@@ -136,6 +164,7 @@ export function NewsletterSignup({ variant = "light", className = "" }: Newslett
       <Button
         type="submit"
         fullWidth={isDark || isHome}
+        loading={loading}
         className={isDark ? "!bg-secondary hover:!bg-orange" : undefined}
       >
         Subscribe <Send className="h-4 w-4" />

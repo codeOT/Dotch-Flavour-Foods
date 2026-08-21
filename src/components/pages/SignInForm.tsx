@@ -81,10 +81,10 @@ export function SignInForm() {
         <form className="space-y-4" onSubmit={handleSubmit}>
           <AuthField
             id="email"
-            label="Email address"
-            type="email"
-            placeholder="you@example.com"
-            autoComplete="email"
+            label="Email or username"
+            type="text"
+            placeholder="you@example.com or username"
+            autoComplete="username"
             value={email}
             onChange={setEmail}
           />

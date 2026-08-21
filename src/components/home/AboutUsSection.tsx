@@ -9,7 +9,7 @@ import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 import { aboutIntro } from "@/lib/about";
 
 const aboutVisual = {
-  src: "/assets/images/egusi.jpg",
+  src: "/assets/images/egusi1.jpg",
   alt: "A bowl of Dotch Flavour Egusi soup, cooked with care",
 } as const;
 

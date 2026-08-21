@@ -8,6 +8,7 @@ import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
 import { formatPrice } from "@/lib/site";
+import { clearCheckoutIdempotencyKey } from "@/lib/checkout-idempotency";
 
 type OrderResult = {
   orderNumber: string;
@@ -48,6 +49,7 @@ export function CheckoutSuccessContent() {
         if (!cancelled) {
           setOrder(data);
           clearCart();
+          clearCheckoutIdempotencyKey();
         }
       } catch {
         if (!cancelled) setError("Unable to load your order.");

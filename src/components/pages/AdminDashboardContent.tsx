@@ -19,7 +19,14 @@ import {
 } from "lucide-react";
 import { Reveal } from "@/components/motion/Reveal";
 import { AdminProductsSection } from "@/components/admin/AdminProductsSection";
+import { OrderStatusBadge } from "@/components/orders/OrderStatusBadge";
 import { formatPrice } from "@/lib/site";
+import {
+  ADMIN_SETTABLE_STATUSES,
+  normalizeOrderStatus,
+  orderStatusLabels,
+  type OrderStatus,
+} from "@/lib/order-status";
 
 type DashboardResponse = {
   admin: { name?: string | null; email?: string | null };
@@ -27,6 +34,7 @@ type DashboardResponse = {
     totalOrders: number;
     pendingOrders: number;
     paidOrders: number;
+    processingOrders: number;
     usersCount: number;
     paidRevenue: number;
   };
@@ -46,19 +54,12 @@ type DashboardResponse = {
     orderNumber: string;
     fullName: string;
     email: string;
-    status: "pending" | "paid" | "failed" | "cancelled";
+    status: OrderStatus;
     deliveryMethod: "delivery" | "pickup";
     total: number;
     createdAt?: string;
   }>;
   error?: string;
-};
-
-const statusStyles: Record<string, string> = {
-  pending: "bg-amber-100 text-amber-700",
-  paid: "bg-emerald-100 text-emerald-700",
-  failed: "bg-red-100 text-red-700",
-  cancelled: "bg-slate-200 text-slate-700",
 };
 
 function formatMonth(value: string) {
@@ -73,6 +74,53 @@ export function AdminDashboardContent() {
   const [data, setData] = useState<DashboardResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [updatingOrder, setUpdatingOrder] = useState<string | null>(null);
+  const [statusMessage, setStatusMessage] = useState("");
+
+  async function updateOrderStatus(orderNumber: string, status: OrderStatus) {
+    setUpdatingOrder(orderNumber);
+    setStatusMessage("");
+    try {
+      const res = await fetch(`/api/admin/orders/${encodeURIComponent(orderNumber)}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      const payload = (await res.json()) as {
+        order?: { orderNumber: string; status: OrderStatus };
+        emailSent?: boolean;
+        error?: string;
+      };
+      if (!res.ok || !payload.order) {
+        setStatusMessage(payload.error ?? "Unable to update order status.");
+        return;
+      }
+
+      setData((current) => {
+        if (!current) return current;
+        return {
+          ...current,
+          recentOrders: current.recentOrders.map((order) =>
+            order.orderNumber === payload.order!.orderNumber
+              ? { ...order, status: payload.order!.status }
+              : order,
+          ),
+        };
+      });
+      const emailNote = payload.emailSent
+        ? " Customer email sent."
+        : payload.order.status === "paid"
+          ? ""
+          : " Status saved (email may have been skipped or failed — check Resend).";
+      setStatusMessage(
+        `Order ${payload.order.orderNumber} marked as ${orderStatusLabels[payload.order.status]}.${emailNote}`,
+      );
+    } catch {
+      setStatusMessage("Unable to update order status.");
+    } finally {
+      setUpdatingOrder(null);
+    }
+  }
 
   useEffect(() => {
     let cancelled = false;
@@ -209,7 +257,7 @@ export function AdminDashboardContent() {
               Sign out
             </button>
           </div>
-          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-xl border border-white/20 bg-white/10 px-4 py-3">
               <p className="text-xs uppercase tracking-wider text-slate-300">Paid Revenue</p>
               <p className="mt-1 text-xl font-semibold">{formatPrice(data.metrics.paidRevenue)}</p>
@@ -217,6 +265,12 @@ export function AdminDashboardContent() {
             <div className="rounded-xl border border-white/20 bg-white/10 px-4 py-3">
               <p className="text-xs uppercase tracking-wider text-slate-300">Paid Orders</p>
               <p className="mt-1 text-xl font-semibold">{data.metrics.paidOrders.toLocaleString()}</p>
+            </div>
+            <div className="rounded-xl border border-white/20 bg-white/10 px-4 py-3">
+              <p className="text-xs uppercase tracking-wider text-slate-300">In fulfilment</p>
+              <p className="mt-1 text-xl font-semibold">
+                {(data.metrics.processingOrders ?? 0).toLocaleString()}
+              </p>
             </div>
             <div className="rounded-xl border border-white/20 bg-white/10 px-4 py-3">
               <p className="text-xs uppercase tracking-wider text-slate-300">Pending Orders</p>
@@ -339,19 +393,26 @@ export function AdminDashboardContent() {
               id="recent-orders"
               className="scroll-mt-24 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
             >
-              <div className="mb-4 flex items-center justify-between">
+              <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <h2 className="text-lg font-bold text-slate-900">Recent orders</h2>
-                  <p className="text-sm text-slate-500">Latest customer checkouts and status updates</p>
+                  <p className="text-sm text-slate-500">
+                    Update fulfilment status: processing, shipped, or delivered
+                  </p>
                 </div>
                 <Link
                   href="/orders"
                   className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
                 >
-                  View all
+                  Customer view
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </div>
+              {statusMessage && (
+                <p className="mb-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  {statusMessage}
+                </p>
+              )}
               <div className="overflow-hidden rounded-xl border border-slate-200">
                 <div className="overflow-x-auto">
                   <table className="min-w-full text-sm">
@@ -360,45 +421,77 @@ export function AdminDashboardContent() {
                         <th className="px-4 py-3 font-medium">Order</th>
                         <th className="px-4 py-3 font-medium">Customer</th>
                         <th className="px-4 py-3 font-medium">Status</th>
+                        <th className="px-4 py-3 font-medium">Update</th>
                         <th className="px-4 py-3 font-medium">Delivery</th>
                         <th className="px-4 py-3 font-medium">Total</th>
                         <th className="px-4 py-3 font-medium">Date</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {data.recentOrders.map((order) => (
-                        <tr
-                          key={order.id}
-                          className="border-b border-slate-100 transition hover:bg-slate-50/80 last:border-none"
-                        >
-                          <td className="px-4 py-3 font-semibold text-slate-900">{order.orderNumber}</td>
-                          <td className="px-4 py-3">
-                            <p className="font-medium text-slate-900">{order.fullName}</p>
-                            <p className="text-xs text-slate-500">{order.email}</p>
-                          </td>
-                          <td className="px-4 py-3">
-                            <span
-                              className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${
-                                statusStyles[order.status]
-                              }`}
-                            >
-                              {order.status}
-                            </span>
-                          </td>
-                          <td className="px-4 py-3 text-slate-600">
-                            <span className="inline-flex items-center gap-1">
-                              <ShoppingBag className="h-3.5 w-3.5" />
-                              {order.deliveryMethod}
-                            </span>
-                          </td>
-                          <td className="px-4 py-3 font-semibold text-primary">
-                            {formatPrice(order.total)}
-                          </td>
-                          <td className="px-4 py-3 text-slate-600">
-                            {order.createdAt ? new Date(order.createdAt).toLocaleDateString("en-GB") : "—"}
-                          </td>
-                        </tr>
-                      ))}
+                      {data.recentOrders.map((order) => {
+                        const status = normalizeOrderStatus(order.status);
+                        const canEdit =
+                          status !== "pending" && status !== "failed";
+
+                        return (
+                          <tr
+                            key={order.id}
+                            className="border-b border-slate-100 transition hover:bg-slate-50/80 last:border-none"
+                          >
+                            <td className="px-4 py-3 font-semibold text-slate-900">
+                              {order.orderNumber}
+                            </td>
+                            <td className="px-4 py-3">
+                              <p className="font-medium text-slate-900">{order.fullName}</p>
+                              <p className="text-xs text-slate-500">{order.email}</p>
+                            </td>
+                            <td className="px-4 py-3">
+                              <OrderStatusBadge status={status} />
+                            </td>
+                            <td className="px-4 py-3">
+                              {canEdit ? (
+                                <select
+                                  className="rounded-md border border-slate-200 bg-white px-2 py-1.5 text-xs font-medium text-slate-800 outline-none focus:border-primary"
+                                  value={
+                                    ADMIN_SETTABLE_STATUSES.includes(status)
+                                      ? status
+                                      : "paid"
+                                  }
+                                  disabled={updatingOrder === order.orderNumber}
+                                  onChange={(event) =>
+                                    void updateOrderStatus(
+                                      order.orderNumber,
+                                      event.target.value as OrderStatus,
+                                    )
+                                  }
+                                >
+                                  {ADMIN_SETTABLE_STATUSES.map((option) => (
+                                    <option key={option} value={option}>
+                                      {orderStatusLabels[option]}
+                                    </option>
+                                  ))}
+                                </select>
+                              ) : (
+                                <span className="text-xs text-slate-400">—</span>
+                              )}
+                            </td>
+                            <td className="px-4 py-3 text-slate-600">
+                              <span className="inline-flex items-center gap-1">
+                                <ShoppingBag className="h-3.5 w-3.5" />
+                                {order.deliveryMethod}
+                              </span>
+                            </td>
+                            <td className="px-4 py-3 font-semibold text-primary">
+                              {formatPrice(order.total)}
+                            </td>
+                            <td className="px-4 py-3 text-slate-600">
+                              {order.createdAt
+                                ? new Date(order.createdAt).toLocaleDateString("en-GB")
+                                : "—"}
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                   </div>

@@ -150,7 +150,7 @@ export const faqs: FaqItem[] = [
   },
   {
     question: "How can I contact you?",
-    answer: "Email hello@dotchflavours.com. Telephone/WhatsApp: +447889490189.",
+    answer: "Email hello@dotchflavourfoods.com. Telephone/WhatsApp: +447889490189.",
   },
 ];
 

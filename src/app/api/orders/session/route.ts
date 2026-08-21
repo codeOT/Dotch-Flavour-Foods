@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
+import { ensureOrderConfirmationEmail } from "@/lib/email/order-confirmation";
+import { applyFulfilmentTimestamps } from "@/lib/order-progress";
+import { cacheDeletePrefix } from "@/lib/request-cache";
 import { stripe } from "@/lib/stripe";
 import { Order } from "@/models/Order";
 
@@ -14,10 +17,10 @@ export async function GET(request: Request) {
 
     await connectDB();
 
-    let order = await Order.findOne({ stripeSessionId: sessionId }).lean();
+    let orderDoc = await Order.findOne({ stripeSessionId: sessionId });
 
     // If webhook hasn't run yet, confirm with Stripe and mark paid.
-    if (!order || order.status !== "paid") {
+    if (!orderDoc || orderDoc.status !== "paid") {
       const session = await stripe.checkout.sessions.retrieve(sessionId);
 
       if (session.payment_status === "paid") {
@@ -28,26 +31,32 @@ export async function GET(request: Request) {
 
         if (update) {
           update.status = "paid";
+          applyFulfilmentTimestamps(update, "paid");
           update.stripeSessionId = session.id;
           if (typeof session.payment_intent === "string") {
             update.stripePaymentIntentId = session.payment_intent;
           }
           await update.save();
-          order = update.toObject();
+          cacheDeletePrefix("orders:");
+          orderDoc = update;
         }
       }
     }
 
-    if (!order) {
+    if (!orderDoc) {
       return NextResponse.json({ error: "Order not found." }, { status: 404 });
     }
 
+    if (orderDoc.status === "paid") {
+      await ensureOrderConfirmationEmail(orderDoc);
+    }
+
     return NextResponse.json({
-      orderNumber: order.orderNumber,
-      email: order.email,
-      total: order.total,
-      status: order.status,
-      fullName: order.fullName,
+      orderNumber: orderDoc.orderNumber,
+      email: orderDoc.email,
+      total: orderDoc.total,
+      status: orderDoc.status,
+      fullName: orderDoc.fullName,
     });
   } catch (error) {
     console.error("Order lookup error:", error);

@@ -8,6 +8,7 @@ export type SitemapEntry = {
   section: string;
   changeFrequency: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
   priority: number;
+  images?: string[];
 };
 
 export function getSiteUrl() {
@@ -93,11 +94,32 @@ export function getSitemapEntries(): SitemapEntry[] {
       priority: 0.7,
     },
     {
+      path: "/orders",
+      title: "My Orders",
+      section: "Main pages",
+      changeFrequency: "monthly",
+      priority: 0.4,
+    },
+    {
+      path: "/account",
+      title: "My Account",
+      section: "Main pages",
+      changeFrequency: "monthly",
+      priority: 0.4,
+    },
+    {
       path: "/faq",
       title: "FAQ",
       section: "Main pages",
       changeFrequency: "monthly",
       priority: 0.6,
+    },
+    {
+      path: "/sitemap",
+      title: "Sitemap",
+      section: "Main pages",
+      changeFrequency: "monthly",
+      priority: 0.4,
     },
     {
       path: "/event-registration",
@@ -226,6 +248,7 @@ export function getSitemapEntries(): SitemapEntry[] {
     section: "Ready soups",
     changeFrequency: "weekly" as const,
     priority: 0.8,
+    images: [product.image],
   }));
 
   const blogRoutes: SitemapEntry[] = blogPosts.map((post) => ({

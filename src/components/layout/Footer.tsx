@@ -9,6 +9,7 @@ import { siteConfig } from "@/lib/site";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 import { NewsletterSignup } from "@/components/forms/NewsletterSignup";
+import { useCookieConsent } from "@/context/CookieConsentContext";
 
 const contactItems = [
   {
@@ -31,6 +32,8 @@ const contactItems = [
 ];
 
 export function Footer() {
+  const { openSettings } = useCookieConsent();
+
   return (
     <footer className="relative overflow-hidden bg-primary-dark text-white">
       <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-secondary via-cream to-secondary" />
@@ -139,17 +142,29 @@ export function Footer() {
         <Reveal>
           <div className="flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between sm:text-sm">
             <p>© {new Date().getFullYear()} Dotch Flavour Foods. All rights reserved.</p>
-            <p>
-              Made with 🫶 by{" "}
-              <a
-                href="https://github.com/codeOT"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/70 transition hover:text-secondary"
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+              <Link href="/cookie-policy" className="transition hover:text-secondary">
+                Cookie Policy
+              </Link>
+              <button
+                type="button"
+                onClick={openSettings}
+                className="text-left transition hover:text-secondary"
               >
-                CodeOT
-              </a>
-            </p>
+                Cookie Settings
+              </button>
+              <p>
+                Made with 🫶 by{" "}
+                <a
+                  href="https://github.com/codeOT"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/70 transition hover:text-secondary"
+                >
+                  CodeOT
+                </a>
+              </p>
+            </div>
           </div>
         </Reveal>
       </div>

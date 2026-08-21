@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { connectDB } from "@/lib/db";
-import { User } from "@/models/User";
+import { sendWelcomeEmail } from "@/lib/email/send";
+import { getRequestIp, rateLimit, tooManyRequests } from "@/lib/rate-limit";
+import { splitFullName, User, usernameFromEmail } from "@/models/User";
 
 type RegisterBody = {
   fullName?: string;
@@ -17,6 +19,10 @@ function isValidEmail(email: string) {
 
 export async function POST(request: Request) {
   try {
+    const ip = getRequestIp(request);
+    const limited = rateLimit(`auth:register:${ip}`, 8, 60_000);
+    if (!limited.allowed) return tooManyRequests(limited.retryAfterSec);
+
     const body = (await request.json()) as RegisterBody;
 
     const fullName = body.fullName?.trim() ?? "";
@@ -46,7 +52,7 @@ export async function POST(request: Request) {
 
     await connectDB();
 
-    const existing = await User.findOne({ email }).lean();
+    const existing = await User.exists({ email });
     if (existing) {
       return NextResponse.json(
         { error: "An account with this email already exists." },
@@ -55,14 +61,28 @@ export async function POST(request: Request) {
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
+    const { firstName, lastName } = splitFullName(fullName);
+
+    let username = usernameFromEmail(email);
+    if (await User.exists({ username })) {
+      username = `${username}${Math.floor(Math.random() * 900 + 100)}`;
+    }
 
     const user = await User.create({
       name: fullName,
+      firstName,
+      lastName: lastName || undefined,
+      username,
       email,
       phone: phone || undefined,
       passwordHash,
       provider: "credentials",
     });
+
+    const welcome = await sendWelcomeEmail({ to: email, name: fullName });
+    if (!welcome.ok && !welcome.skipped) {
+      console.error("Welcome email failed:", welcome.error);
+    }
 
     return NextResponse.json({
       success: true,

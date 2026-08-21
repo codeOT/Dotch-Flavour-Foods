@@ -3,6 +3,7 @@ import { connectDB } from "@/lib/db";
 import { getAdminFromRequest } from "@/lib/admin";
 import { Order } from "@/models/Order";
 import { User } from "@/models/User";
+import { PAID_FLOW_STATUSES } from "@/lib/order-status";
 
 type MonthlyPoint = {
   month: string;
@@ -31,22 +32,24 @@ export async function GET(request: Request) {
 
     await connectDB();
 
-    const [totalOrders, pendingOrders, paidOrders, usersCount] = await Promise.all([
-      Order.countDocuments(),
-      Order.countDocuments({ status: "pending" }),
-      Order.countDocuments({ status: "paid" }),
-      User.countDocuments(),
-    ]);
+    const [totalOrders, pendingOrders, paidOrders, processingOrders, usersCount] =
+      await Promise.all([
+        Order.countDocuments(),
+        Order.countDocuments({ status: "pending" }),
+        Order.countDocuments({ status: { $in: PAID_FLOW_STATUSES } }),
+        Order.countDocuments({ status: { $in: ["processing", "shipped"] } }),
+        User.countDocuments(),
+      ]);
 
     const paidRevenueAgg = await Order.aggregate<{ total: number }>([
-      { $match: { status: "paid" } },
+      { $match: { status: { $in: PAID_FLOW_STATUSES } } },
       { $group: { _id: null, total: { $sum: "$total" } } },
     ]);
     const paidRevenue = paidRevenueAgg[0]?.total ?? 0;
 
     const recentOrders = await Order.find()
       .sort({ createdAt: -1 })
-      .limit(8)
+      .limit(25)
       .lean();
 
     const inventoryRows = await Order.aggregate<{
@@ -55,7 +58,7 @@ export async function GET(request: Request) {
       quantitySold: number;
       revenue: number;
     }>([
-      { $match: { status: { $in: ["paid", "pending"] } } },
+      { $match: { status: { $in: [...PAID_FLOW_STATUSES, "pending"] } } },
       { $unwind: "$items" },
       {
         $group: {
@@ -78,7 +81,7 @@ export async function GET(request: Request) {
     ]);
 
     const monthlyAgg = await Order.aggregate<MonthlyPoint>([
-      { $match: { status: "paid" } },
+      { $match: { status: { $in: PAID_FLOW_STATUSES } } },
       {
         $group: {
           _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
@@ -116,6 +119,7 @@ export async function GET(request: Request) {
         totalOrders,
         pendingOrders,
         paidOrders,
+        processingOrders,
         usersCount,
         paidRevenue,
       },

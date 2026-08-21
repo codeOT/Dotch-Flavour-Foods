@@ -13,8 +13,11 @@ import {
   Truck,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { DeliveryProgress } from "@/components/orders/DeliveryProgress";
+import { OrderStatusBadge } from "@/components/orders/OrderStatusBadge";
 import { Reveal } from "@/components/motion/Reveal";
 import { formatPrice } from "@/lib/site";
+import { type OrderStatus } from "@/lib/order-status";
 
 type OrderItem = {
   id: string;
@@ -27,7 +30,7 @@ type OrderItem = {
 type OrderSummary = {
   id: string;
   orderNumber: string;
-  status: "pending" | "paid" | "failed" | "cancelled";
+  status: OrderStatus;
   deliveryMethod: "delivery" | "pickup";
   items: OrderItem[];
   subtotal: number;
@@ -42,20 +45,10 @@ type OrderSummary = {
   postcode?: string;
   notes?: string;
   createdAt?: string;
-};
-
-const statusStyles: Record<OrderSummary["status"], string> = {
-  pending: "bg-secondary/10 text-secondary",
-  paid: "bg-primary/10 text-primary",
-  failed: "bg-red-100 text-red-700",
-  cancelled: "bg-title/10 text-title/70",
-};
-
-const statusLabels: Record<OrderSummary["status"], string> = {
-  pending: "Awaiting payment",
-  paid: "Paid / confirmed",
-  failed: "Payment failed",
-  cancelled: "Cancelled",
+  updatedAt?: string;
+  paidAt?: string;
+  shippedAt?: string;
+  deliveredAt?: string;
 };
 
 function formatDate(value?: string) {
@@ -79,14 +72,10 @@ function OrderCard({ order }: { order: OrderSummary }) {
         onClick={() => setOpen((value) => !value)}
         className="flex w-full items-start justify-between gap-4 p-5 text-left sm:p-6"
       >
-        <div className="min-w-0">
+        <div className="min-w-0 flex-1">
           <div className="mb-2 flex flex-wrap items-center gap-2">
             <p className="font-bold text-title">{order.orderNumber}</p>
-            <span
-              className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${statusStyles[order.status]}`}
-            >
-              {statusLabels[order.status]}
-            </span>
+            <OrderStatusBadge status={order.status} />
           </div>
           <p className="text-sm text-title/60">{formatDate(order.createdAt)}</p>
           <p className="mt-1 text-sm text-title/70">
@@ -101,6 +90,10 @@ function OrderCard({ order }: { order: OrderSummary }) {
           />
         </div>
       </button>
+
+      <div className="border-t border-surface px-5 py-5 sm:px-6">
+        <DeliveryProgress order={order} />
+      </div>
 
       {open && (
         <div className="border-t border-surface px-5 py-5 sm:px-6">

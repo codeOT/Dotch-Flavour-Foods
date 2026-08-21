@@ -4,4 +4,8 @@ if (!process.env.STRIPE_SECRET_KEY) {
   console.warn("STRIPE_SECRET_KEY is not set");
 }
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_placeholder");
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_placeholder", {
+  maxNetworkRetries: 2,
+  timeout: 20_000,
+  typescript: true,
+});

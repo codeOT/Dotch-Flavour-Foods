@@ -16,6 +16,11 @@ import {
   type DeliveryMethod,
 } from "@/lib/cart-utils";
 import { siteConfig } from "@/lib/site";
+import {
+  CHECKOUT_IDEMPOTENCY_HEADER,
+  clearCheckoutIdempotencyKey,
+  getOrCreateCheckoutIdempotencyKey,
+} from "@/lib/checkout-idempotency";
 import Link from "next/link";
 
 type CheckoutForm = {
@@ -128,6 +133,10 @@ export function CheckoutContent() {
     }));
   }, [session]);
 
+  useEffect(() => {
+    if (cancelled) clearCheckoutIdempotencyKey();
+  }, [cancelled]);
+
   const updateField = (field: keyof CheckoutForm, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
   };
@@ -147,14 +156,19 @@ export function CheckoutContent() {
     }
 
     try {
+      const checkoutPayload = {
+        items,
+        deliveryMethod,
+        ...form,
+      };
+      const idempotencyKey = getOrCreateCheckoutIdempotencyKey(checkoutPayload);
       const response = await fetch("/api/checkout", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items,
-          deliveryMethod,
-          ...form,
-        }),
+        headers: {
+          "Content-Type": "application/json",
+          [CHECKOUT_IDEMPOTENCY_HEADER]: idempotencyKey,
+        },
+        body: JSON.stringify(checkoutPayload),
       });
 
       const data = (await response.json()) as { url?: string; error?: string };
@@ -265,7 +279,7 @@ export function CheckoutContent() {
                       value={form.phone}
                       onChange={(e) => updateField("phone", e.target.value)}
                       className={inputClassName}
-                      placeholder={siteConfig.contact.phone}
+                      placeholder="+447700900123"
                     />
                   </div>
                 </div>

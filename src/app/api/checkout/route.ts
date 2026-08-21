@@ -16,6 +16,13 @@ import {
   READY_SOUP_MIN_ORDER,
   type DeliveryMethod,
 } from "@/lib/cart-utils";
+import {
+  CHECKOUT_IDEMPOTENCY_HEADER,
+  isDuplicateKeyError,
+  isValidIdempotencyKey,
+} from "@/lib/checkout-idempotency";
+import { getRequestIp, rateLimit, tooManyRequests } from "@/lib/rate-limit";
+import { cacheDeletePrefix } from "@/lib/request-cache";
 import { Order } from "@/models/Order";
 
 type CheckoutItem = {
@@ -49,6 +56,15 @@ function toStripeAmount(amount: number) {
 
 export async function POST(request: Request) {
   try {
+    const ip = getRequestIp(request);
+    const limited = rateLimit(`checkout:${ip}`, 12, 60_000);
+    if (!limited.allowed) {
+      return tooManyRequests(
+        limited.retryAfterSec,
+        "Too many checkout attempts. Please wait a moment and try again.",
+      );
+    }
+
     if (!process.env.STRIPE_SECRET_KEY) {
       return NextResponse.json(
         { error: "Stripe is not configured. Add STRIPE_SECRET_KEY to your environment." },
@@ -129,7 +145,11 @@ export async function POST(request: Request) {
     const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const deliveryFee = getDeliveryFee(deliveryMethod, items);
     const total = getOrderTotal(subtotal, deliveryMethod, items);
-    const orderNumber = generateOrderId();
+
+    const headerKey = request.headers.get(CHECKOUT_IDEMPOTENCY_HEADER)?.trim() ?? "";
+    const idempotencyKey = isValidIdempotencyKey(headerKey)
+      ? headerKey
+      : crypto.randomUUID();
 
     const session = await auth();
     await connectDB();
@@ -139,35 +159,53 @@ export async function POST(request: Request) {
         ? session.user.id
         : undefined;
 
-    const order = await Order.create({
-      orderNumber,
-      userId,
-      fullName,
-      email,
-      phone,
-      addressLine1: deliveryMethod === "delivery" ? addressLine1 : undefined,
-      addressLine2: deliveryMethod === "delivery" ? addressLine2 || undefined : undefined,
-      city: deliveryMethod === "delivery" ? city : undefined,
-      postcode: deliveryMethod === "delivery" ? postcode : undefined,
-      notes: notes || undefined,
-      deliveryMethod,
-      items: items.map((item) => ({
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        quantity: item.quantity,
-        image: item.image,
-      })),
-      subtotal,
-      deliveryFee,
-      total,
-      currency: "gbp",
-      status: "pending",
-    });
+    let order = await Order.findOne({ stripeIdempotencyKey: idempotencyKey });
+
+    if (!order) {
+      try {
+        order = await Order.create({
+          orderNumber: generateOrderId(),
+          userId,
+          fullName,
+          email,
+          phone,
+          addressLine1: deliveryMethod === "delivery" ? addressLine1 : undefined,
+          addressLine2: deliveryMethod === "delivery" ? addressLine2 || undefined : undefined,
+          city: deliveryMethod === "delivery" ? city : undefined,
+          postcode: deliveryMethod === "delivery" ? postcode : undefined,
+          notes: notes || undefined,
+          deliveryMethod,
+          items: items.map((item) => ({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            image: item.image,
+          })),
+          subtotal,
+          deliveryFee,
+          total,
+          currency: "gbp",
+          status: "pending",
+          stripeIdempotencyKey: idempotencyKey,
+        });
+        cacheDeletePrefix("orders:");
+      } catch (error) {
+        if (!isDuplicateKeyError(error)) throw error;
+        order = await Order.findOne({ stripeIdempotencyKey: idempotencyKey });
+      }
+    }
+
+    if (!order) {
+      return NextResponse.json(
+        { error: "Unable to start checkout. Please try again." },
+        { status: 500 },
+      );
+    }
 
     const origin = process.env.NEXTAUTH_URL || new URL(request.url).origin;
 
-    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = items.map((item) => ({
+    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = order.items.map((item) => ({
       quantity: item.quantity,
       price_data: {
         currency: "gbp",
@@ -179,12 +217,12 @@ export async function POST(request: Request) {
       },
     }));
 
-    if (deliveryFee > 0) {
+    if (order.deliveryFee > 0) {
       lineItems.push({
         quantity: 1,
         price_data: {
           currency: "gbp",
-          unit_amount: toStripeAmount(deliveryFee),
+          unit_amount: toStripeAmount(order.deliveryFee),
           product_data: {
             name: "Delivery fee",
           },
@@ -192,20 +230,53 @@ export async function POST(request: Request) {
       });
     }
 
-    const checkoutSession = await stripe.checkout.sessions.create({
+    const sessionParams: Stripe.Checkout.SessionCreateParams = {
       mode: "payment",
-      customer_email: email,
+      customer_email: order.email,
       line_items: lineItems,
       success_url: `${origin}/shop/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/shop/checkout?cancelled=1`,
+      client_reference_id: order.orderNumber,
       metadata: {
         orderId: String(order._id),
         orderNumber: order.orderNumber,
+        idempotencyKey,
       },
-    });
+      payment_intent_data: {
+        metadata: {
+          orderId: String(order._id),
+          orderNumber: order.orderNumber,
+          idempotencyKey,
+        },
+      },
+    };
 
-    order.stripeSessionId = checkoutSession.id;
-    await order.save();
+    let checkoutSession: Stripe.Checkout.Session | null = null;
+
+    if (order.stripeSessionId) {
+      const existingSession = await stripe.checkout.sessions.retrieve(order.stripeSessionId);
+      if (existingSession.status === "open" && existingSession.url) {
+        checkoutSession = existingSession;
+      } else if (existingSession.status === "complete") {
+        return NextResponse.json({
+          url: `${origin}/shop/checkout/success?session_id=${existingSession.id}`,
+          orderNumber: order.orderNumber,
+        });
+      }
+    }
+
+    if (!checkoutSession) {
+      const stripeIdempotencyKey = order.stripeSessionId
+        ? `${idempotencyKey}-renew`
+        : idempotencyKey;
+
+      checkoutSession = await stripe.checkout.sessions.create(sessionParams, {
+        idempotencyKey: stripeIdempotencyKey,
+      });
+
+      order.stripeSessionId = checkoutSession.id;
+      await order.save();
+    }
 
     if (!checkoutSession.url) {
       return NextResponse.json(
@@ -214,7 +285,7 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json({ url: checkoutSession.url, orderNumber });
+    return NextResponse.json({ url: checkoutSession.url, orderNumber: order.orderNumber });
   } catch (error) {
     console.error("Checkout error:", error);
     return NextResponse.json(

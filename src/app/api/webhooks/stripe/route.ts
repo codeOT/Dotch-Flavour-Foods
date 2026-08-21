@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { connectDB } from "@/lib/db";
+import { ensureOrderConfirmationEmail } from "@/lib/email/order-confirmation";
+import { applyFulfilmentTimestamps } from "@/lib/order-progress";
+import { cacheDeletePrefix } from "@/lib/request-cache";
 import { stripe } from "@/lib/stripe";
 import { Order } from "@/models/Order";
 
@@ -44,6 +47,7 @@ export async function POST(request: Request) {
 
       if (order) {
         order.status = "paid";
+        applyFulfilmentTimestamps(order, "paid");
         order.stripeSessionId = session.id;
         if (typeof session.payment_intent === "string") {
           order.stripePaymentIntentId = session.payment_intent;
@@ -51,6 +55,8 @@ export async function POST(request: Request) {
           order.stripePaymentIntentId = session.payment_intent.id;
         }
         await order.save();
+        cacheDeletePrefix("orders:");
+        await ensureOrderConfirmationEmail(order);
       }
     }
 
@@ -61,6 +67,7 @@ export async function POST(request: Request) {
       if (order && order.status === "pending") {
         order.status = "cancelled";
         await order.save();
+        cacheDeletePrefix("orders:");
       }
     }
 

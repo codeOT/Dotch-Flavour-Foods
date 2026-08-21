@@ -35,15 +35,24 @@ const orderSchema = new Schema(
     currency: { type: String, default: "gbp" },
     status: {
       type: String,
-      enum: ["pending", "paid", "failed", "cancelled"],
+      enum: ["pending", "paid", "processing", "shipped", "delivered", "failed", "cancelled"],
       default: "pending",
       index: true,
     },
     stripeSessionId: { type: String, index: true },
-    stripePaymentIntentId: { type: String },
+    stripePaymentIntentId: { type: String, index: true },
+    stripeIdempotencyKey: { type: String, unique: true, sparse: true, index: true },
+    confirmationEmailSentAt: { type: Date },
+    paidAt: { type: Date },
+    shippedAt: { type: Date },
+    deliveredAt: { type: Date },
   },
   { timestamps: true },
 );
+
+orderSchema.index({ userId: 1, createdAt: -1 });
+orderSchema.index({ email: 1, createdAt: -1 });
+orderSchema.index({ status: 1, createdAt: -1 });
 
 export type OrderDocument = InferSchemaType<typeof orderSchema> & {
   _id: Schema.Types.ObjectId;

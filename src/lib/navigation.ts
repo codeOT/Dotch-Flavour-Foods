@@ -133,7 +133,7 @@ export const menuItems: MenuItem[] = [
     "Efo Egusi",
     "Soups",
     "/assets/images/egusi1.jpg",
-    { 2: 24.99, 4: 100, 6: 150 },
+    { 2: 70, 4: 100, 6: 150 },
     "Soups",
   ),
   tray(

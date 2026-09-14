@@ -64,7 +64,7 @@ export const catalogProducts: Product[] = [
     category: "soups-and-stews",
     price: 24.99,
     shortDescription: "A traditional one-pot Nigerian soup",
-    image: "/assets/images/ilaasepo.jpeg",
+    image: "/assets/images/ilaasepo1.jpeg",
     ingredients: [
       "Okra (Ila)",
       "assorted meats (beef, tripe, cow foot)",

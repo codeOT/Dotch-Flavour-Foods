@@ -49,6 +49,7 @@ export function QuoteRequestContent() {
   const [form, setForm] = useState(emptyForm);
   const [referenceFile, setReferenceFile] = useState<File | null>(null);
   const [consent, setConsent] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [feedback, setFeedback] = useState("");
 
@@ -69,7 +70,7 @@ export function QuoteRequestContent() {
     setConsent(false);
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!consent) {
       setStatus("error");
@@ -77,11 +78,50 @@ export function QuoteRequestContent() {
       return;
     }
 
-    setStatus("success");
-    setFeedback(
-      "Thank you for contacting Dotch Flavour. We have received your enquiry and aim to respond within one business day.",
-    );
-    resetForm();
+    if (referenceFile && referenceFile.size > 5 * 1024 * 1024) {
+      setStatus("error");
+      setFeedback("Attachment must be 5MB or smaller.");
+      return;
+    }
+
+    setLoading(true);
+    setStatus("idle");
+    setFeedback("");
+
+    try {
+      const body = new FormData();
+      Object.entries(form).forEach(([key, value]) => {
+        body.append(key, value);
+      });
+      body.append("consent", "true");
+      if (referenceFile) {
+        body.append("referenceFile", referenceFile);
+      }
+
+      const response = await fetch("/api/quote", {
+        method: "POST",
+        body,
+      });
+      const data = (await response.json()) as { message?: string; error?: string };
+
+      if (!response.ok) {
+        setStatus("error");
+        setFeedback(data.error ?? "Unable to send your quote request. Please try again.");
+        return;
+      }
+
+      setStatus("success");
+      setFeedback(
+        data.message ??
+          "Thank you for contacting Dotch Flavour. We have received your enquiry and aim to respond within one business day.",
+      );
+      resetForm();
+    } catch {
+      setStatus("error");
+      setFeedback("Unable to send your quote request. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -372,7 +412,7 @@ export function QuoteRequestContent() {
               </p>
             )}
 
-            <Button type="submit" fullWidth>
+            <Button type="submit" fullWidth loading={loading}>
               Submit quote request
             </Button>
           </form>

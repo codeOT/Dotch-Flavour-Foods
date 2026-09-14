@@ -21,7 +21,7 @@ export const READY_SOUP_MAX_ONLINE_LITRES = 25;
 export const DELIVERY_FEE = DELIVERY_FEE_UP_TO_20L;
 
 /** Minimum number of Ready Soup tubs required for an online Ready Soups order. */
-export const READY_SOUP_MIN_ORDER = 3;
+export const READY_SOUP_MIN_ORDER = 2;
 
 /** Same-day order window for next-day Ready Soups dispatch (UK time). */
 export const READY_SOUP_ORDER_WINDOW = "8am–3pm";
@@ -134,8 +134,21 @@ export function getCartReadySoupLitres(items: CartLikeItem[]): number {
   return getReadySoupUnitCount(items) * READY_SOUP_TUB_LITRES;
 }
 
+/** Mix & match bundles that include free UK delivery. */
+const FREE_DELIVERY_BUNDLE_COUNTS = new Set([4, 5]);
+
+export function cartHasFreeDeliveryReadySoupBundle(items: CartLikeItem[]): boolean {
+  return items.some((item) => {
+    if (!isReadySoupCartItem(item)) return false;
+    const mixMatch = item.id.match(/^ready-soup-bundle-mix-(\d+)/);
+    if (!mixMatch) return false;
+    return FREE_DELIVERY_BUNDLE_COUNTS.has(Number(mixMatch[1]));
+  });
+}
+
 export function getDeliveryFee(method: DeliveryMethod, items: CartLikeItem[] = []): number {
   if (method === "pickup") return 0;
+  if (cartHasFreeDeliveryReadySoupBundle(items)) return 0;
 
   const weightKg = Math.max(getCartReadySoupLitres(items), getCartWeightKg(items));
   if (weightKg <= 20) return DELIVERY_FEE_UP_TO_20L;
@@ -145,6 +158,7 @@ export function getDeliveryFee(method: DeliveryMethod, items: CartLikeItem[] = [
 
 export function getDeliveryLabel(method: DeliveryMethod, items: CartLikeItem[] = []): string {
   if (method === "pickup") return "Free — collection";
+  if (cartHasFreeDeliveryReadySoupBundle(items)) return "Free — bundle offer";
 
   const weightKg = Math.max(getCartReadySoupLitres(items), getCartWeightKg(items));
   if (weightKg <= 20) {

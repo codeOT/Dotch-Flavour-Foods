@@ -12,7 +12,7 @@ const steps = [
   {
     icon: Soup,
     title: "Choose your soups",
-    text: "Browse Ready Soups by Dotch Flavour — mix flavours or pick a 3, 5, 10, or 18 pack.",
+    text: "Browse Ready Soups by Dotch Flavour — mix flavours or pick a 2, 3, 4, or 5 pack.",
   },
   {
     icon: Package,

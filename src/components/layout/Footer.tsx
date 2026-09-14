@@ -143,8 +143,8 @@ export function Footer() {
           <div className="flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between sm:text-sm">
             <p>© {new Date().getFullYear()} Dotch Flavour Foods. All rights reserved.</p>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-              <Link href="/cookie-policy" className="transition hover:text-secondary">
-                Cookie Policy
+              <Link href="/policies" className="transition hover:text-secondary">
+                Policies
               </Link>
               <button
                 type="button"
@@ -156,7 +156,7 @@ export function Footer() {
               <p>
                 Made with 🫶 by{" "}
                 <a
-                  href="https://github.com/codeOT"
+                  href="https://new-portfolio-chi-wheat.vercel.app/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white/70 transition hover:text-secondary"

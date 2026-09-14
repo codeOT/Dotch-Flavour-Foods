@@ -106,7 +106,7 @@ export function SignInForm() {
                 />
                 Remember me
               </label>
-              <Link href="/contact-us" className="font-medium text-primary hover:text-secondary">
+              <Link href="/forgot-password" className="font-medium text-primary hover:text-secondary">
                 Forgot password?
               </Link>
             </div>

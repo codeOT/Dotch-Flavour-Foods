@@ -66,12 +66,12 @@ const highlights = [
   { label: "Delivery", icon: Truck },
 ] as const;
 
-const stats = [
-  { value: "10+", label: "Soups" },
-  { value: "10K+", label: "Orders" },
-  { value: "4.9", label: "Rating" },
-  { value: "UK", label: "Delivery" },
-] as const;
+// const stats = [
+//   { value: "10+", label: "Soups" },
+//   { value: "10K+", label: "Orders" },
+//   { value: "4.9", label: "Rating" },
+//   { value: "UK", label: "Delivery" },
+// ] as const;
 
 const guarantees = [
   { label: "Fast Delivery", icon: Truck },
@@ -154,25 +154,27 @@ export function HeroSection() {
           </motion.div>
 
           <motion.div
-            className="mb-6 flex w-full min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap"
+            className="mb-6 flex w-full min-w-0 flex-col gap-3"
             variants={heroFadeUp}
           >
-            <Button
-              href="/ready-to-eat-soups"
-              fullWidth
-              className="!bg-secondary hover:!bg-secondary/90 sm:!w-auto"
-            >
-              Shop Ready Soups
-              <ArrowRight className="h-4 w-4 shrink-0" />
-            </Button>
-            <Button
-              href="/fresh-menu"
-              variant="outline"
-              fullWidth
-              className="!border-white/35 !text-white hover:!bg-white/10 sm:!w-auto"
-            >
-              Order Fresh
-            </Button>
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center sm:gap-2 [&>div]:w-full sm:[&>div]:w-auto">
+              <Button
+                href="/ready-to-eat-soups"
+                fullWidth
+                className="!bg-secondary hover:!bg-secondary/90"
+              >
+                Shop Ready Soups
+                <ArrowRight className="h-4 w-4 shrink-0" />
+              </Button>
+              <Button
+                href="/fresh-menu"
+                variant="outline"
+                fullWidth
+                className="!border-white/35 !text-white hover:!bg-white/10"
+              >
+                Order Fresh
+              </Button>
+            </div>
             <Button
               href="/request-a-quote"
               variant="outline"
@@ -214,7 +216,7 @@ export function HeroSection() {
             </div>
           </motion.div>
 
-          <motion.div
+          {/* <motion.div
             className="grid w-full min-w-0 grid-cols-2 gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:grid-cols-4"
             variants={heroFadeUp}
           >
@@ -231,7 +233,7 @@ export function HeroSection() {
                 <p className="text-[11px] uppercase tracking-wider text-white/60">{stat.label}</p>
               </motion.div>
             ))}
-          </motion.div>
+          </motion.div> */}
         </motion.div>
       </div>
 

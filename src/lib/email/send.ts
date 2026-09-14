@@ -5,6 +5,9 @@ import {
   newsletterConfirmHtml,
   orderConfirmationHtml,
   orderStatusUpdateHtml,
+  passwordResetHtml,
+  quoteAutoReplyHtml,
+  quoteNotificationHtml,
   welcomeEmailHtml,
 } from "@/lib/email/templates";
 import { orderStatusLabels, type OrderStatus } from "@/lib/order-status";
@@ -84,6 +87,92 @@ export async function sendOrderStatusEmail(order: {
     text: `Hi ${order.fullName.split(" ")[0] || "there"}, your order ${order.orderNumber} is now ${statusLabel}.`,
     idempotencyKey: `order-status-${order.orderNumber}-${order.status}`,
   });
+}
+
+export async function sendPasswordResetEmail(input: {
+  to: string;
+  name: string;
+  resetUrl: string;
+}) {
+  return sendEmail({
+    to: input.to,
+    subject: `Reset your ${siteConfig.name} password`,
+    html: passwordResetHtml({ name: input.name, resetUrl: input.resetUrl }),
+    text: `Reset your password: ${input.resetUrl}\n\nThis link expires in 1 hour. If you did not request this, ignore this email.`,
+  });
+}
+
+export type QuoteEmailInput = {
+  fullName: string;
+  organisation?: string;
+  email: string;
+  phone: string;
+  eventTypeLabel: string;
+  eventDate?: string;
+  startTime?: string;
+  location?: string;
+  guestCount?: string;
+  preferredMenu?: string;
+  serviceStyle?: string;
+  dietaryRequirements?: string;
+  budgetRange?: string;
+  logisticsNeeds?: string;
+  additionalInfo?: string;
+  attachment?: {
+    filename: string;
+    content: Buffer;
+    contentType?: string;
+  };
+};
+
+export async function sendQuoteEmails(input: QuoteEmailInput) {
+  const textLines = [
+    `Name: ${input.fullName}`,
+    input.organisation ? `Organisation: ${input.organisation}` : null,
+    `Email: ${input.email}`,
+    `Phone: ${input.phone}`,
+    `Enquiry type: ${input.eventTypeLabel}`,
+    input.eventDate ? `Event date: ${input.eventDate}` : null,
+    input.startTime ? `Start time: ${input.startTime}` : null,
+    input.guestCount ? `Guests: ${input.guestCount}` : null,
+    input.location ? `Location: ${input.location}` : null,
+    input.preferredMenu ? `Preferred menu: ${input.preferredMenu}` : null,
+    input.serviceStyle ? `Service style: ${input.serviceStyle}` : null,
+    input.dietaryRequirements ? `Dietary: ${input.dietaryRequirements}` : null,
+    input.budgetRange ? `Budget: ${input.budgetRange}` : null,
+    input.logisticsNeeds ? `Logistics: ${input.logisticsNeeds}` : null,
+    input.additionalInfo ? `Additional: ${input.additionalInfo}` : null,
+    input.attachment ? `Attachment: ${input.attachment.filename}` : null,
+  ].filter(Boolean);
+
+  const notifyTeam = await sendEmail({
+    to: siteConfig.contact.email,
+    subject: `Quote request — ${input.eventTypeLabel} — ${input.fullName}`,
+    html: quoteNotificationHtml({
+      ...input,
+      attachmentName: input.attachment?.filename,
+    }),
+    text: textLines.join("\n"),
+    replyTo: input.email,
+    attachments: input.attachment
+      ? [
+          {
+            filename: input.attachment.filename,
+            content: input.attachment.content,
+            contentType: input.attachment.contentType,
+          },
+        ]
+      : undefined,
+  });
+
+  const autoReply = await sendEmail({
+    to: input.email,
+    subject: `We received your quote request — ${siteConfig.name}`,
+    html: quoteAutoReplyHtml(input.fullName),
+    text: `Thanks ${input.fullName}, we've received your quote request and aim to respond within one business day.`,
+  });
+
+  return { notifyTeam, autoReply };
 }
 
 export async function sendContactEmails(input: {

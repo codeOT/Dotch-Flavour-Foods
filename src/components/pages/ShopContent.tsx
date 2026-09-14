@@ -10,7 +10,7 @@ const shopChannels = [
   {
     title: "Ready Soups by Dotch Flavour",
     description:
-      "Our premium frozen soup range — mix flavours in 3, 5, 10, or 18 packs. Delivery £13.99 up to 20kg / £16.99 up to 25kg. Next-day delivery: order Monday–Thursday 8am–3pm; Friday–Sunday orders arrive Tuesday.",
+      "Our premium frozen soup range — mix flavours in 2, 3, 4, or 5 packs. Delivery £13.99 up to 20kg / £16.99 up to 25kg (free on Owanbe and 5-soup bundles). Next-day delivery: order Monday–Thursday 8am–3pm; Friday–Sunday orders arrive Tuesday.",
     href: "/ready-to-eat-soups",
     cta: "Shop Ready Soups",
     image: "/assets/images/hero-bg.png",
@@ -22,7 +22,7 @@ const shopChannels = [
       "Tote bags, wooden spoons, and branded goods — launching as incentives first, then as a full retail range.",
     href: "/merchandise",
     cta: "View coming soon",
-    image: "/assets/images/gallery/grid/pic3.jpg",
+    image: "/assets/images/menu.jpeg",
     badge: "Coming soon",
   },
 ] as const;

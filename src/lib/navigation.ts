@@ -12,14 +12,14 @@ export type MenuItem = {
   name: string;
   description: string;
   price: string;
-  /** Base / display price (smallest available size, or unit price). */
+
   priceValue: number;
   image: string;
-  /** Available tray sizes. Defaults to sizes present in pricesByLitre, else 2/4/6L. */
+
   litreSizes?: LitreSize[];
-  /** Exact prices per litre size from the official price list. */
+  
   pricesByLitre?: PricesByLitre;
-  /** "unit" for items sold per wrap/piece (e.g. Moi Moi). */
+
   pricingMode?: "litres" | "unit";
   unitLabel?: string;
   category?: string;
@@ -80,21 +80,69 @@ export const footerLinks = {
     { label: "My Orders", href: "/orders" },
     { label: "My Account", href: "/account" },
     { label: "Contact Us", href: "/contact-us" },
-    { label: "Delivery Policy", href: "/delivery-terms" },
-    { label: "Terms & Conditions", href: "/terms" },
-    { label: "Privacy Policy", href: "/privacy-policy" },
-    { label: "Cookie Policy", href: "/cookie-policy" },
-    { label: "Refund Policy", href: "/refund-policy" },
-    { label: "Catering Booking Policy", href: "/catering-booking-policy" },
-    { label: "Allergens & Food Safety", href: "/allergens" },
-    { label: "Storage & Heating", href: "/storage-heating" },
-    { label: "Disclaimer", href: "/disclaimer" },
-    { label: "Accessibility", href: "/accessibility" },
-    { label: "Email & Newsletter Terms", href: "/email-newsletter-terms" },
+    { label: "Policies", href: "/policies" },
   ],
 };
 
-/** Official fresh-food tray pricing (2L / 4L / 6L). */
+/** Legal and policy documents linked from the Policies hub page. */
+export const policyLinks = [
+  {
+    label: "Terms & Conditions",
+    href: "/terms",
+    description: "Website use, orders, payments and your contract with us.",
+  },
+  {
+    label: "Privacy Policy",
+    href: "/privacy-policy",
+    description: "How we collect, use and protect your personal information.",
+  },
+  {
+    label: "Cookie Policy",
+    href: "/cookie-policy",
+    description: "Cookies and similar technologies used on this site.",
+  },
+  {
+    label: "Delivery Policy",
+    href: "/delivery-terms",
+    description: "UK delivery, next-day windows and delivery charges.",
+  },
+  {
+    label: "Refund Policy",
+    href: "/refund-policy",
+    description: "Refunds, returns and cancellations for food orders.",
+  },
+  {
+    label: "Catering Booking Policy",
+    href: "/catering-booking-policy",
+    description: "Deposits, amendments and cancellations for catering.",
+  },
+  {
+    label: "Allergens & Food Safety",
+    href: "/allergens",
+    description: "Allergen information and food-safety guidance.",
+  },
+  {
+    label: "Storage & Heating",
+    href: "/storage-heating",
+    description: "How to store and reheat Ready Soups safely.",
+  },
+  {
+    label: "Disclaimer",
+    href: "/disclaimer",
+    description: "Limits of liability and general website disclaimers.",
+  },
+  {
+    label: "Accessibility",
+    href: "/accessibility",
+    description: "Our commitment to an accessible online experience.",
+  },
+  {
+    label: "Email & Newsletter Terms",
+    href: "/email-newsletter-terms",
+    description: "Marketing emails, opt-in and how to unsubscribe.",
+  },
+] as const;
+
 export const menuItems: MenuItem[] = [
   tray(
     "Chicken-Beef-Stew",
@@ -113,10 +161,18 @@ export const menuItems: MenuItem[] = [
     "Stews and sauces",
   ),
   tray(
-    "Ayamase-Ofada-Sauce",
-    "Ayamase / Ofada",
+    "Ayamase",
+    "Ayamase",
     "Stews and sauces",
-    "/assets/images/ofaa.png",
+    "/assets/images/ayanew.jpeg",
+    { 2: 85, 4: 125, 6: 180 },
+    "Stews and sauces",
+  ),
+  tray(
+    "Ofada-Sauce",
+    "Ofada Sauce",
+    "Stews and sauces",
+    "/assets/images/ofastew.jpg",
     { 2: 85, 4: 125, 6: 180 },
     "Stews and sauces",
   ),
@@ -124,7 +180,7 @@ export const menuItems: MenuItem[] = [
     "Efo-riro",
     "Efo riro",
     "Soups",
-    "/assets/images/efo.jpg",
+    "/assets/images/vg stew r.jpg",
     { 2: 70, 4: 100, 6: 150 },
     "Soups",
   ),
@@ -140,7 +196,7 @@ export const menuItems: MenuItem[] = [
     "Ila-Alasepo",
     "Ila asepo",
     "Soups",
-    "/assets/images/ilaasepo.jpeg",
+    "/assets/images/ilaasepo1.jpeg",
     { 2: 70, 4: 100, 6: 150 },
     "Soups",
   ),
@@ -172,7 +228,7 @@ export const menuItems: MenuItem[] = [
     "pepper-turkey",
     "Peppered Turkey",
     "Protein and sides",
-    "/assets/images/pfturkey.jpg",
+    "/assets/images/pfturkey1.jpg",
     { 2: 70, 4: 100, 6: 150 },
     "Protein and sides",
   ),
@@ -180,15 +236,23 @@ export const menuItems: MenuItem[] = [
     "Gizdodo",
     "Gizdodo",
     "Protein and sides",
-    "/assets/images/gizd.jpeg",
+    "/assets/images/gizd1.jpeg",
     { 2: 70, 4: 100, 6: 150 },
     "Protein and sides",
   ),
   tray(
-    "Ewa-Riro-Ewa-Agoyin",
-    "Ewa Riro / Ewa Agoyin",
+    "Ewa-Riro",
+    "Ewa Riro ",
     "Protein and sides",
-    "/assets/images/ewa.png",
+    "/assets/images/beans1.jpeg",
+    { 2: 70, 4: 100, 6: 150 },
+    "Protein and sides",
+  ),
+  tray(
+    "Ewa-Agoyin",
+    "Ewa Agoyin",
+    "Protein and sides",
+    "/assets/images/ewaa.jpg",
     { 2: 70, 4: 100, 6: 150 },
     "Protein and sides",
   ),
@@ -207,7 +271,7 @@ export const menuItems: MenuItem[] = [
     "Asaro-sauce",
     "Asaro with Sauce",
     "Traditional dishes",
-    "/assets/images/porridge.jpg",
+    "/assets/images/porridge1.jpg",
     { 2: 70, 4: 100, 6: 150 },
     "Traditional dishes",
   ),
@@ -215,7 +279,7 @@ export const menuItems: MenuItem[] = [
     "Abula-combo",
     "Abula Combo",
     "Ewedu, Gbegiri & assorted meat in stew, Buka style — available in 4L and 6L",
-    "/assets/images/amm.jpg",
+    "/assets/images/amm1.jpg",
     { 4: 300, 6: 450 },
     "Traditional dishes",
   ),

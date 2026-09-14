@@ -74,7 +74,7 @@ export const websiteTerms: LegalDocument = {
     {
       title: "1.7 Minimum orders and bundles",
       paragraphs: [
-        "The minimum online order for Ready Soups is three tubs. Customers seeking a smaller local or exceptional order may contact us by WhatsApp, but acceptance is at our discretion. Catering orders have a minimum order value of £200.",
+        "The minimum online order for Ready Soups is two tubs. Customers seeking a smaller local or exceptional order may contact us by WhatsApp, but acceptance is at our discretion. Catering orders have a minimum order value of £200.",
       ],
     },
     {
@@ -429,7 +429,7 @@ export const deliveryTerms: LegalDocument = {
     {
       title: "4.4 Weight and parcel limits",
       paragraphs: [
-        "The flat rate applies only within the courier's applicable parcel limits. Ready Soup bundles are structured as 3, 5, 10 and 18 tubs, subject to final packed-weight testing. We may split, adjust or contact you about an order that exceeds the safe or contractual parcel limit.",
+        "The flat rate applies only within the courier's applicable parcel limits. Ready Soup bundles are structured as 2, 3, 4 and 5 tubs, subject to final packed-weight testing. We may split, adjust or contact you about an order that exceeds the safe or contractual parcel limit.",
       ],
     },
     {

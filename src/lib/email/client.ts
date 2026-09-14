@@ -37,6 +37,11 @@ export async function sendEmail(options: {
   text?: string;
   replyTo?: string;
   idempotencyKey?: string;
+  attachments?: {
+    filename: string;
+    content: Buffer | string;
+    contentType?: string;
+  }[];
 }): Promise<SendEmailResult> {
   const resend = getResend();
   if (!resend) {
@@ -63,6 +68,11 @@ export async function sendEmail(options: {
           html: options.html,
           text: options.text,
           replyTo: options.replyTo || getEmailReplyTo(),
+          attachments: options.attachments?.map((file) => ({
+            filename: file.filename,
+            content: file.content,
+            contentType: file.contentType,
+          })),
         },
         options.idempotencyKey
           ? { idempotencyKey: `${options.idempotencyKey}:${from.includes("@resend.dev") ? "fallback" : "primary"}` }

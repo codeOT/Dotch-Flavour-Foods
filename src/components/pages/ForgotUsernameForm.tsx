@@ -142,8 +142,8 @@ export function ForgotUsernameForm() {
         <StaggerItem>
           <p className="text-center text-xs text-title/45">
             Forgot your password instead?{" "}
-            <Link href="/contact-us" className="font-semibold text-primary hover:underline">
-              Contact support
+            <Link href="/forgot-password" className="font-semibold text-primary hover:underline">
+              Reset password
             </Link>
           </p>
         </StaggerItem>

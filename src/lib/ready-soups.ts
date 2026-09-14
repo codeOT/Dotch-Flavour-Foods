@@ -25,6 +25,7 @@ export type ReadySoupBundle = {
   description: string;
   soupCount: number;
   includesGift?: string;
+  freeDelivery?: boolean;
   price: number;
   originalPrice?: number;
   badge?: string;
@@ -43,13 +44,14 @@ export const howItWorksSteps = [
   {
     step: "01",
     title: "Choose your bundle",
-    description: "Select 3, 5, 10 or 18 soups and mix flavours from the range. Minimum online order is 3 soups.",
+    description:
+      "Select a 2, 3, 4 or 5 soup mix & match bundle. Minimum online order is 2 soups.",
   },
   {
     step: "02",
     title: "Checkout online",
     description:
-      "Pay securely by card. Delivery is £13.99 up to 20kg, or £16.99 up to 25kg.",
+      "Pay securely by card. Delivery is £13.99 up to 20kg, or £16.99 up to 25kg — free on Owanbe and 5-soup bundles.",
   },
   {
     step: "03",
@@ -88,9 +90,9 @@ export const storageHeatingGuidance = {
 export const launchOffers = [
   {
     id: "min-order",
-    title: "Minimum order: 3 soups",
+    title: "Minimum order: 2 soups",
     description:
-      "Online Ready Soups orders start at 3 tubs. Mix and match flavours freely within your bundle size.",
+      "Online Ready Soups orders start at 2 tubs. Mix and match flavours freely within your bundle size.",
     code: null,
     badge: "Ordering",
   },
@@ -98,7 +100,7 @@ export const launchOffers = [
     id: "flat-delivery",
     title: "Delivery by volume",
     description:
-      "£13.99 for orders up to 20kg, £16.99 up to 25kg. Next-day delivery: order Monday–Thursday 8am–3pm. Friday–Sunday orders arrive Tuesday. Collection remains available at checkout where offered.",
+      "£13.99 for orders up to 20kg, £16.99 up to 25kg. Free delivery on the Owanbe (4) and 5-soup bundles. Next-day delivery: order Monday–Thursday 8am–3pm. Friday–Sunday orders arrive Tuesday.",
     code: null,
     badge: "Delivery",
   },
@@ -184,7 +186,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
     description:
       "Egusi Soup • Net Volume: 1 litre • Fully Cooked • Ready to Heat • Keep Frozen at -18°C or BelowRich • Spicy • Homemade Style (No Artificial colours or Preservatives) • Produced in a Home Kitchen in the UK",
     shortDescription: "Authentic Nigerian Egusi soup",
-    price: 24.99,
+    price: 25.99,
     size: "1 Litre",
     image: "/assets/images/Egus.png",
     ingredients: [
@@ -302,7 +304,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
     description:
       "Frozen Ila asepo • Net Volume: 1 Litre • Fully Cooked • Ready to Heat • Keep Frozen at -18°C or BelowRich • Spicy • Homemade Style (No Artificial colours or Preservatives) • Produced in a Home Kitchen in the UK",
     shortDescription: "A traditional one-pot Nigerian soup.",
-    price: 24.99,
+    price: 25.99,
     size: "1 Litre",
     image: "/assets/images/Ila Asepo.png",
     ingredients: [
@@ -335,48 +337,52 @@ export const readySoupProducts: ReadySoupProduct[] = [
 
 export const readySoupBundles: ReadySoupBundle[] = [
   {
+    id: "bundle-2",
+    slug: "bundle-2",
+    name: "2-Soup Bundle",
+    description: "Mix any two flavours — £48.99 vs £51.98 individually (save £2.99).",
+    soupCount: 2,
+    price: 48.99,
+    originalPrice: 51.98,
+    badge: "Save £2.99",
+    image: "/assets/images/Efo.png",
+  },
+  {
     id: "bundle-3",
     slug: "bundle-3",
     name: "3-Soup Bundle",
-    description: "Mix any three flavours — ideal for first-time customers exploring the range.",
+    description: "Three soups to explore the range — best value mid size.",
     soupCount: 3,
-    price: 210,
-    originalPrice: 255,
-    badge: "Starter",
-    image: "/assets/images/gallery/grid2/pic4.jpg",
+    price: 71.99,
+    originalPrice: 77.97,
+    badge: "Best value mid",
+    image: "/assets/images/Egus.png",
+  },
+  {
+    id: "bundle-4",
+    slug: "bundle-4",
+    name: "Owanbe Bundle",
+    description: "Four soups for sharing — our best seller with cooler and free delivery.",
+    soupCount: 4,
+    price: 94.99,
+    originalPrice: 103.96,
+    badge: "Best seller",
+    includesGift: "Free Cooler",
+    freeDelivery: true,
+    image: "/assets/images/Ayam.png",
   },
   {
     id: "bundle-5",
     slug: "bundle-5",
     name: "5-Soup Bundle",
-    description: "Five soups to feed the household — mix and match your favourites.",
+    description: "Maximum save on five soups — includes free cooler and free delivery.",
     soupCount: 5,
-    price: 350,
-    originalPrice: 425,
-    badge: "Popular",
-    image: "/assets/images/gallery/grid2/pic2.jpg",
-  },
-  {
-    id: "bundle-10",
-    slug: "bundle-10",
-    name: "10-Soup Bundle",
-    description: "Stock your freezer for busy weeks with ten soups of your choice.",
-    soupCount: 10,
-    price: 700,
-    originalPrice: 850,
-    badge: "Best value",
-    image: "/assets/images/gallery/grid2/pic6.jpg",
-  },
-  {
-    id: "bundle-18",
-    slug: "bundle-18",
-    name: "18-Soup Bundle",
-    description: "Our largest mix-and-match collection for families and meal planners.",
-    soupCount: 18,
-    price: 1260,
-    originalPrice: 1530,
-    badge: "Family stock",
-    image: "/assets/images/gallery/grid2/pic5.jpg",
+    price: 115.99,
+    originalPrice: 129.95,
+    badge: "Max save",
+    includesGift: "Free Cooler",
+    freeDelivery: true,
+    image: "/assets/images/Bukas.png",
   },
 ];
 
@@ -442,7 +448,7 @@ export function buildMixedBundleCartItem(
   return {
     id: `ready-soup-bundle-mix-${bundle.soupCount}-${Date.now().toString(36)}`,
     name: `${bundle.name}: ${lines.join(", ")}`,
-    price: getMixedBundlePrice(selection, products),
+    price: bundle.price,
     image: bundle.image,
   };
 }

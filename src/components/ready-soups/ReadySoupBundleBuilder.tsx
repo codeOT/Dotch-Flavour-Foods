@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/Button";
 import {
   buildMixedBundleCartItem,
   formatReadySoupPrice,
-  getMixedBundlePrice,
   getMixSelectionTotal,
   readySoupProducts,
   type MixSelection,
@@ -27,8 +26,7 @@ export function ReadySoupBundleBuilder({ bundle, onClose }: ReadySoupBundleBuild
 
   const selectedTotal = useMemo(() => getMixSelectionTotal(selection), [selection]);
   const remaining = bundle.soupCount - selectedTotal;
-  const selectionPrice = useMemo(() => getMixedBundlePrice(selection), [selection]);
-  const displayPrice = selectedTotal > 0 ? selectionPrice : bundle.price;
+  const displayPrice = bundle.price;
 
   function setQty(productId: string, next: number) {
     setError("");

@@ -27,12 +27,12 @@ export const faqs: FaqItem[] = [
   {
     question: "What is the minimum Ready Soups order?",
     answer:
-      "The minimum online order is three tubs. Customers seeking a different local arrangement may contact us by WhatsApp.",
+      "The minimum online order is two tubs. Customers seeking a different local arrangement may contact us by WhatsApp.",
   },
   {
     question: "What bundles are available?",
     answer:
-      "Planned bundle sizes are 3, 5, 10 and 18 tubs. Customers will be able to mix soups subject to availability.",
+      "Mix & match bundles are 2 (£48.99), 3 (£71.99), 4 Owanbe Bundle (£94.99 with free cooler and free delivery), and 5 (£115.99 with free cooler and free delivery). Customers can mix soups subject to availability.",
   },
   {
     question: "Where do you deliver?",
@@ -62,7 +62,7 @@ export const faqs: FaqItem[] = [
   {
     question: "Can I order one soup?",
     answer:
-      "The website minimum is three soups. Contact us directly if you need to discuss a local or exceptional order.",
+      "The website minimum is two soups. Contact us directly if you need to discuss a local or exceptional order.",
   },
   {
     question: "How do I store Ready Soups?",
@@ -99,7 +99,8 @@ export const faqs: FaqItem[] = [
   },
   {
     question: "Do you offer free delivery?",
-    answer: "No. A delivery charge applies to orders.",
+    answer:
+      "Yes on the Owanbe (4-soup) and 5-soup mix & match bundles. Other Ready Soups orders have a delivery charge of £13.99 up to 20kg or £16.99 up to 25kg.",
   },
   {
     question: "Do you offer gift cards?",

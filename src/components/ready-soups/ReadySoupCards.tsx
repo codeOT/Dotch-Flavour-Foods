@@ -103,6 +103,9 @@ export function ReadySoupBundleCard({
         {bundle.includesGift && (
           <p className="text-sm text-title/80">• Includes {bundle.includesGift}</p>
         )}
+        {bundle.freeDelivery && (
+          <p className="text-sm font-semibold text-secondary">• Free delivery</p>
+        )}
       </div>
 
       <div className="mt-auto flex flex-col gap-3 border-t border-surface pt-4">

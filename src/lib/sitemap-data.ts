@@ -129,6 +129,13 @@ export function getSitemapEntries(): SitemapEntry[] {
       priority: 0.6,
     },
     {
+      path: "/policies",
+      title: "Policies",
+      section: "Legal",
+      changeFrequency: "yearly",
+      priority: 0.4,
+    },
+    {
       path: "/privacy-policy",
       title: "Privacy Policy",
       section: "Legal",

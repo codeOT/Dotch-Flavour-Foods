@@ -197,6 +197,93 @@ export function contactAutoReplyHtml(name: string) {
   );
 }
 
+export function passwordResetHtml(input: { name: string; resetUrl: string }) {
+  const first = escapeHtml(input.name.split(" ")[0] || "there");
+  return layout(
+    "Reset your password",
+    `
+      <h1 style="margin:0 0 12px;font-size:22px;line-height:1.3;">Reset your password, ${first}</h1>
+      <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#3d463f;">
+        We received a request to reset the password for your ${escapeHtml(siteConfig.name)} account.
+        This link expires in 1 hour.
+      </p>
+      <p style="margin:0 0 20px;">
+        <a href="${escapeHtml(input.resetUrl)}" style="display:inline-block;background:#cf5c0b;color:#ffffff;text-decoration:none;padding:12px 18px;border-radius:8px;font-weight:700;font-size:14px;">
+          Choose a new password
+        </a>
+      </p>
+      <p style="margin:0;font-size:13px;line-height:1.6;color:#6b6358;">
+        If you did not request this, you can ignore this email. Your password will stay the same.
+      </p>
+    `,
+  );
+}
+
+function quoteRow(label: string, value?: string | null) {
+  const text = (value || "").trim();
+  if (!text) return "";
+  return `<p style="margin:0 0 8px;font-size:14px;line-height:1.5;"><strong>${escapeHtml(label)}:</strong> ${escapeHtml(text)}</p>`;
+}
+
+export function quoteNotificationHtml(input: {
+  fullName: string;
+  organisation?: string;
+  email: string;
+  phone: string;
+  eventTypeLabel: string;
+  eventDate?: string;
+  startTime?: string;
+  location?: string;
+  guestCount?: string;
+  preferredMenu?: string;
+  serviceStyle?: string;
+  dietaryRequirements?: string;
+  budgetRange?: string;
+  logisticsNeeds?: string;
+  additionalInfo?: string;
+  attachmentName?: string;
+}) {
+  return layout(
+    "New quote request",
+    `
+      <h1 style="margin:0 0 12px;font-size:22px;line-height:1.3;">New quote request</h1>
+      <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#3d463f;">
+        A customer submitted a quote enquiry on the website.
+      </p>
+      ${quoteRow("Name", input.fullName)}
+      ${quoteRow("Organisation", input.organisation)}
+      ${quoteRow("Email", input.email)}
+      ${quoteRow("Phone", input.phone)}
+      ${quoteRow("Enquiry type", input.eventTypeLabel)}
+      ${quoteRow("Event date", input.eventDate)}
+      ${quoteRow("Start time", input.startTime)}
+      ${quoteRow("Guests", input.guestCount)}
+      ${quoteRow("Location", input.location)}
+      ${quoteRow("Preferred menu", input.preferredMenu)}
+      ${quoteRow("Service style", input.serviceStyle)}
+      ${quoteRow("Dietary / allergens", input.dietaryRequirements)}
+      ${quoteRow("Budget", input.budgetRange)}
+      ${quoteRow("Logistics", input.logisticsNeeds)}
+      ${quoteRow("Additional info", input.additionalInfo)}
+      ${quoteRow("Attachment", input.attachmentName)}
+    `,
+  );
+}
+
+export function quoteAutoReplyHtml(name: string) {
+  const first = escapeHtml(name.split(" ")[0] || "there");
+  return layout(
+    "We received your quote request",
+    `
+      <h1 style="margin:0 0 12px;font-size:22px;line-height:1.3;">Thanks, ${first}</h1>
+      <p style="margin:0;font-size:15px;line-height:1.6;color:#3d463f;">
+        We've received your quote request and aim to respond within one business day.
+        For urgent catering questions, WhatsApp is often quickest.
+      </p>
+    `,
+  );
+}
+
 const statusCopy: Record<
   "processing" | "shipped" | "delivered" | "cancelled",
   { headline: string; body: string }

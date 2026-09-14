@@ -36,6 +36,8 @@ const userSchema = new Schema(
       index: true,
     },
     passwordHash: { type: String },
+    passwordResetTokenHash: { type: String, index: true },
+    passwordResetExpires: { type: Date },
     image: { type: String },
     phone: { type: String, trim: true, index: true },
     provider: {
@@ -57,8 +59,24 @@ export type UserDocument = InferSchemaType<typeof userSchema> & {
   _id: Schema.Types.ObjectId;
 };
 
-export const User: Model<UserDocument> =
-  (models.User as Model<UserDocument>) || model<UserDocument>("User", userSchema);
+const USER_MODEL = "User";
+
+function getUserModel(): Model<UserDocument> {
+  const existing = models[USER_MODEL] as Model<UserDocument> | undefined;
+  if (existing) {
+    // Hot reload can keep a stale schema without newly added paths.
+    if (!existing.schema.path("passwordResetTokenHash")) {
+      existing.schema.add({
+        passwordResetTokenHash: { type: String, index: true },
+        passwordResetExpires: { type: Date },
+      });
+    }
+    return existing;
+  }
+  return model<UserDocument>(USER_MODEL, userSchema);
+}
+
+export const User = getUserModel();
 
 export function splitFullName(fullName: string) {
   const parts = fullName.trim().split(/\s+/).filter(Boolean);

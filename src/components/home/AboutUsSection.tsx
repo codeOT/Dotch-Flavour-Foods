@@ -81,7 +81,7 @@ export function AboutUsSection() {
                     fullWidth
                     className="!border-white/35 !text-white hover:!bg-white/10 sm:!w-auto"
                   >
-                    Shop Ready Soups
+                    Shop Ready Soups.
                   </Button>
                 </div>
               </StaggerItem>

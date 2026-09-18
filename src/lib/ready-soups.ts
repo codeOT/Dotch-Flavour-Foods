@@ -367,8 +367,6 @@ export const readySoupBundles: ReadySoupBundle[] = [
     price: 94.99,
     originalPrice: 103.96,
     badge: "Best seller",
-    includesGift: "Free Cooler",
-    freeDelivery: true,
     image: "/assets/images/Ayam.png",
   },
   {
@@ -380,7 +378,6 @@ export const readySoupBundles: ReadySoupBundle[] = [
     price: 115.99,
     originalPrice: 129.95,
     badge: "Max save",
-    includesGift: "Free Cooler",
     freeDelivery: true,
     image: "/assets/images/Bukas.png",
   },

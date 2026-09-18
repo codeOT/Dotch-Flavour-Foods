@@ -5,7 +5,7 @@ export const meetAbi = {
   shortName: "Abi",
   role: "Founder",
   company: siteConfig.name,
-  image: "/assets/images/Mrs A. Olurin .jpeg",
+  image: "/assets/images/mrs olurin a.jpg",
   imageAlt: "Mrs Abimbola Olurin, founder of Dotch Flavour Foods",
   eyebrow: "Meet Abi",
   headline: "Meet Abi",

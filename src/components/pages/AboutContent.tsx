@@ -122,18 +122,7 @@ export function AboutContent() {
         </div>
       </div>
 
-      <Reveal className="mt-14 sm:mt-20">
-        <div className="relative aspect-[16/9] w-full overflow-hidden sm:aspect-[21/9]">
-          <Image
-            src={aboutImages.hero.src}
-            alt={aboutImages.hero.alt}
-            fill
-            className="object-cover"
-            sizes="100vw"
-            priority
-          />
-        </div>
-      </Reveal>
+      
 
       <div className="container-fluid mt-14 grid min-w-0 items-start gap-10 sm:mt-20 lg:grid-cols-2 lg:gap-16 xl:gap-24">
         <Reveal>

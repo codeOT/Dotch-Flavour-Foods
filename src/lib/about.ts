@@ -63,7 +63,7 @@ export const founder = {
   name: "Abi Olurin",
   role: "Founder",
   company: siteConfig.name,
-  image: "/assets/images/Mrs A. Olurin .jpeg",
+  image: "/assets/images/mrs olurin ab.jpg",
   imageAlt: "Abi Olurin, founder of Dotch Flavour",
   quote:
     "Good food takes patience and a generous hand.",
@@ -75,7 +75,7 @@ export const aboutImages = {
     alt: "A bowl of Dotch Flavour Egusi soup, cooked with care",
   },
   founder: {
-    src: "/assets/images/Mrs A. Olurin .jpeg",
+    src: "/assets/images/mrs olurin ab.jpg",
     alt: "Abi Olurin, founder of Dotch Flavour",
   },
 } as const;

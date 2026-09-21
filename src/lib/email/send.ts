@@ -5,6 +5,7 @@ import {
   newsletterConfirmHtml,
   orderConfirmationHtml,
   orderStatusUpdateHtml,
+  orderTeamNotificationHtml,
   passwordResetHtml,
   quoteAutoReplyHtml,
   quoteNotificationHtml,
@@ -35,6 +36,7 @@ export async function sendOrderConfirmationEmail(order: {
   orderNumber: string;
   fullName: string;
   email: string;
+  phone?: string | null;
   deliveryMethod: "delivery" | "pickup";
   items: { name: string; quantity: number; price: number }[];
   subtotal: number;
@@ -45,13 +47,41 @@ export async function sendOrderConfirmationEmail(order: {
   city?: string | null;
   postcode?: string | null;
 }) {
-  return sendEmail({
+  const customer = await sendEmail({
     to: order.email,
     subject: `Order confirmed — ${order.orderNumber}`,
     html: orderConfirmationHtml(order),
     text: `Thanks for your order ${order.orderNumber}. Total ${siteConfig.currencySymbol}${order.total.toFixed(2)}. We'll prepare it shortly.`,
     idempotencyKey: `order-confirm-${order.orderNumber}`,
   });
+
+  const team = await sendEmail({
+    to: siteConfig.contact.email,
+    subject: `New order — ${order.orderNumber} — ${order.fullName}`,
+    html: orderTeamNotificationHtml(order),
+    text: [
+      `New paid order ${order.orderNumber}`,
+      `Customer: ${order.fullName}`,
+      `Email: ${order.email}`,
+      order.phone ? `Phone: ${order.phone}` : null,
+      `Fulfilment: ${order.deliveryMethod}`,
+      `Total: ${siteConfig.currencySymbol}${order.total.toFixed(2)}`,
+    ]
+      .filter(Boolean)
+      .join("\n"),
+    replyTo: order.email,
+    idempotencyKey: `order-notify-${order.orderNumber}`,
+  });
+
+  if (!customer.ok) return customer;
+  if (!team.ok) {
+    console.error("Order team notification failed:", team.error, {
+      orderNumber: order.orderNumber,
+      skipped: "skipped" in team ? team.skipped : false,
+    });
+  }
+
+  return customer;
 }
 
 const STATUS_EMAIL_STATUSES = ["processing", "shipped", "delivered", "cancelled"] as const;

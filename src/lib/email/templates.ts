@@ -167,6 +167,76 @@ export function orderConfirmationHtml(order: {
   );
 }
 
+export function orderTeamNotificationHtml(order: {
+  orderNumber: string;
+  fullName: string;
+  email: string;
+  phone?: string | null;
+  deliveryMethod: "delivery" | "pickup";
+  items: OrderEmailItem[];
+  subtotal: number;
+  deliveryFee: number;
+  total: number;
+  addressLine1?: string | null;
+  addressLine2?: string | null;
+  city?: string | null;
+  postcode?: string | null;
+}) {
+  const rows = order.items
+    .map(
+      (item) => `
+      <tr>
+        <td style="padding:8px 0;border-bottom:1px solid #f0e6db;font-size:14px;">${escapeHtml(item.name)} × ${item.quantity}</td>
+        <td style="padding:8px 0;border-bottom:1px solid #f0e6db;font-size:14px;text-align:right;font-weight:600;">${escapeHtml(formatPrice(item.price * item.quantity))}</td>
+      </tr>`,
+    )
+    .join("");
+
+  const address =
+    order.deliveryMethod === "delivery"
+      ? [order.addressLine1, order.addressLine2, order.city, order.postcode]
+          .filter(Boolean)
+          .map((part) => escapeHtml(String(part)))
+          .join(", ")
+      : "Collection";
+
+  return layout(
+    `New order — ${order.orderNumber}`,
+    `
+      <h1 style="margin:0 0 12px;font-size:22px;line-height:1.3;">New paid order</h1>
+      <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#3d463f;">
+        Order <strong>${escapeHtml(order.orderNumber)}</strong> has been paid and confirmed.
+      </p>
+      <p style="margin:0 0 8px;font-size:14px;"><strong>Customer:</strong> ${escapeHtml(order.fullName)}</p>
+      <p style="margin:0 0 8px;font-size:14px;"><strong>Email:</strong> ${escapeHtml(order.email)}</p>
+      ${
+        order.phone
+          ? `<p style="margin:0 0 8px;font-size:14px;"><strong>Phone:</strong> ${escapeHtml(order.phone)}</p>`
+          : ""
+      }
+      <p style="margin:0 0 16px;font-size:14px;"><strong>Fulfilment:</strong> ${
+        order.deliveryMethod === "delivery" ? "Home delivery" : "Collection"
+      }</p>
+      <p style="margin:0 0 16px;font-size:14px;line-height:1.5;color:#3d463f;">${address}</p>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 16px;">
+        ${rows}
+        <tr>
+          <td style="padding:10px 0 4px;font-size:14px;color:#6b6358;">Subtotal</td>
+          <td style="padding:10px 0 4px;font-size:14px;text-align:right;">${escapeHtml(formatPrice(order.subtotal))}</td>
+        </tr>
+        <tr>
+          <td style="padding:4px 0;font-size:14px;color:#6b6358;">Delivery</td>
+          <td style="padding:4px 0;font-size:14px;text-align:right;">${order.deliveryFee === 0 ? "Free" : escapeHtml(formatPrice(order.deliveryFee))}</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 0 0;font-size:15px;font-weight:700;">Total</td>
+          <td style="padding:8px 0 0;font-size:15px;font-weight:700;text-align:right;color:#cf5c0b;">${escapeHtml(formatPrice(order.total))}</td>
+        </tr>
+      </table>
+    `,
+  );
+}
+
 export function contactNotificationHtml(input: {
   name: string;
   email: string;

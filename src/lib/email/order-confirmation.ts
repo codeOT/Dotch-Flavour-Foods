@@ -6,6 +6,7 @@ type OrderLike = {
   orderNumber: string;
   fullName: string;
   email: string;
+  phone?: string | null;
   deliveryMethod: "delivery" | "pickup";
   items: { name: string; quantity: number; price: number }[];
   subtotal: number;
@@ -44,6 +45,7 @@ export async function ensureOrderConfirmationEmail(order: OrderLike) {
     orderNumber: order.orderNumber,
     fullName: order.fullName,
     email: order.email,
+    phone: order.phone ?? doc.phone,
     deliveryMethod: order.deliveryMethod,
     items: order.items.map((item) => ({
       name: item.name,

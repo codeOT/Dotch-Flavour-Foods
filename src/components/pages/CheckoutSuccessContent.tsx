@@ -20,7 +20,7 @@ type OrderResult = {
 export function CheckoutSuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
-  const { clearCart } = useCart();
+  const { clearCart, isHydrated } = useCart();
   const [order, setOrder] = useState<OrderResult | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -31,6 +31,8 @@ export function CheckoutSuccessContent() {
       setLoading(false);
       return;
     }
+
+    if (!isHydrated) return;
 
     let cancelled = false;
 
@@ -62,7 +64,7 @@ export function CheckoutSuccessContent() {
     return () => {
       cancelled = true;
     };
-  }, [sessionId, clearCart]);
+  }, [sessionId, clearCart, isHydrated]);
 
   if (loading) {
     return (

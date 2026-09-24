@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ReadySoupsPageContent } from "@/components/ready-soups/ReadySoupsPageContent";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { readySoupsBrand } from "@/lib/ready-soups";
-import { breadcrumbJsonLd, productListJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, bundleListJsonLd, productListJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Ready Soups by Dotch Flavour",
@@ -30,6 +30,7 @@ export default function ReadyToEatSoupsPage() {
       <JsonLd
         data={[
           productListJsonLd(),
+          bundleListJsonLd(),
           breadcrumbJsonLd([
             { name: "Home", path: "/" },
             { name: "Ready Soups", path: "/ready-to-eat-soups" },

@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -69,6 +70,19 @@ function readStoredCart(): CartItem[] {
   }
 }
 
+function persistCart(items: CartItem[]) {
+  if (typeof window === "undefined") return;
+  try {
+    if (items.length === 0) {
+      localStorage.removeItem(STORAGE_KEY);
+      return;
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  } catch {
+    // Ignore quota / private-mode failures.
+  }
+}
+
 export function productToCartItem(product: Product, litres?: LitreSize | 1): CartItemInput {
   const basePrice =
     typeof product.price === "number" && Number.isFinite(product.price) ? product.price : 0;
@@ -97,15 +111,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isHydrated, setIsHydrated] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const clearedRef = useRef(false);
 
   useEffect(() => {
-    setItems(readStoredCart());
+    if (!clearedRef.current) {
+      setItems(readStoredCart());
+    }
     setIsHydrated(true);
   }, []);
 
   useEffect(() => {
     if (!isHydrated) return;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    persistCart(items);
   }, [items, isHydrated]);
 
   const addItem = useCallback((item: CartItemInput, quantity = 1) => {
@@ -140,7 +157,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
-  const clearCart = useCallback(() => setItems([]), []);
+  const clearCart = useCallback(() => {
+    clearedRef.current = true;
+    setItems([]);
+    persistCart([]);
+  }, []);
 
   const openCart = useCallback(() => setIsOpen(true), []);
   const closeCart = useCallback(() => setIsOpen(false), []);

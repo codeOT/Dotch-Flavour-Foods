@@ -1,5 +1,11 @@
+import { DELIVERY_FEE_UP_TO_20L } from "@/lib/cart-utils";
 import { faqs } from "@/lib/faq";
-import { readySoupProducts, type ReadySoupProduct } from "@/lib/ready-soups";
+import {
+  readySoupBundles,
+  readySoupProducts,
+  type ReadySoupBundle,
+  type ReadySoupProduct,
+} from "@/lib/ready-soups";
 import { siteConfig } from "@/lib/site";
 import { getSiteUrl } from "@/lib/sitemap-data";
 
@@ -31,6 +37,53 @@ export function absoluteUrl(path = "/") {
 export function absoluteAsset(path: string) {
   if (path.startsWith("http://") || path.startsWith("https://")) return path;
   return absoluteUrl(path);
+}
+
+function priceValidUntil() {
+  const date = new Date();
+  date.setFullYear(date.getFullYear() + 1);
+  return date.toISOString().slice(0, 10);
+}
+
+function merchantReturnPolicy() {
+  return {
+    "@type": "MerchantReturnPolicy",
+    applicableCountry: "GB",
+    returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+    merchantReturnDays: 14,
+    returnMethod: "https://schema.org/ReturnByMail",
+    returnFees: "https://schema.org/ReturnFeesCustomerResponsibility",
+  };
+}
+
+function shippingDetails(freeDelivery = false) {
+  return {
+    "@type": "OfferShippingDetails",
+    shippingRate: {
+      "@type": "MonetaryAmount",
+      value: freeDelivery ? "0" : DELIVERY_FEE_UP_TO_20L.toFixed(2),
+      currency: siteConfig.currency,
+    },
+    shippingDestination: {
+      "@type": "DefinedRegion",
+      addressCountry: "GB",
+    },
+    deliveryTime: {
+      "@type": "ShippingDeliveryTime",
+      handlingTime: {
+        "@type": "QuantitativeValue",
+        minValue: 0,
+        maxValue: 1,
+        unitCode: "DAY",
+      },
+      transitTime: {
+        "@type": "QuantitativeValue",
+        minValue: 1,
+        maxValue: 3,
+        unitCode: "DAY",
+      },
+    },
+  };
 }
 
 export function organizationJsonLd() {
@@ -81,16 +134,19 @@ export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
   };
 }
 
-export function productJsonLd(product: ReadySoupProduct) {
+/** Full Product schema for a Ready Soup — used on product pages and ItemLists. */
+export function productJsonLd(product: ReadySoupProduct, options?: { includeContext?: boolean }) {
   const url = absoluteUrl(`/ready-to-eat-soups/${product.slug}`);
+  const includeContext = options?.includeContext !== false;
 
-  return {
-    "@context": "https://schema.org",
+  const schema = {
     "@type": "Product",
+    "@id": `${url}#product`,
     name: product.name,
-    description: product.shortDescription,
+    description: product.description || product.shortDescription,
     image: [absoluteAsset(product.image)],
     sku: product.id,
+    mpn: product.id,
     url,
     brand: {
       "@type": "Brand",
@@ -98,7 +154,13 @@ export function productJsonLd(product: ReadySoupProduct) {
     },
     category: "Frozen Nigerian Soup",
     size: product.size,
+    material: product.ingredients.slice(0, 8).join(", "),
     additionalProperty: [
+      {
+        "@type": "PropertyValue",
+        name: "Net volume",
+        value: product.size,
+      },
       {
         "@type": "PropertyValue",
         name: "Ingredients",
@@ -109,40 +171,143 @@ export function productJsonLd(product: ReadySoupProduct) {
         name: "Allergens",
         value: product.allergens.join(", "),
       },
+      ...(product.mayContain?.length
+        ? [
+            {
+              "@type": "PropertyValue",
+              name: "May contain",
+              value: product.mayContain.join(", "),
+            },
+          ]
+        : []),
     ],
     offers: {
       "@type": "Offer",
       url,
       priceCurrency: siteConfig.currency,
       price: product.price.toFixed(2),
+      priceValidUntil: priceValidUntil(),
       availability: "https://schema.org/InStock",
       itemCondition: "https://schema.org/NewCondition",
       seller: {
         "@type": "Organization",
         name: siteConfig.name,
+        url: getSiteUrl(),
       },
-      shippingDetails: {
-        "@type": "OfferShippingDetails",
-        shippingDestination: {
-          "@type": "DefinedRegion",
-          addressCountry: "GB",
-        },
-      },
+      shippingDetails: shippingDetails(false),
+      hasMerchantReturnPolicy: merchantReturnPolicy(),
     },
   };
+
+  if (!includeContext) return schema;
+  return { "@context": "https://schema.org", ...schema };
 }
 
+export function bundleProductJsonLd(bundle: ReadySoupBundle, options?: { includeContext?: boolean }) {
+  const catalogUrl = absoluteUrl("/ready-to-eat-soups");
+  const includeContext = options?.includeContext !== false;
+
+  const schema = {
+    "@type": "Product",
+    "@id": `${catalogUrl}#${bundle.id}`,
+    name: bundle.name,
+    description: bundle.description,
+    image: [absoluteAsset(bundle.image)],
+    sku: bundle.id,
+    mpn: bundle.id,
+    url: catalogUrl,
+    brand: {
+      "@type": "Brand",
+      name: "Ready Soups by Dotch Flavour",
+    },
+    category: "Frozen Nigerian Soup Bundle",
+    additionalProperty: [
+      {
+        "@type": "PropertyValue",
+        name: "Soup count",
+        value: String(bundle.soupCount),
+      },
+      ...(bundle.includesGift
+        ? [
+            {
+              "@type": "PropertyValue",
+              name: "Includes",
+              value: bundle.includesGift,
+            },
+          ]
+        : []),
+    ],
+    offers: {
+      "@type": "Offer",
+      url: catalogUrl,
+      priceCurrency: siteConfig.currency,
+      price: bundle.price.toFixed(2),
+      priceValidUntil: priceValidUntil(),
+      availability: "https://schema.org/InStock",
+      itemCondition: "https://schema.org/NewCondition",
+      seller: {
+        "@type": "Organization",
+        name: siteConfig.name,
+        url: getSiteUrl(),
+      },
+      shippingDetails: shippingDetails(Boolean(bundle.freeDelivery)),
+      hasMerchantReturnPolicy: merchantReturnPolicy(),
+      ...(bundle.originalPrice
+        ? {
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              priceType: "https://schema.org/StrikethroughPrice",
+              price: bundle.originalPrice.toFixed(2),
+              priceCurrency: siteConfig.currency,
+            },
+          }
+        : {}),
+    },
+  };
+
+  if (!includeContext) return schema;
+  return { "@context": "https://schema.org", ...schema };
+}
+
+/** ItemList with full Product nodes so Google can surface products from the catalog page. */
 export function productListJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "Ready Soups by Dotch Flavour",
+    description:
+      "Premium frozen Traditional Nigerian soups. Mix and match 2, 3, 4 or 5 tub bundles for UK delivery.",
+    numberOfItems: readySoupProducts.length,
     itemListElement: readySoupProducts.map((product, index) => ({
       "@type": "ListItem",
       position: index + 1,
-      url: absoluteUrl(`/ready-to-eat-soups/${product.slug}`),
-      name: product.name,
+      item: productJsonLd(product, { includeContext: false }),
     })),
+  };
+}
+
+export function bundleListJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Ready Soups mix & match bundles",
+    description: "Mix any Ready Soup flavours in 2, 3, 4 or 5 tub bundles.",
+    numberOfItems: readySoupBundles.length,
+    itemListElement: readySoupBundles.map((bundle, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: bundleProductJsonLd(bundle, { includeContext: false }),
+    })),
+  };
+}
+
+/** Homepage graph: all Ready Soup products for discovery. */
+export function homeProductsJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@graph": readySoupProducts.map((product) =>
+      productJsonLd(product, { includeContext: false }),
+    ),
   };
 }
 

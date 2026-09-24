@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { getAdminFromRequest } from "@/lib/admin";
 import { Order } from "@/models/Order";
+import { Product } from "@/models/Product";
 import { User } from "@/models/User";
 import { PAID_FLOW_STATUSES } from "@/lib/order-status";
 
@@ -32,13 +33,14 @@ export async function GET(request: Request) {
 
     await connectDB();
 
-    const [totalOrders, pendingOrders, paidOrders, processingOrders, usersCount] =
+    const [totalOrders, pendingOrders, paidOrders, processingOrders, usersCount, productsCount] =
       await Promise.all([
         Order.countDocuments(),
         Order.countDocuments({ status: "pending" }),
         Order.countDocuments({ status: { $in: PAID_FLOW_STATUSES } }),
         Order.countDocuments({ status: { $in: ["processing", "shipped"] } }),
         User.countDocuments(),
+        Product.countDocuments(),
       ]);
 
     const paidRevenueAgg = await Order.aggregate<{ total: number }>([
@@ -121,6 +123,7 @@ export async function GET(request: Request) {
         paidOrders,
         processingOrders,
         usersCount,
+        productsCount,
         paidRevenue,
       },
       inventoryReport: inventoryRows,

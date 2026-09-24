@@ -4,8 +4,8 @@ import { AdminDashboardContent } from "@/components/pages/AdminDashboardContent"
 import { getAdminSession } from "@/lib/admin";
 
 export const metadata: Metadata = {
-  title: "Admin Dashboard",
-  description: "Professional admin dashboard for orders, revenue, and inventory insights.",
+  title: "Staff portal",
+  description: "Dotch Flavour Foods staff portal for orders, products, and inventory.",
 };
 
 export default async function AdminPage() {

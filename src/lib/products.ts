@@ -38,7 +38,7 @@ export const catalogProducts: Product[] = [
     id: "Efo-egusi",
     name: "Efo Egusi ",
     category: "soups-and-stews",
-    price: 24.99,
+    price: 25.99,
     shortDescription: "Authentic Nigerian Egusi soup",
     image: "/assets/images/egusi1.jpg",
     ingredients: [
@@ -62,7 +62,7 @@ export const catalogProducts: Product[] = [
     id: "Ila-asepo",
     name: "Ila Asepo",
     category: "soups-and-stews",
-    price: 24.99,
+    price: 25.99,
     shortDescription: "A traditional one-pot Nigerian soup",
     image: "/assets/images/ilaasepo1.jpeg",
     ingredients: [

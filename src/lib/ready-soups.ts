@@ -345,7 +345,7 @@ export const readySoupBundles: ReadySoupBundle[] = [
     price: 48.99,
     originalPrice: 51.98,
     badge: "Save £2.99",
-    image: "/assets/images/Efo.png",
+    image: "/assets/images/2 bundles.png",
   },
   {
     id: "bundle-3",
@@ -356,7 +356,7 @@ export const readySoupBundles: ReadySoupBundle[] = [
     price: 71.99,
     originalPrice: 77.97,
     badge: "Save £5.98",
-    image: "/assets/images/Egus.png",
+    image: "/assets/images/3 bundles.png",
   },
   {
     id: "bundle-4",
@@ -367,7 +367,7 @@ export const readySoupBundles: ReadySoupBundle[] = [
     price: 94.99,
     originalPrice: 103.96,
     badge: "Save £8.97",
-    image: "/assets/images/Ayam.png",
+    image: "/assets/images/4 bundles.png",
   },
   {
     id: "bundle-5",
@@ -380,7 +380,7 @@ export const readySoupBundles: ReadySoupBundle[] = [
     originalPrice: 129.95,
     badge: "Save £13.96",
     freeDelivery: true,
-    image: "/assets/images/Bukas.png",
+    image: "/assets/images/5 bundles.png", 
   },
 ];
 

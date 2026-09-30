@@ -301,7 +301,7 @@ export function ReadySoupsPageContent() {
           <SectionHeading
             eyebrow="Save more"
             title="Mix & match bundles" 
-            description={`Choose 2, 3, 4 or 5 soups and mix any flavours. Minimum online order is ${READY_SOUP_MIN_ORDER} soups. Delivery ${formatPrice(DELIVERY_FEE_UP_TO_20L)} up to 20kg, or ${formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25kg — free on Owanbe and 5-soup bundles.`}
+            description={`Choose 2, 3, 4 or 5 soups and mix any flavours. Minimum online order is ${READY_SOUP_MIN_ORDER} soups. Delivery ${formatPrice(DELIVERY_FEE_UP_TO_20L)} up to 20kg, or ${formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25kg — free on 5-soup bundles.`}
             light
           />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

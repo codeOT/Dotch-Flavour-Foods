@@ -56,7 +56,7 @@ export function ProductCatalogSection() {
 
           <Reveal className="mt-4 text-center text-sm text-title/60">
             Prefer stews and sauces?{" "}
-            <Link href="/our-menu" className="font-semibold text-primary hover:underline">
+            <Link href="/ready-to-eat-soups" className="font-semibold text-primary hover:underline">
               Explore the full menu
             </Link>
             .

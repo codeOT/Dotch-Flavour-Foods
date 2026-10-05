@@ -80,7 +80,7 @@ export function FreshMenuContent() {
               Fresh Food Menu
             </h1>
             <p className="mx-auto max-w-2xl text-sm text-title/70 sm:text-base">
-              Fresh food orders are placed on WhatsApp so we can confirm availability, customisations,
+              Fresh food orders are placed on WhatsApp so we can confirm availability 
               and weekly ordering deadlines. Choose your litres below, then message us to complete
               your order.
             </p>

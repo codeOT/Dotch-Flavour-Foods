@@ -54,7 +54,7 @@ function FreshMenuCard({ item }: { item: MenuItem }) {
         <div className="flex items-center justify-between gap-3">
           <span className="font-bold text-primary">{priceLabel}</span>
           <Button href={whatsappHref} className="!bg-secondary !px-4 !py-2 !text-xs hover:!bg-orange">
-            Order on WhatsApp
+            Order Now
           </Button>
         </div>
       </div>

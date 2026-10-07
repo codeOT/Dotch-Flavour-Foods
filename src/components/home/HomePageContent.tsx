@@ -15,7 +15,7 @@ import { IndependencePromo } from "@/components/home/IndependencePromo";
 export function HomePageContent() {
   return (
     <div className="w-full min-w-0 overflow-x-clip">
-      <IndependencePromo />
+      {/* <IndependencePromo /> */}
       <HeroSection />
       <HowItWorksSection />
       <ProductCatalogSection />

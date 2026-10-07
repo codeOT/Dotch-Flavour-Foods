@@ -11,7 +11,7 @@ export const siteConfig = {
   currency: "GBP",
   currencySymbol: "£",
   contact: {
-    phone: "+447889490189",
+    phone: "+447858251859",
     email: "hello@dotchflavourfoods.com",
     address: "Hemel Hempstead, United Kingdom.",
     // companyNumber: "17246871",

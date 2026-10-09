@@ -1,3 +1,4 @@
+import { READY_SOUP_MIN_ORDER } from "./cart-utils";
 import { formatPrice } from "./site";
 
 export type ReadySoupProduct = {
@@ -45,13 +46,13 @@ export const howItWorksSteps = [
     step: "01",
     title: "Choose your bundle",
     description:
-      "Select a 2, 3, 4 or 5 soup mix & match bundle. Minimum online order is 2 soups.",
+      `Select a 2, 3, 4 or 5 soup mix & match bundle. Minimum online order is ${READY_SOUP_MIN_ORDER} soups.`,
   },
   {
     step: "02",
     title: "Checkout online",
     description:
-      "Pay securely by card. Delivery is £13.99 up to 20kg, or £16.99 up to 25kg — free on Owanbe and 5-soup bundles.",
+      "Pay securely by card. Delivery is a flat £19 — free on Owanbe and 5-soup bundles.",
   },
   {
     step: "03",
@@ -90,9 +91,9 @@ export const storageHeatingGuidance = {
 export const launchOffers = [
   {
     id: "min-order",
-    title: "Minimum order: 2 soups",
+    title: `Minimum order: ${READY_SOUP_MIN_ORDER} soups`,
     description:
-      "Online Ready Soups orders start at 2 tubs. Mix and match flavours freely within your bundle size.",
+      `Online Ready Soups orders start at ${READY_SOUP_MIN_ORDER} tubs. Mix and match flavours freely within your bundle size.`,
     code: null,
     badge: "Ordering",
   },
@@ -100,7 +101,7 @@ export const launchOffers = [
     id: "flat-delivery",
     title: "Delivery by volume",
     description:
-      "£13.99 for orders up to 20kg, £16.99 up to 25kg. Free delivery on the Owanbe (4) and 5-soup bundles. Next-day delivery: order Monday–Thursday 8am–3pm. Friday–Sunday orders arrive Tuesday.",
+      "£19 flat rate. Free delivery on the Owanbe (4) and 5-soup bundles. Next-day delivery: order Monday–Thursday 8am–3pm. Friday–Sunday orders arrive Tuesday.",
     code: null,
     badge: "Delivery",
   },

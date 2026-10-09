@@ -74,7 +74,7 @@ export const websiteTerms: LegalDocument = {
     {
       title: "1.7 Minimum orders and bundles",
       paragraphs: [
-        "The minimum online order for Ready Soups is two tubs. Customers seeking a smaller local or exceptional order may contact us by WhatsApp, but acceptance is at our discretion. Catering orders have a minimum order value of £200.",
+        "The minimum online order for Ready Soups is three tubs. Customers seeking a smaller local or exceptional order may contact us by WhatsApp, but acceptance is at our discretion. Catering orders have a minimum order value of £200.",
       ],
     },
     {
@@ -423,7 +423,7 @@ export const deliveryTerms: LegalDocument = {
     {
       title: "4.3 Flat-rate charge",
       paragraphs: [
-        "A flat-rate delivery charge is added at checkout. The current price for orders up to 20kg is £13.99 and £16.99 for 25kg. Live checkout price applies and may be updated when the courier account and packaging weights are finalised. Delivery is not free.",
+        "A flat-rate delivery charge of £19.00 is added at checkout for Ready Soups shop orders, except where a bundle offer includes free delivery. Live checkout price applies and may be updated if courier costs change. Collection remains free where offered.",
       ],
     },
     {

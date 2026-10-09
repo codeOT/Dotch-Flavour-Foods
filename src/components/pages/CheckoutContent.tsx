@@ -413,7 +413,7 @@ export function CheckoutContent() {
                         id: "delivery" as const,
                         label: "Home delivery",
                         description:
-                          "Mon–Thu 8am–3pm for next-day delivery. Fri–Sun orders arrive Tuesday. £13.99 up to 20kg / £16.99 up to 25kg",
+                          "Mon–Thu 8am–3pm for next-day delivery. Fri–Sun orders arrive Tuesday. £19 flat rate",
                         icon: Truck,
                       },
                       {

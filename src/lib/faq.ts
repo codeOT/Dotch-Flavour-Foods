@@ -27,7 +27,7 @@ export const faqs: FaqItem[] = [
   {
     question: "What is the minimum Ready Soups order?",
     answer:
-      "The minimum online order is two tubs. Customers seeking a different local arrangement may contact us by WhatsApp.",
+      "The minimum online order is three tubs. Customers seeking a different local arrangement may contact us by WhatsApp.",
   },
   {
     question: "What bundles are available?",
@@ -42,12 +42,12 @@ export const faqs: FaqItem[] = [
   {
     question: "How much is delivery?",
     answer:
-      "Delivery is charged at a flat rate shown at checkout. The current price for orders up to 20kg is £13.99 and £16.99 for 25kg. Live checkout price applies.",
+      "Delivery is a flat £19 at checkout. Owanbe (4-soup) and 5-soup mix & match bundles include free delivery.",
   },
   {
     question: "Is delivery still the same price if I order more?",
     answer:
-      "The flat parcel rate applies within the courier’s weight bands: £13.99 up to 20kg and £16.99 up to 25kg. This is why bundle ordering gives better delivery value. Final parcel limits will be confirmed after packed-weight testing.",
+      "Yes — delivery stays £19 regardless of how many soups you order, within our online parcel limit. Owanbe and 5-soup bundles include free delivery.",
   },
   {
     question: "When will my Ready Soups arrive?",
@@ -62,7 +62,7 @@ export const faqs: FaqItem[] = [
   {
     question: "Can I order one soup?",
     answer:
-      "The website minimum is two soups. Contact us directly if you need to discuss a local or exceptional order.",
+      "The website minimum is three soups. Contact us directly if you need to discuss a local or exceptional order.",
   },
   {
     question: "How do I store Ready Soups?",
@@ -100,7 +100,7 @@ export const faqs: FaqItem[] = [
   {
     question: "Do you offer free delivery?",
     answer:
-      "Yes on the Owanbe (4-soup) and 5-soup mix & match bundles. Other Ready Soups orders have a delivery charge of £13.99 up to 20kg or £16.99 up to 25kg.",
+      "Yes on the Owanbe (4-soup) and 5-soup mix & match bundles. Other Ready Soups orders have a flat £19 delivery charge.",
   },
   {
     question: "Do you offer gift cards?",

@@ -1,4 +1,4 @@
-import { DELIVERY_FEE_UP_TO_20L, DELIVERY_FEE_UP_TO_25L } from "@/lib/cart-utils";
+import { DELIVERY_FEE } from "@/lib/cart-utils";
 import { formatPrice } from "@/lib/site";
 
 export const cateringPage = {
@@ -35,7 +35,7 @@ export const cateringPage = {
     },
     {
       title: "Delivery",
-      text: `Where delivery applies, fees are confirmed in your quote. Online Ready Soups shop orders are ${formatPrice(DELIVERY_FEE_UP_TO_20L)} up to 20kg, or ${formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25kg.`,
+      text: `Where delivery applies, fees are confirmed in your quote. Online Ready Soups shop orders are a flat ${formatPrice(DELIVERY_FEE)}.`,
     },
   ],
 } as const;

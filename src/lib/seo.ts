@@ -1,4 +1,4 @@
-import { DELIVERY_FEE_UP_TO_20L } from "@/lib/cart-utils";
+import { DELIVERY_FEE } from "@/lib/cart-utils";
 import { faqs } from "@/lib/faq";
 import {
   readySoupBundles,
@@ -61,7 +61,7 @@ function shippingDetails(freeDelivery = false) {
     "@type": "OfferShippingDetails",
     shippingRate: {
       "@type": "MonetaryAmount",
-      value: freeDelivery ? "0" : DELIVERY_FEE_UP_TO_20L.toFixed(2),
+      value: freeDelivery ? "0" : DELIVERY_FEE.toFixed(2),
       currency: siteConfig.currency,
     },
     shippingDestination: {

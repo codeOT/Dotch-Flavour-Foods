@@ -5,7 +5,7 @@ import { Package, Snowflake, Soup, Truck } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
-import { DELIVERY_FEE_UP_TO_20L, DELIVERY_FEE_UP_TO_25L } from "@/lib/cart-utils";
+import { DELIVERY_FEE, READY_SOUP_MIN_ORDER } from "@/lib/cart-utils";
 import { formatPrice } from "@/lib/site";
 
 const steps = [
@@ -22,7 +22,7 @@ const steps = [
   {
     icon: Truck,
     title: "Delivered to you",
-    text: `Flat ${formatPrice(DELIVERY_FEE_UP_TO_20L)} delivery up to 20kg (or ${formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25kg) — or collect. Next-day delivery: order Monday–Thursday 8am–3pm; Friday–Sunday orders arrive Tuesday. Minimum 3 Ready Soups online.`,
+    text: `Flat ${formatPrice(DELIVERY_FEE)} delivery — or collect. Next-day delivery: order Monday–Thursday 8am–3pm; Friday–Sunday orders arrive Tuesday. Minimum ${READY_SOUP_MIN_ORDER} Ready Soups online.`,
   },
   {
     icon: Snowflake,

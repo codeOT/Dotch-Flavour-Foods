@@ -29,8 +29,7 @@ import {
 import { useCart } from "@/context/CartContext";
 import { ReadySoupBundleBuilder } from "@/components/ready-soups/ReadySoupBundleBuilder";
 import {
-  DELIVERY_FEE_UP_TO_20L,
-  DELIVERY_FEE_UP_TO_25L,
+  DELIVERY_FEE,
   READY_SOUP_MIN_ORDER,
   READY_SOUP_ORDER_DAYS,
   READY_SOUP_ORDER_WINDOW,
@@ -209,8 +208,7 @@ export function ReadySoupsPageContent() {
                 </p>
                 <p>
                   <span className="font-semibold text-secondary">Delivery:</span>{" "}
-                  {formatPrice(DELIVERY_FEE_UP_TO_20L)} up to 20kg ·{" "}
-                  {formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25kg.
+                  {formatPrice(DELIVERY_FEE)} flat rate. Free on Owanbe and 5-soup bundles.
                 </p>
               </div>
             </div>
@@ -301,7 +299,7 @@ export function ReadySoupsPageContent() {
           <SectionHeading
             eyebrow="Save more"
             title="Mix & match bundles" 
-            description={`Choose 2, 3, 4 or 5 soups and mix any flavours. Minimum online order is ${READY_SOUP_MIN_ORDER} soups. Delivery ${formatPrice(DELIVERY_FEE_UP_TO_20L)} up to 20kg, or ${formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25kg — free on 5-soup bundles.`}
+            description={`Choose 2, 3, 4 or 5 soups and mix any flavours. Minimum online order is ${READY_SOUP_MIN_ORDER} soups. Delivery is a flat ${formatPrice(DELIVERY_FEE)} — free on Owanbe and 5-soup bundles.`}
             light
           />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -332,10 +330,8 @@ export function ReadySoupsPageContent() {
                 <h2 className="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl">Ready when you are</h2>
                 <p className="mb-6 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">
                   Mix flavours in a 2, 3, 4 or 5 bundle (minimum {READY_SOUP_MIN_ORDER} online).{" "}
-                  {readySoupDeliveryInfo.scheduleSummary} Delivery is{" "}
-                  {formatPrice(DELIVERY_FEE_UP_TO_20L)} up to 20kg, or{" "}
-                  {formatPrice(DELIVERY_FEE_UP_TO_25L)} up to 25kg — or choose collection where
-                  available.
+                  {readySoupDeliveryInfo.scheduleSummary} Delivery is a flat{" "}
+                  {formatPrice(DELIVERY_FEE)} — or choose collection where available.
                 </p>
                 <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
                   <Button type="button" onClick={openCart} variant="white" fullWidth className="sm:w-auto">

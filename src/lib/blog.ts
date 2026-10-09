@@ -71,7 +71,7 @@ export const blogPosts: BlogPost[] = [
     slug: "how-to-choose-your-ready-soup-bundle",
     title: "How to Choose Your Ready Soup Bundle",
     excerpt:
-      "2, 3, 4, or 5 — mix flavours to match your household, with the online minimum of three soups explained.",
+      "3, 4, or 5 — mix flavours to match your household, with the online minimum of three soups explained.",
     image: "/assets/images/blog/grid/pic4.jpg",
     category: "tips",
     author: "Dotch Flavour Kitchen",

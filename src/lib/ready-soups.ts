@@ -46,7 +46,7 @@ export const howItWorksSteps = [
     step: "01",
     title: "Choose your bundle",
     description:
-      `Select a 2, 3, 4 or 5 soup mix & match bundle. Minimum online order is ${READY_SOUP_MIN_ORDER} soups.`,
+      `Select a 3, 4 or 5 soup mix & match bundle. Minimum online order is ${READY_SOUP_MIN_ORDER} soups.`,
   },
   {
     step: "02",
@@ -337,17 +337,6 @@ export const readySoupProducts: ReadySoupProduct[] = [
 ];
 
 export const readySoupBundles: ReadySoupBundle[] = [
-  {
-    id: "bundle-2",
-    slug: "bundle-2",
-    name: "2-Soup Bundle",
-    description: "Mix any two flavours.",
-    soupCount: 2,
-    price: 51.98,
-    // originalPrice: 51.98,
-    // badge: "Save £2.99",
-    image: "/assets/images/2 bundles.png",
-  },
   {
     id: "bundle-3",
     slug: "bundle-3",

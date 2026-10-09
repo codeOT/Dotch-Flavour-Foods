@@ -276,7 +276,7 @@ export function productListJsonLd() {
     "@type": "ItemList",
     name: "Ready Soups by Dotch Flavour",
     description:
-      "Premium frozen Traditional Nigerian soups. Mix and match 2, 3, 4 or 5 tub bundles for UK delivery.",
+      "Premium frozen Traditional Nigerian soups. Mix and match 3, 4 or 5 tub bundles for UK delivery.",
     numberOfItems: readySoupProducts.length,
     itemListElement: readySoupProducts.map((product, index) => ({
       "@type": "ListItem",
@@ -291,7 +291,7 @@ export function bundleListJsonLd() {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "Ready Soups mix & match bundles",
-    description: "Mix any Ready Soup flavours in 2, 3, 4 or 5 tub bundles.",
+    description: "Mix any Ready Soup flavours in 3, 4 or 5 tub bundles.",
     numberOfItems: readySoupBundles.length,
     itemListElement: readySoupBundles.map((bundle, index) => ({
       "@type": "ListItem",

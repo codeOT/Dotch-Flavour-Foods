@@ -91,7 +91,7 @@ export function ReadySoupBundleCard({
           fill
           quality={75}
           className="object-cover"
-          sizes="(max-width: 768px) 100vw, 25vw"
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </div>
 

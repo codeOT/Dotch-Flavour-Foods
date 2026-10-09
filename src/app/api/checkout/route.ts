@@ -74,8 +74,15 @@ export async function POST(request: Request) {
 
     const body = (await request.json()) as CheckoutBody;
     const items = Array.isArray(body.items) ? body.items : [];
-    const deliveryMethod: DeliveryMethod =
-      body.deliveryMethod === "pickup" ? "pickup" : "delivery";
+
+    if (body.deliveryMethod === "pickup") {
+      return NextResponse.json(
+        { error: "Collection is not available. Please complete checkout with home delivery." },
+        { status: 400 },
+      );
+    }
+
+    const deliveryMethod: DeliveryMethod = "delivery";
 
     const fullName = body.fullName?.trim() ?? "";
     const email = body.email?.trim().toLowerCase() ?? "";

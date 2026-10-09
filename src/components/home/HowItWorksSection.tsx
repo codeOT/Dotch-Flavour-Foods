@@ -12,7 +12,7 @@ const steps = [
   {
     icon: Soup,
     title: "Choose your soups",
-    text: "Browse Ready Soups by Dotch Flavour — mix flavours or pick a 2, 3, 4, or 5 pack.",
+    text: "Browse Ready Soups by Dotch Flavour — mix flavours or pick a 3, 4, or 5 pack.",
   },
   {
     icon: Package,
@@ -22,7 +22,7 @@ const steps = [
   {
     icon: Truck,
     title: "Delivered to you",
-    text: `Flat ${formatPrice(DELIVERY_FEE)} delivery — or collect. Next-day delivery: order Monday–Thursday 8am–3pm; Friday–Sunday orders arrive Tuesday. Minimum ${READY_SOUP_MIN_ORDER} Ready Soups online.`,
+    text: `Flat ${formatPrice(DELIVERY_FEE)} delivery. Next-day delivery: order Monday–Thursday 8am–3pm; Friday–Sunday orders arrive Tuesday. Minimum ${READY_SOUP_MIN_ORDER} Ready Soups online.`,
   },
   {
     icon: Snowflake,

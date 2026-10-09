@@ -10,7 +10,7 @@ const shopChannels = [
   {
     title: "Ready Soups by Dotch Flavour",
     description:
-      "Our premium frozen soup range — mix flavours in 2, 3, 4, or 5 packs. Delivery £19 flat rate (free on Owanbe and 5-soup bundles). Next-day delivery: order Monday–Thursday 8am–3pm; Friday–Sunday orders arrive Tuesday.",
+      "Our premium frozen soup range — mix flavours in 3, 4, or 5 packs. Delivery £19 flat rate (free on Owanbe and 5-soup bundles). Next-day delivery: order Monday–Thursday 8am–3pm; Friday–Sunday orders arrive Tuesday.",
     href: "/ready-to-eat-soups",
     cta: "Shop Ready Soups",
     image: "/assets/images/hero-bg.png",

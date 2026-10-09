@@ -296,20 +296,22 @@ export function ReadySoupsPageContent() {
       {/* Bundles */}
       <section id="bundles" className="scroll-mt-24 bg-primary-dark py-12 text-white sm:py-20">
         <div className="container-fluid min-w-0">
-          <SectionHeading
-            eyebrow="Save more"
-            title="Mix & match bundles" 
-            description={`Choose 2, 3, 4 or 5 soups and mix any flavours. Minimum online order is ${READY_SOUP_MIN_ORDER} soups. Delivery is a flat ${formatPrice(DELIVERY_FEE)} — free on Owanbe and 5-soup bundles.`}
-            light
-          />
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {readySoupBundles.map((bundle) => (
-              <ReadySoupBundleCard
-                key={bundle.id}
-                bundle={bundle}
-                onBuild={(selected) => setActiveBundle(selected)}
-              />
-            ))}
+          <div className="mx-auto w-full max-w-5xl">
+            <SectionHeading
+              eyebrow="Save more"
+              title="Mix & match bundles"
+              description={`Choose 3, 4 or 5 soups and mix any flavours. Minimum online order is ${READY_SOUP_MIN_ORDER} soups. Delivery is a flat ${formatPrice(DELIVERY_FEE)} — free on Owanbe and 5-soup bundles.`}
+              light
+            />
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {readySoupBundles.map((bundle) => (
+                <ReadySoupBundleCard
+                  key={bundle.id}
+                  bundle={bundle}
+                  onBuild={(selected) => setActiveBundle(selected)}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -329,9 +331,9 @@ export function ReadySoupsPageContent() {
                 </p>
                 <h2 className="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl">Ready when you are</h2>
                 <p className="mb-6 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">
-                  Mix flavours in a 2, 3, 4 or 5 bundle (minimum {READY_SOUP_MIN_ORDER} online).{" "}
+                  Mix flavours in a 3, 4 or 5 bundle (minimum {READY_SOUP_MIN_ORDER} online).{" "}
                   {readySoupDeliveryInfo.scheduleSummary} Delivery is a flat{" "}
-                  {formatPrice(DELIVERY_FEE)} — or choose collection where available.
+                  {formatPrice(DELIVERY_FEE)}.
                 </p>
                 <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
                   <Button type="button" onClick={openCart} variant="white" fullWidth className="sm:w-auto">

@@ -423,13 +423,13 @@ export const deliveryTerms: LegalDocument = {
     {
       title: "4.3 Flat-rate charge",
       paragraphs: [
-        "A flat-rate delivery charge of £19.00 is added at checkout for Ready Soups shop orders, except where a bundle offer includes free delivery. Live checkout price applies and may be updated if courier costs change. Collection remains free where offered.",
+        "A flat-rate delivery charge of £19.00 is added at checkout for Ready Soups shop orders, except where a bundle offer includes free delivery. Live checkout price applies and may be updated if courier costs change.",
       ],
     },
     {
       title: "4.4 Weight and parcel limits",
       paragraphs: [
-        "The flat rate applies only within the courier's applicable parcel limits. Ready Soup bundles are structured as 2, 3, 4 and 5 tubs, subject to final packed-weight testing. We may split, adjust or contact you about an order that exceeds the safe or contractual parcel limit.",
+        "The flat rate applies only within the courier's applicable parcel limits. Ready Soup bundles are structured as 3, 4 and 5 tubs, subject to final packed-weight testing. We may split, adjust or contact you about an order that exceeds the safe or contractual parcel limit.",
       ],
     },
     {

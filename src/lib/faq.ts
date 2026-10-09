@@ -32,7 +32,7 @@ export const faqs: FaqItem[] = [
   {
     question: "What bundles are available?",
     answer:
-      "Mix & match bundles are 2 (£48.99), 3 (£71.99), 4 Owanbe Bundle (£94.99 with free cooler and free delivery), and 5 (£115.99 with free cooler and free delivery). Customers can mix soups subject to availability.",
+      "Mix & match bundles are 3 (£77.97), 4 Owanbe Bundle (£103.96 with free delivery), and 5 (£129.95 with free delivery). Customers can mix soups subject to availability.",
   },
   {
     question: "Where do you deliver?",

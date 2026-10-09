@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { MapPin, Package, Truck } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useCart } from "@/context/CartContext";
 import { OrderSummary } from "@/components/cart/OrderSummary";
@@ -14,7 +14,6 @@ import {
   getReadySoupUnitCount,
   meetsReadySoupMinimum,
   READY_SOUP_MIN_ORDER,
-  type DeliveryMethod,
 } from "@/lib/cart-utils";
 
 import { siteConfig } from "@/lib/site";
@@ -143,9 +142,6 @@ export function CheckoutContent() {
 
   const [form, setForm] = useState<CheckoutForm>(initialForm);
 
-  const [deliveryMethod, setDeliveryMethod] =
-    useState<DeliveryMethod>("delivery");
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
@@ -207,7 +203,7 @@ export function CheckoutContent() {
     try {
       const checkoutPayload = {
         items,
-        deliveryMethod,
+        deliveryMethod: "delivery" as const,
         ...form,
       };
 
@@ -402,69 +398,11 @@ export function CheckoutContent() {
               </fieldset>
 
               <fieldset className="min-w-0 rounded-2xl border border-surface bg-white p-4 shadow-sm sm:p-6">
-                <legend className="mb-4 px-1 text-lg font-bold sm:mb-5">
-                  Delivery method
+                <legend className="mb-4 flex items-center gap-2 px-1 text-lg font-bold sm:mb-5">
+                  <MapPin className="h-5 w-5 shrink-0 text-secondary" />
+
+                  <span>Delivery address</span>
                 </legend>
-
-                <div className="grid min-w-0 gap-3 sm:grid-cols-2">
-                  {(
-                    [
-                      {
-                        id: "delivery" as const,
-                        label: "Home delivery",
-                        description:
-                          "Mon–Thu 8am–3pm for next-day delivery. Fri–Sun orders arrive Tuesday. £19 flat rate",
-                        icon: Truck,
-                      },
-                      {
-                        id: "pickup" as const,
-                        label: "Collection",
-                        description: "Pick up from our kitchen",
-                        icon: Package,
-                      },
-                    ] as const
-                  ).map((option) => (
-                    <label
-                      key={option.id}
-                      className={`flex min-w-0 cursor-pointer items-start gap-3 rounded-xl border p-4 transition ${
-                        deliveryMethod === option.id
-                          ? "border-primary bg-primary/5 ring-1 ring-primary/20"
-                          : "border-surface hover:border-primary/30"
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="deliveryMethod"
-                        value={option.id}
-                        checked={deliveryMethod === option.id}
-                        onChange={() => setDeliveryMethod(option.id)}
-                        className="mt-1 shrink-0 accent-primary"
-                      />
-
-                      <div className="min-w-0">
-                        <div className="flex items-center gap-2 font-semibold">
-                          <option.icon className="h-4 w-4 shrink-0 text-secondary" />
-
-                          <span>{option.label}</span>
-                        </div>
-
-                        <p className="mt-1 break-words text-xs leading-5 text-title/60">
-                          {option.description}
-                        </p>
-                      </div>
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-
-          
-              {deliveryMethod === "delivery" && (
-                <fieldset className="min-w-0 rounded-2xl border border-surface bg-white p-4 shadow-sm sm:p-6">
-                  <legend className="mb-4 flex items-center gap-2 px-1 text-lg font-bold sm:mb-5">
-                    <MapPin className="h-5 w-5 shrink-0 text-secondary" />
-
-                    <span>Delivery address</span>
-                  </legend>
 
                   <div className="grid min-w-0 gap-4 sm:grid-cols-2">
                     {/* Address line 1 */}
@@ -560,7 +498,6 @@ export function CheckoutContent() {
                     </div>
                   </div>
                 </fieldset>
-              )}
 
               
 
@@ -621,7 +558,7 @@ export function CheckoutContent() {
             <OrderSummary
               items={items}
               subtotal={subtotal}
-              deliveryMethod={deliveryMethod}
+              deliveryMethod="delivery"
               showItems
             />
           </Reveal>

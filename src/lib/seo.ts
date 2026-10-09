@@ -56,12 +56,12 @@ function merchantReturnPolicy() {
   };
 }
 
-function shippingDetails(freeDelivery = false) {
+function shippingDetails() {
   return {
     "@type": "OfferShippingDetails",
     shippingRate: {
       "@type": "MonetaryAmount",
-      value: freeDelivery ? "0" : DELIVERY_FEE.toFixed(2),
+      value: DELIVERY_FEE.toFixed(2),
       currency: siteConfig.currency,
     },
     shippingDestination: {
@@ -194,7 +194,7 @@ export function productJsonLd(product: ReadySoupProduct, options?: { includeCont
         name: siteConfig.name,
         url: getSiteUrl(),
       },
-      shippingDetails: shippingDetails(false),
+      shippingDetails: shippingDetails(),
       hasMerchantReturnPolicy: merchantReturnPolicy(),
     },
   };
@@ -250,7 +250,7 @@ export function bundleProductJsonLd(bundle: ReadySoupBundle, options?: { include
         name: siteConfig.name,
         url: getSiteUrl(),
       },
-      shippingDetails: shippingDetails(Boolean(bundle.freeDelivery)),
+      shippingDetails: shippingDetails(),
       hasMerchantReturnPolicy: merchantReturnPolicy(),
       ...(bundle.originalPrice
         ? {

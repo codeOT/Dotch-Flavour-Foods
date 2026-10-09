@@ -4,7 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import {
   Clock,
-  Copy,
   Flame,
   Package,
   Refrigerator,
@@ -19,7 +18,6 @@ import {
 } from "@/components/ready-soups/ReadySoupCards";
 import {
   howItWorksSteps,
-  launchOffers,
   readySoupBundles,
   readySoupProducts,
   readySoupReviews,
@@ -62,38 +60,6 @@ function SectionHeading({
         >
           {description}
         </p>
-      )}
-    </div>
-  );
-}
-
-function LaunchOfferCard({ offer }: { offer: (typeof launchOffers)[number] }) {
-  const [copied, setCopied] = useState(false);
-
-  const copyCode = async () => {
-    if (!offer.code) return;
-    await navigator.clipboard.writeText(offer.code);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 2000);
-  };
-
-  return (
-    <div className="h-full rounded-2xl border border-surface bg-white p-6 shadow-sm">
-      <span className="mb-3 inline-block rounded-full bg-secondary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-secondary">
-        {offer.badge}
-      </span>
-      <h3 className="mb-2 text-lg font-bold">{offer.title}</h3>
-      <p className="mb-4 text-sm text-title/70">{offer.description}</p>
-      {offer.code && (
-        <button
-          type="button"
-          onClick={copyCode}
-          className="inline-flex items-center gap-2 rounded-lg border border-dashed border-primary/30 bg-surface/40 px-4 py-2 text-sm font-bold text-primary transition hover:bg-surface"
-        >
-          {offer.code}
-          <Copy className="h-4 w-4" />
-          {copied ? "Copied!" : "Copy"}
-        </button>
       )}
     </div>
   );
@@ -208,7 +174,7 @@ export function ReadySoupsPageContent() {
                 </p>
                 <p>
                   <span className="font-semibold text-secondary">Delivery:</span>{" "}
-                  {formatPrice(DELIVERY_FEE)} flat rate. Free on Owanbe and 5-soup bundles.
+                  {formatPrice(DELIVERY_FEE)} flat rate.
                 </p>
               </div>
             </div>
@@ -300,7 +266,7 @@ export function ReadySoupsPageContent() {
             <SectionHeading
               eyebrow="Save more"
               title="Mix & match bundles"
-              description={`Choose 3, 4 or 5 soups and mix any flavours. Minimum online order is ${READY_SOUP_MIN_ORDER} soups. Delivery is a flat ${formatPrice(DELIVERY_FEE)} — free on Owanbe and 5-soup bundles.`}
+              description={`Choose 3, 4 or 5 soups and mix any flavours. Minimum online order is ${READY_SOUP_MIN_ORDER} soups. Delivery is a flat rate of ${formatPrice(DELIVERY_FEE)}.`}
               light
             />
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -366,18 +332,6 @@ export function ReadySoupsPageContent() {
                 ))}
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Launch offers */}
-      <section className="bg-surface/40 py-12 sm:py-20">
-        <div className="container-fluid min-w-0">
-          <SectionHeading eyebrow="Launch" title="Launch offers" />
-          <div className="grid gap-6 md:grid-cols-2">
-            {launchOffers.map((offer) => (
-              <LaunchOfferCard key={offer.id} offer={offer} />
-            ))}
           </div>
         </div>
       </section>

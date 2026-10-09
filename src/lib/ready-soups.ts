@@ -26,7 +26,6 @@ export type ReadySoupBundle = {
   description: string;
   soupCount: number;
   includesGift?: string;
-  freeDelivery?: boolean;
   price: number;
   originalPrice?: number;
   badge?: string;
@@ -52,7 +51,7 @@ export const howItWorksSteps = [
     step: "02",
     title: "Checkout online",
     description:
-      "Pay securely by card. Delivery is a flat £19 — free on Owanbe and 5-soup bundles.",
+      "Pay securely by card. Delivery is a flat rate of £19.99.",
   },
   {
     step: "03",
@@ -87,25 +86,6 @@ export const storageHeatingGuidance = {
     ],
   },
 } as const;
-
-export const launchOffers = [
-  {
-    id: "min-order",
-    title: `Minimum order: ${READY_SOUP_MIN_ORDER} soups`,
-    description:
-      `Online Ready Soups orders start at ${READY_SOUP_MIN_ORDER} tubs. Mix and match flavours freely within your bundle size.`,
-    code: null,
-    badge: "Ordering",
-  },
-  {
-    id: "flat-delivery",
-    title: "Delivery by volume",
-    description:
-      "£19 flat rate. Free delivery on the Owanbe (4) and 5-soup bundles. Next-day delivery: order Monday–Thursday 8am–3pm. Friday–Sunday orders arrive Tuesday.",
-    code: null,
-    badge: "Delivery",
-  },
-] as const;
 
 export const readySoupReviews = [
   {
@@ -369,7 +349,6 @@ export const readySoupBundles: ReadySoupBundle[] = [
     price: 129.95,
     // originalPrice: 129.95,
     // badge: "Save £13.96",
-    freeDelivery: true,
     image: "/assets/images/5 bundles.png", 
   },
 ];

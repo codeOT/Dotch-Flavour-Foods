@@ -32,7 +32,7 @@ export const faqs: FaqItem[] = [
   {
     question: "What bundles are available?",
     answer:
-      "Mix & match bundles are 3 (£77.97), 4 Owanbe Bundle (£103.96 with free delivery), and 5 (£129.95 with free delivery). Customers can mix soups subject to availability.",
+      "Mix & match bundles are 3 (£77.97), 4 Owanbe Bundle (£103.96), and 5 (£129.95). Customers can mix soups subject to availability.",
   },
   {
     question: "Where do you deliver?",
@@ -42,12 +42,12 @@ export const faqs: FaqItem[] = [
   {
     question: "How much is delivery?",
     answer:
-      "Delivery is a flat £19 at checkout. Owanbe (4-soup) and 5-soup mix & match bundles include free delivery.",
+      "Delivery is a flat £19.99 at checkout.",
   },
   {
     question: "Is delivery still the same price if I order more?",
     answer:
-      "Yes — delivery stays £19 regardless of how many soups you order, within our online parcel limit. Owanbe and 5-soup bundles include free delivery.",
+      "Yes — delivery stays £19.99 regardless of how many soups you order, within our online parcel limit.",
   },
   {
     question: "When will my Ready Soups arrive?",
@@ -100,7 +100,7 @@ export const faqs: FaqItem[] = [
   {
     question: "Do you offer free delivery?",
     answer:
-      "Yes on the Owanbe (4-soup) and 5-soup mix & match bundles. Other Ready Soups orders have a flat £19 delivery charge.",
+      "No. Ready Soups shop orders have a flat £19.99 delivery charge.",
   },
   {
     question: "Do you offer gift cards?",

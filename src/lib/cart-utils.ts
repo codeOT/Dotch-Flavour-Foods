@@ -7,7 +7,7 @@ import { formatPrice } from "@/lib/site";
 export const READY_SOUP_TUB_LITRES = 1;
 
 /** Flat UK delivery fee for Ready Soups shop orders. */
-export const DELIVERY_FEE = 19;
+export const DELIVERY_FEE = 19.99;
 
 /** Maximum Ready Soup volume fulfilled online without a custom quote. */
 export const READY_SOUP_MAX_ONLINE_LITRES = 25;
@@ -32,7 +32,7 @@ export const readySoupDeliveryInfo = {
   weekendNote:
     "Orders placed from Friday to Sunday are delivered on the following Tuesday.",
   fee: DELIVERY_FEE,
-  feeSummary: `Delivery is a flat ${formatPrice(DELIVERY_FEE)}. Free on Owanbe (4) and 5-soup bundles.`,
+  feeSummary: `Delivery is a flat ${formatPrice(DELIVERY_FEE)}.`,
 } as const;
 
 export type DeliveryMethod = "delivery" | "pickup";
@@ -125,27 +125,13 @@ export function getCartReadySoupLitres(items: CartLikeItem[]): number {
   return getReadySoupUnitCount(items) * READY_SOUP_TUB_LITRES;
 }
 
-/** Mix & match bundles that include free UK delivery. */
-const FREE_DELIVERY_BUNDLE_COUNTS = new Set([4, 5]);
-
-export function cartHasFreeDeliveryReadySoupBundle(items: CartLikeItem[]): boolean {
-  return items.some((item) => {
-    if (!isReadySoupCartItem(item)) return false;
-    const mixMatch = item.id.match(/^ready-soup-bundle-mix-(\d+)/);
-    if (!mixMatch) return false;
-    return FREE_DELIVERY_BUNDLE_COUNTS.has(Number(mixMatch[1]));
-  });
-}
-
 export function getDeliveryFee(method: DeliveryMethod, items: CartLikeItem[] = []): number {
   if (method === "pickup") return 0;
-  if (cartHasFreeDeliveryReadySoupBundle(items)) return 0;
   return DELIVERY_FEE;
 }
 
 export function getDeliveryLabel(method: DeliveryMethod, items: CartLikeItem[] = []): string {
   if (method === "pickup") return "Free — collection";
-  if (cartHasFreeDeliveryReadySoupBundle(items)) return "Free — bundle offer";
   return `${formatPrice(DELIVERY_FEE)} flat rate`;
 }
 

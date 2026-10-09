@@ -32,7 +32,7 @@ export const readySoupDeliveryInfo = {
   weekendNote:
     "Orders placed from Friday to Sunday are delivered on the following Tuesday.",
   fee: DELIVERY_FEE,
-  feeSummary: `Delivery is a flat ${formatPrice(DELIVERY_FEE)}.`,
+  feeSummary: `Delivery is a flat rate of ${formatPrice(DELIVERY_FEE)}.`,
 } as const;
 
 export type DeliveryMethod = "delivery" | "pickup";
@@ -132,7 +132,7 @@ export function getDeliveryFee(method: DeliveryMethod, items: CartLikeItem[] = [
 
 export function getDeliveryLabel(method: DeliveryMethod, items: CartLikeItem[] = []): string {
   if (method === "pickup") return "Free — collection";
-  return `${formatPrice(DELIVERY_FEE)} flat rate`;
+  return `Flat rate of ${formatPrice(DELIVERY_FEE)}`;
 }
 
 export function getOrderTotal(

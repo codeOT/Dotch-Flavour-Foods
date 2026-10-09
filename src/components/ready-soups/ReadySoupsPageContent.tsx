@@ -174,7 +174,7 @@ export function ReadySoupsPageContent() {
                 </p>
                 <p>
                   <span className="font-semibold text-secondary">Delivery:</span>{" "}
-                  {formatPrice(DELIVERY_FEE)} flat rate.
+                  a flat rate of {formatPrice(DELIVERY_FEE)}.
                 </p>
               </div>
             </div>
@@ -298,7 +298,7 @@ export function ReadySoupsPageContent() {
                 <h2 className="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl">Ready when you are</h2>
                 <p className="mb-6 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">
                   Mix flavours in a 3, 4 or 5 bundle (minimum {READY_SOUP_MIN_ORDER} online).{" "}
-                  {readySoupDeliveryInfo.scheduleSummary} Delivery is a flat{" "}
+                  {readySoupDeliveryInfo.scheduleSummary} Delivery is a flat rate of{" "}
                   {formatPrice(DELIVERY_FEE)}.
                 </p>
                 <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">

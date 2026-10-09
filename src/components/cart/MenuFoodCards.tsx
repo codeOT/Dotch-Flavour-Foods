@@ -9,9 +9,8 @@ import { menuItemToCartItem } from "@/lib/cart-utils";
 import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
 import { LitreSizeSelector } from "@/components/cart/LitreSizeSelector";
 import { HoverCard } from "@/components/motion/HoverCard";
-import { Button } from "@/components/ui/Button";
 import { formatLitrePrice, getDefaultLitreSize, type LitreSize } from "@/lib/litre-sizes";
-import { formatPrice, siteConfig } from "@/lib/site";
+import { formatPrice } from "@/lib/site";
 
 type TodaysMenuCardProps = {
   item: MenuItem;
@@ -61,13 +60,10 @@ export function MenuCarouselCard({ item }: MenuCarouselCardProps) {
   const [litres, setLitres] = useState<LitreSize>(() =>
     getDefaultLitreSize(item.litreSizes, item.pricesByLitre),
   );
-  const whatsappNumber = siteConfig.contact.phone.replace(/\D/g, "");
-  const sizeLabel = isUnit ? (item.unitLabel ?? "per wrap") : `${litres}L`;
   const priceLabel = isUnit
     ? `${formatPrice(item.priceValue)} ${item.unitLabel ?? ""}`.trim()
     : formatLitrePrice(item.priceValue, litres, item.litreSizes, item.pricesByLitre);
-  const message = `Hi Dotch Flavour Foods, I want to customize an order for ${item.name} (${sizeLabel}) at ${priceLabel}. Please share available options.`;
-  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  const cartItem = menuItemToCartItem(item, isUnit ? undefined : litres);
 
   return (
     <HoverCard className="group relative overflow-hidden rounded-2xl border border-surface bg-white p-4 shadow-sm">
@@ -101,14 +97,8 @@ export function MenuCarouselCard({ item }: MenuCarouselCardProps) {
         <span className="text-title/60">Price</span>
         <span className="font-semibold text-primary">{priceLabel}</span>
       </div>
-      <div className="mt-4">
-        <Button
-          href={whatsappHref}
-          fullWidth
-          className="!bg-secondary !px-3 !py-2 !text-[10px] hover:!bg-orange sm:!text-xs"
-        >
-          Order Now
-        </Button>
+      <div className="mt-4 flex justify-end">
+        <CartQuantityControls item={cartItem} variant="compact" />
       </div>
     </HoverCard>
   );

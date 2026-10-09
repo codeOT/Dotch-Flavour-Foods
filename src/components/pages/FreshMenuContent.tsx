@@ -4,6 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import type { MenuItem } from "@/lib/navigation";
 import { menuItems } from "@/lib/navigation";
+import { menuItemToCartItem } from "@/lib/cart-utils";
+import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
 import { LitreSizeSelector } from "@/components/cart/LitreSizeSelector";
 import { HoverCard } from "@/components/motion/HoverCard";
 import { Reveal } from "@/components/motion/Reveal";
@@ -16,18 +18,22 @@ import {
 } from "@/lib/litre-sizes";
 import { formatPrice, siteConfig } from "@/lib/site";
 
+function customisationWhatsAppHref() {
+  const whatsappNumber = siteConfig.contact.phone.replace(/\D/g, "");
+  const message =
+    "Hi Dotch Flavour Foods, I'd like to customise a Fresh Food order. Please share available options.";
+  return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+}
+
 function FreshMenuCard({ item }: { item: MenuItem }) {
   const isUnit = item.pricingMode === "unit";
   const [litres, setLitres] = useState<LitreSize>(() =>
     getDefaultLitreSize(item.litreSizes, item.pricesByLitre),
   );
-  const whatsappNumber = siteConfig.contact.phone.replace(/\D/g, "");
-  const sizeLabel = isUnit ? (item.unitLabel ?? "per wrap") : `${litres}L`;
   const priceLabel = isUnit
     ? `${formatPrice(item.priceValue)} ${item.unitLabel ?? ""}`.trim()
     : formatLitrePrice(item.priceValue, litres, item.litreSizes, item.pricesByLitre);
-  const message = `Hi Dotch Flavour Foods, I'd like to place a Fresh Food WhatsApp order for ${item.name} (${sizeLabel}) at ${priceLabel}. Please confirm availability, price, and ordering deadline.`;
-  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  const cartItem = menuItemToCartItem(item, isUnit ? undefined : litres);
 
   return (
     <HoverCard className="h-full overflow-hidden rounded-2xl border border-surface bg-white shadow-sm">
@@ -53,9 +59,7 @@ function FreshMenuCard({ item }: { item: MenuItem }) {
         )}
         <div className="flex items-center justify-between gap-3">
           <span className="font-bold text-primary">{priceLabel}</span>
-          <Button href={whatsappHref} className="!bg-secondary !px-4 !py-2 !text-xs hover:!bg-orange">
-            Order Now
-          </Button>
+          <CartQuantityControls item={cartItem} variant="compact" />
         </div>
       </div>
     </HoverCard>
@@ -63,10 +67,7 @@ function FreshMenuCard({ item }: { item: MenuItem }) {
 }
 
 export function FreshMenuContent() {
-  const whatsappNumber = siteConfig.contact.phone.replace(/\D/g, "");
-  const generalWhatsApp = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-    "Hi Dotch Flavour Foods, I'd like to ask about a Fresh Food order / customisation.",
-  )}`;
+  const customisationHref = customisationWhatsAppHref();
 
   return (
     <>
@@ -80,13 +81,15 @@ export function FreshMenuContent() {
               Fresh Food Menu
             </h1>
             <p className="mx-auto max-w-2xl text-sm text-title/70 sm:text-base">
-              Fresh food orders are placed on WhatsApp so we can confirm availability 
-              and weekly ordering deadlines. Choose your litres below, then message us to complete
-              your order.
+              Add trays to your cart and checkout online — no minimum order. Need something
+              tailored? Use customisation and we will continue on WhatsApp.
             </p>
-            <div className="mt-5">
-              <Button href={generalWhatsApp} className="!bg-secondary hover:!bg-orange">
-                Chat on WhatsApp
+            <div className="mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Button href={customisationHref} className="!bg-secondary hover:!bg-orange">
+                Customisation
+              </Button>
+              <Button href="/shop/checkout" variant="outline">
+                Go to checkout
               </Button>
             </div>
           </Reveal>

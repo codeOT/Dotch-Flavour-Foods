@@ -423,7 +423,7 @@ export const deliveryTerms: LegalDocument = {
     {
       title: "4.3 Flat-rate charge",
       paragraphs: [
-        "A flat-rate delivery charge of £19.99 is added at checkout for Ready Soups shop orders. Live checkout price applies and may be updated if courier costs change.",
+        "Delivery is a flat rate of £19.99, added at checkout for Ready Soups shop orders. Live checkout price applies and may be updated if courier costs change.",
       ],
     },
     {

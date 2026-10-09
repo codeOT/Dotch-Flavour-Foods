@@ -42,7 +42,7 @@ export const faqs: FaqItem[] = [
   {
     question: "How much is delivery?",
     answer:
-      "Delivery is a flat £19.99 at checkout.",
+      "Delivery is a flat rate of £19.99.",
   },
   {
     question: "Is delivery still the same price if I order more?",
@@ -100,7 +100,7 @@ export const faqs: FaqItem[] = [
   {
     question: "Do you offer free delivery?",
     answer:
-      "No. Ready Soups shop orders have a flat £19.99 delivery charge.",
+      "No. Delivery is a flat rate of £19.99.",
   },
   {
     question: "Do you offer gift cards?",

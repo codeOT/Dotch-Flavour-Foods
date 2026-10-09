@@ -10,7 +10,7 @@ const shopChannels = [
   {
     title: "Ready Soups by Dotch Flavour",
     description:
-      "Our premium frozen soup range — mix flavours in 3, 4, or 5 packs. Delivery £19.99 flat rate. Next-day delivery: order Monday–Thursday 8am–3pm; Friday–Sunday orders arrive Tuesday.",
+      "Our premium frozen soup range — mix flavours in 3, 4, or 5 packs. Delivery is a flat rate of £19.99. Next-day delivery: order Monday–Thursday 8am–3pm; Friday–Sunday orders arrive Tuesday.",
     href: "/ready-to-eat-soups",
     cta: "Shop Ready Soups",
     image: "/assets/images/hero-bg.png",
@@ -35,8 +35,7 @@ export function ShopContent() {
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-secondary">Shop</p>
           <h1 className="text-3xl font-bold text-title sm:text-4xl">Choose your Dotch Flavour route</h1>
           <p className="mt-3 text-sm text-title/70 sm:text-base">
-            Ready Soups are available online now. Merchandise is on the way — Fresh Menu orders stay
-            on their dedicated page.
+            Ready Soups and Fresh Menu orders both checkout online. Merchandise is on the way.
           </p>
         </Reveal>
 

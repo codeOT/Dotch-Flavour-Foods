@@ -22,7 +22,7 @@ const steps = [
   {
     icon: Truck,
     title: "Delivered to you",
-    text: `Flat ${formatPrice(DELIVERY_FEE)} delivery. Next-day delivery: order Monday–Thursday 8am–3pm; Friday–Sunday orders arrive Tuesday. Minimum ${READY_SOUP_MIN_ORDER} Ready Soups online.`,
+    text: `Delivery is a flat rate of ${formatPrice(DELIVERY_FEE)}. Next-day delivery: order Monday–Thursday 8am–3pm; Friday–Sunday orders arrive Tuesday. Minimum ${READY_SOUP_MIN_ORDER} Ready Soups online.`,
   },
   {
     icon: Snowflake,

@@ -35,7 +35,7 @@ export const cateringPage = {
     },
     {
       title: "Delivery",
-      text: `Where delivery applies, fees are confirmed in your quote. Online Ready Soups shop orders are a flat ${formatPrice(DELIVERY_FEE)}.`,
+      text: `Where delivery applies, fees are confirmed in your quote. Online shop orders: delivery is a flat rate of ${formatPrice(DELIVERY_FEE)}.`,
     },
   ],
 } as const;

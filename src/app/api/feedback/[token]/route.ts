@@ -130,9 +130,8 @@ export async function POST(request: Request, context: RouteContext) {
       });
     }
 
-    const created = await Feedback.create({
+    const created = new Feedback({
       orderNumber: order.orderNumber,
-      orderId: String(order._id),
       email: order.email,
       customerName: order.fullName,
       displayName,
@@ -141,6 +140,7 @@ export async function POST(request: Request, context: RouteContext) {
       comment,
       published: false,
     });
+    await created.save();
 
     if (!order.feedbackEmailSentAt) {
       order.feedbackEmailSentAt = new Date();

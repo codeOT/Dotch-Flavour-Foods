@@ -126,63 +126,73 @@ function formatAxisPound(amount: number) {
 function RevenueBarChart({
   points,
   maxRevenue,
-  heightClass = "h-48",
+  compact = false,
   showValues = false,
 }: {
   points: Array<{ month: string; revenue: number }>;
   maxRevenue: number;
-  heightClass?: string;
+  compact?: boolean;
   showValues?: boolean;
 }) {
   const ticks = [1, 0.75, 0.5, 0.25, 0].map((ratio) => ratio * maxRevenue);
-
-  const topPad = showValues ? "pt-6" : "pt-5";
+  const plotHeight = compact ? "h-40 sm:h-48" : "h-44 sm:h-56 lg:h-64";
 
   return (
-    <div className="flex gap-2 sm:gap-3">
-      <div
-        className={`flex ${heightClass} w-10 shrink-0 flex-col justify-between ${topPad} pb-7 text-right text-[10px] font-medium leading-none text-neutral-400`}
-      >
-        {ticks.map((tick) => (
-          <span key={tick}>{formatAxisPound(tick)}</span>
-        ))}
-      </div>
-      <div className="relative min-w-0 flex-1">
+    <div className="min-w-0 overflow-x-auto pt-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex min-w-[17rem] gap-1.5 sm:min-w-0 sm:gap-3">
         <div
-          className={`pointer-events-none absolute inset-x-0 top-0 flex ${heightClass} flex-col justify-between ${topPad} pb-7`}
+          className={`flex ${plotHeight} w-8 shrink-0 flex-col justify-between pt-4 pb-6 text-right text-[9px] font-medium leading-none text-neutral-400 sm:w-11 sm:pt-5 sm:pb-7 sm:text-[10px]`}
         >
-          {ticks.map((tick) => (
-            <div key={tick} className="border-t border-dashed border-neutral-200" />
+          {ticks.map((tick, index) => (
+            <span key={`${tick}-${index}`} className="tabular-nums">
+              {formatAxisPound(tick)}
+            </span>
           ))}
         </div>
-        <div className={`relative flex ${heightClass} items-end gap-2 ${topPad} pb-7 sm:gap-3`}>
-          {points.map((point) => {
-            const pct = maxRevenue > 0 ? (point.revenue / maxRevenue) * 100 : 0;
-            const barHeight = point.revenue <= 0 ? 0 : Math.max(6, pct);
-            return (
-              <div key={point.month} className="group flex h-full min-w-0 flex-1 flex-col items-center">
-                <div className="relative flex min-h-0 w-full flex-1 items-end justify-center">
-                  {showValues ? (
-                    <span className="absolute bottom-full left-1/2 z-10 mb-1 -translate-x-1/2 whitespace-nowrap text-[10px] font-semibold text-neutral-600">
+        <div className="relative min-w-0 flex-1">
+          <div
+            className={`pointer-events-none absolute inset-x-0 top-0 flex ${plotHeight} flex-col justify-between pt-4 pb-6 sm:pt-5 sm:pb-7`}
+          >
+            {ticks.map((tick, index) => (
+              <div key={`${tick}-${index}`} className="border-t border-dashed border-neutral-200" />
+            ))}
+          </div>
+          <div
+            className={`relative flex ${plotHeight} items-end gap-1 pt-4 pb-6 sm:gap-2 sm:pt-5 sm:pb-7`}
+          >
+            {points.map((point) => {
+              const pct = maxRevenue > 0 ? (point.revenue / maxRevenue) * 100 : 0;
+              const barHeight = point.revenue <= 0 ? 0 : Math.max(6, pct);
+              return (
+                <div
+                  key={point.month}
+                  className="group relative flex h-full min-w-0 flex-1 flex-col items-center"
+                >
+                  <div className="relative flex min-h-0 w-full flex-1 items-end justify-center">
+                    {showValues ? (
+                      <span className="absolute bottom-full left-1/2 z-10 mb-1 hidden -translate-x-1/2 whitespace-nowrap text-[10px] font-semibold text-neutral-600 md:block">
+                        {formatPrice(point.revenue)}
+                      </span>
+                    ) : null}
+                    <span
+                      className={`pointer-events-none absolute bottom-full left-1/2 z-20 mb-1 -translate-x-1/2 whitespace-nowrap rounded-md bg-neutral-950 px-1.5 py-0.5 text-[10px] font-semibold text-white opacity-0 shadow-sm transition group-hover:opacity-100 group-active:opacity-100 ${
+                        showValues ? "md:hidden" : ""
+                      }`}
+                    >
                       {formatPrice(point.revenue)}
                     </span>
-                  ) : (
-                    <span className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1 -translate-x-1/2 whitespace-nowrap rounded-md bg-neutral-950 px-1.5 py-0.5 text-[10px] font-semibold text-white opacity-0 shadow-sm transition group-hover:opacity-100">
-                      {formatPrice(point.revenue)}
-                    </span>
-                  )}
-                  <div
-                    className="w-[70%] max-w-[2.75rem] rounded-t-lg bg-[#cf5c0b] shadow-[inset_0_-8px_12px_rgba(0,0,0,0.12)] transition group-hover:bg-[#b44e09]"
-                    style={{ height: `${barHeight}%` }}
-                    title={formatPrice(point.revenue)}
-                  />
+                    <div
+                      className="w-[55%] max-w-8 rounded-t-md bg-[#cf5c0b] shadow-[inset_0_-8px_12px_rgba(0,0,0,0.12)] transition group-hover:bg-[#b44e09] sm:w-[70%] sm:max-w-[2.75rem] sm:rounded-t-lg"
+                      style={{ height: `${barHeight}%` }}
+                    />
+                  </div>
+                  <div className="mt-1.5 h-4 text-[10px] font-semibold text-neutral-500 sm:mt-2 sm:h-5 sm:text-[11px]">
+                    {formatMonth(point.month)}
+                  </div>
                 </div>
-                <div className="mt-2 h-5 text-[11px] font-semibold text-neutral-500">
-                  {formatMonth(point.month)}
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
@@ -206,6 +216,40 @@ function MetricCard({
       <p className="mt-3 text-3xl font-bold tracking-tight text-neutral-950">{value}</p>
       {hint ? <p className="mt-2 text-sm text-neutral-500">{hint}</p> : null}
     </div>
+  );
+}
+
+function InventoryRows({
+  items,
+  maxSold,
+}: {
+  items: DashboardResponse["inventoryReport"];
+  maxSold: number;
+}) {
+  return (
+    <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-x-6">
+      {items.map((item) => (
+        <li key={item.itemId} className="min-w-0">
+          <div className="flex items-start justify-between gap-3">
+            <p className="min-w-0 break-words text-sm font-semibold leading-snug text-neutral-900">
+              {item.name}
+            </p>
+            <p className="shrink-0 pt-0.5 text-xs font-medium tabular-nums text-neutral-500">
+              {item.quantitySold} sold
+            </p>
+          </div>
+          <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-neutral-200">
+            <div
+              className="h-1.5 rounded-full bg-[#cf5c0b]"
+              style={{
+                width: `${Math.min(100, Math.round((item.quantitySold / maxSold) * 100))}%`,
+              }}
+            />
+          </div>
+          <p className="mt-1.5 text-xs font-medium text-neutral-600">{formatPrice(item.revenue)}</p>
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -496,9 +540,9 @@ export function AdminDashboardContent() {
           </button>
         </div>
 
-        <div className="px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+        <div className="min-w-0 overflow-x-clip px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
           <div className="mb-6">
-            <h2 className="text-3xl font-bold tracking-tight text-neutral-950">{sectionTitle}</h2>
+            <h2 className="text-2xl font-bold tracking-tight text-neutral-950 sm:text-3xl">{sectionTitle}</h2>
             <p className="mt-1 text-sm text-neutral-500">
               {section === "overview"
                 ? new Date().toLocaleDateString("en-GB", {
@@ -512,35 +556,35 @@ export function AdminDashboardContent() {
 
           {section === "overview" && (
             <div className="space-y-6">
-              <div className="grid gap-4 lg:grid-cols-4">
-                <div className="rounded-3xl bg-neutral-950 p-6 text-white lg:col-span-2">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+                <div className="col-span-2 rounded-3xl bg-neutral-950 p-4 text-white sm:p-6">
                   <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#cf5c0b]">
                     Paid revenue
                   </p>
-                  <p className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
+                  <p className="mt-3 break-words text-3xl font-bold tracking-tight sm:mt-4 sm:text-4xl lg:text-5xl">
                     {formatPrice(data.metrics.paidRevenue)}
                   </p>
                   <p className="mt-2 text-sm text-white/55">Confirmed and fulfilling orders</p>
                 </div>
-                <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+                <div className="rounded-3xl bg-white p-4 shadow-sm ring-1 ring-black/5 sm:p-6">
                   <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-neutral-500">
                     Orders
                   </p>
-                  <p className="mt-4 text-4xl font-bold tracking-tight text-neutral-950">
+                  <p className="mt-3 text-3xl font-bold tracking-tight text-neutral-950 sm:mt-4 sm:text-4xl">
                     {data.metrics.totalOrders}
                   </p>
-                  <p className="mt-2 text-sm text-neutral-500">
+                  <p className="mt-2 text-xs text-neutral-500 sm:text-sm">
                     {data.metrics.processingOrders} in fulfilment
                   </p>
                 </div>
-                <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+                <div className="rounded-3xl bg-white p-4 shadow-sm ring-1 ring-black/5 sm:p-6">
                   <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-neutral-500">
                     Customers
                   </p>
-                  <p className="mt-4 text-4xl font-bold tracking-tight text-neutral-950">
+                  <p className="mt-3 text-3xl font-bold tracking-tight text-neutral-950 sm:mt-4 sm:text-4xl">
                     {data.metrics.usersCount}
                   </p>
-                  <p className="mt-2 text-sm text-neutral-500">Unique order emails</p>
+                  <p className="mt-2 text-xs text-neutral-500 sm:text-sm">Unique order emails</p>
                 </div>
               </div>
 
@@ -552,9 +596,10 @@ export function AdminDashboardContent() {
                   <button
                     type="button"
                     onClick={() => goTo("products")}
-                    className="text-sm font-semibold text-[#cf5c0b] hover:underline"
+                    className="shrink-0 text-sm font-semibold text-[#cf5c0b] hover:underline"
                   >
-                    Manage products
+                    Manage
+                    <span className="hidden sm:inline"> products</span>
                   </button>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-3">
@@ -601,7 +646,7 @@ export function AdminDashboardContent() {
               </div>
 
               <div className="grid gap-4 xl:grid-cols-5">
-                <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5 xl:col-span-3">
+                <div className="min-w-0 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5 sm:p-5 xl:col-span-3">
                   <div className="mb-4 flex items-center justify-between gap-3">
                     <h3 className="text-lg font-bold text-neutral-950">Latest orders</h3>
                     <button
@@ -620,7 +665,7 @@ export function AdminDashboardContent() {
                       {data.recentOrders.slice(0, 5).map((order) => (
                         <li
                           key={order.id}
-                          className="flex items-center justify-between gap-4 py-3 first:pt-0 last:pb-0"
+                          className="flex items-start justify-between gap-3 py-3 first:pt-0 last:pb-0 sm:items-center sm:gap-4"
                         >
                           <div className="min-w-0">
                             <p className="truncate font-semibold text-neutral-950">
@@ -633,7 +678,7 @@ export function AdminDashboardContent() {
                                 : ""}
                             </p>
                           </div>
-                          <div className="flex shrink-0 flex-col items-end gap-1">
+                          <div className="flex max-w-[42%] shrink-0 flex-col items-end gap-1">
                             <p className="text-sm font-bold text-neutral-950">
                               {formatPrice(order.total)}
                             </p>
@@ -645,13 +690,13 @@ export function AdminDashboardContent() {
                   )}
                 </div>
 
-                <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5 xl:col-span-2">
+                <div className="min-w-0 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5 sm:p-5 xl:col-span-2">
                   <div className="mb-4 flex items-center justify-between gap-3">
                     <h3 className="text-lg font-bold text-neutral-950">Revenue</h3>
                     <button
                       type="button"
                       onClick={() => goTo("revenue")}
-                      className="text-sm font-semibold text-[#cf5c0b] hover:underline"
+                      className="shrink-0 text-sm font-semibold text-[#cf5c0b] hover:underline"
                     >
                       Full chart
                     </button>
@@ -659,12 +704,12 @@ export function AdminDashboardContent() {
                   <RevenueBarChart
                     points={data.monthlyRevenue}
                     maxRevenue={maxRevenue}
-                    heightClass="h-48"
+                    compact
                   />
                 </div>
               </div>
 
-              <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5">
+              <div className="min-w-0 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5 sm:p-5">
                 <div className="mb-4 flex items-center justify-between gap-3">
                   <h3 className="text-lg font-bold text-neutral-950">Top sellers</h3>
                   <button
@@ -678,28 +723,10 @@ export function AdminDashboardContent() {
                 {data.inventoryReport.length === 0 ? (
                   <p className="text-sm text-neutral-500">No sold items yet.</p>
                 ) : (
-                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                    {data.inventoryReport.slice(0, 6).map((item) => (
-                      <div key={item.itemId} className="rounded-xl border border-neutral-100 bg-neutral-50 p-3">
-                        <div className="mb-2 flex items-start justify-between gap-3">
-                          <p className="truncate text-sm font-semibold text-neutral-900">{item.name}</p>
-                          <p className="shrink-0 text-xs text-neutral-500">{item.quantitySold} sold</p>
-                        </div>
-                        <div className="mb-2 h-1.5 rounded-full bg-neutral-200">
-                          <div
-                            className="h-1.5 rounded-full bg-[#cf5c0b]"
-                            style={{
-                              width: `${Math.min(
-                                100,
-                                Math.round((item.quantitySold / maxInventorySold) * 100),
-                              )}%`,
-                            }}
-                          />
-                        </div>
-                        <p className="text-xs font-medium text-neutral-600">{formatPrice(item.revenue)}</p>
-                      </div>
-                    ))}
-                  </div>
+                  <InventoryRows
+                    items={data.inventoryReport.slice(0, 6)}
+                    maxSold={maxInventorySold}
+                  />
                 )}
               </div>
             </div>
@@ -865,53 +892,30 @@ export function AdminDashboardContent() {
           )}
 
           {section === "inventory" && (
-            <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5 sm:p-6">
-              <div className="mb-4 flex items-center justify-between">
+            <div className="min-w-0 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5 sm:p-6">
+              <div className="mb-4 flex items-center justify-between gap-3">
                 <h3 className="text-lg font-bold text-neutral-950">Inventory report</h3>
-                <PackageCheck className="h-5 w-5 text-neutral-400" />
+                <PackageCheck className="h-5 w-5 shrink-0 text-neutral-400" />
               </div>
-              <div className="space-y-3">
-                {data.inventoryReport.length === 0 ? (
-                  <p className="text-sm text-neutral-500">No sold items yet.</p>
-                ) : (
-                  data.inventoryReport.slice(0, 10).map((item) => (
-                    <div
-                      key={item.itemId}
-                      className="rounded-xl border border-neutral-100 bg-neutral-50 p-3"
-                    >
-                      <div className="mb-2 flex items-center justify-between gap-3">
-                        <p className="truncate text-sm font-semibold text-neutral-900">{item.name}</p>
-                        <p className="text-xs text-neutral-500">{item.quantitySold} sold</p>
-                      </div>
-                      <div className="mb-2 h-2 rounded-full bg-neutral-200">
-                        <div
-                          className="h-2 rounded-full bg-[#cf5c0b]"
-                          style={{
-                            width: `${Math.min(
-                              100,
-                              Math.round((item.quantitySold / maxInventorySold) * 100),
-                            )}%`,
-                          }}
-                        />
-                      </div>
-                      <p className="text-xs text-neutral-600">Revenue: {formatPrice(item.revenue)}</p>
-                    </div>
-                  ))
-                )}
-              </div>
+              {data.inventoryReport.length === 0 ? (
+                <p className="text-sm text-neutral-500">No sold items yet.</p>
+              ) : (
+                <InventoryRows items={data.inventoryReport.slice(0, 10)} maxSold={maxInventorySold} />
+              )}
             </div>
           )}
 
           {section === "revenue" && (
-            <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5 sm:p-6">
-              <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-lg font-bold text-neutral-950">Revenue trend (6 months)</h3>
-                <BarChart3 className="h-5 w-5 text-neutral-400" />
+            <div className="min-w-0 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5 sm:p-6">
+              <div className="mb-4 flex items-center justify-between gap-3">
+                <h3 className="text-base font-bold text-neutral-950 sm:text-lg">
+                  Revenue trend (6 months)
+                </h3>
+                <BarChart3 className="h-5 w-5 shrink-0 text-neutral-400" />
               </div>
               <RevenueBarChart
                 points={data.monthlyRevenue}
                 maxRevenue={maxRevenue}
-                heightClass="h-64"
                 showValues
               />
             </div>

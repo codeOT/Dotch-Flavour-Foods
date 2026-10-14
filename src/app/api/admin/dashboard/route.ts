@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { getAdminFromRequest } from "@/lib/admin";
+import { Feedback } from "@/models/Feedback";
 import { Order } from "@/models/Order";
 import { Product } from "@/models/Product";
 import { User } from "@/models/User";
@@ -53,6 +54,14 @@ export async function GET(request: Request) {
       .sort({ createdAt: -1 })
       .limit(25)
       .lean();
+
+    const recentOrderNumbers = recentOrders.map((order) => order.orderNumber);
+    const submittedFeedback = await Feedback.find({
+      orderNumber: { $in: recentOrderNumbers },
+    })
+      .select("orderNumber")
+      .lean();
+    const feedbackReceived = new Set(submittedFeedback.map((row) => row.orderNumber));
 
     const inventoryRows = await Order.aggregate<{
       itemId: string;
@@ -137,6 +146,8 @@ export async function GET(request: Request) {
         deliveryMethod: order.deliveryMethod,
         total: order.total,
         createdAt: order.createdAt,
+        feedbackEmailSentAt: order.feedbackEmailSentAt?.toISOString() ?? null,
+        feedbackReceived: feedbackReceived.has(order.orderNumber),
       })),
     });
   } catch (error) {

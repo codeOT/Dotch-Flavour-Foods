@@ -16,7 +16,7 @@ export const READY_SOUP_MAX_ONLINE_LITRES = 25;
 export const READY_SOUP_MIN_ORDER = 3;
 
 /** Same-day order window for next-day Ready Soups dispatch (UK time). */
-export const READY_SOUP_ORDER_WINDOW = "8am–3pm";
+export const READY_SOUP_ORDER_WINDOW = "7am–11am";
 
 /** Weekdays when next-day Ready Soups delivery is available. */
 export const READY_SOUP_ORDER_DAYS = "Monday–Thursday";
@@ -26,9 +26,9 @@ export const readySoupDeliveryInfo = {
   orderDays: READY_SOUP_ORDER_DAYS,
   /** Short line for cart / checkout footers. */
   scheduleSummary:
-    "Next-day delivery: order Monday–Thursday, 8am–3pm (UK time). Orders placed Friday–Sunday are delivered on Tuesday.",
+    "Next-day delivery: order Monday–Thursday, 7am–11am (UK time). Orders placed Friday–Sunday are delivered on Tuesday.",
   nextDayNote:
-    "Ready Soups next-day delivery is available for orders placed Monday to Thursday between 8am and 3pm (UK time). Orders placed Friday, Saturday or Sunday are scheduled for Tuesday delivery. Orders after 3pm on a weekday are treated as the next eligible order day's order.",
+    "Ready Soups next-day delivery is available for orders placed Monday to Thursday between 7am and 11am (UK time). Orders placed Friday, Saturday or Sunday are scheduled for Tuesday delivery. Orders after 11am on a weekday are treated as the next eligible order day's order.",
   weekendNote:
     "Orders placed from Friday to Sunday are delivered on the following Tuesday.",
   fee: DELIVERY_FEE,

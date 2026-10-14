@@ -20,10 +20,10 @@ import {
   howItWorksSteps,
   readySoupBundles,
   readySoupProducts,
-  readySoupReviews,
   readySoupsBrand,
   storageHeatingGuidance,
 } from "@/lib/ready-soups";
+import type { PublicReview } from "@/lib/feedback-constants";
 import { useCart } from "@/context/CartContext";
 import { ReadySoupBundleBuilder } from "@/components/ready-soups/ReadySoupBundleBuilder";
 import {
@@ -75,7 +75,7 @@ function HowItWorksCard({ step }: { step: (typeof howItWorksSteps)[number] }) {
   );
 }
 
-function ReviewCard({ review }: { review: (typeof readySoupReviews)[number] }) {
+function ReviewCard({ review }: { review: PublicReview }) {
   return (
     <blockquote className="flex h-full flex-col rounded-2xl border border-surface bg-white p-6 shadow-sm">
       <ReviewStars rating={review.rating} />
@@ -125,7 +125,7 @@ function GuidanceCard({
   );
 }
 
-export function ReadySoupsPageContent() {
+export function ReadySoupsPageContent({ reviews }: { reviews: PublicReview[] }) {
   const { openCart } = useCart();
   const [activeBundle, setActiveBundle] = useState<(typeof readySoupBundles)[number] | null>(null);
 
@@ -336,17 +336,18 @@ export function ReadySoupsPageContent() {
         </div>
       </section>
 
-      {/* Reviews */}
-      <section className="py-12 sm:py-20">
-        <div className="container-fluid min-w-0">
-          <SectionHeading eyebrow="Testimonials" title="Customer reviews" />
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {readySoupReviews.map((review) => (
-              <ReviewCard key={review.name} review={review} />
-            ))}
+      {reviews.length > 0 ? (
+        <section className="py-12 sm:py-20">
+          <div className="container-fluid min-w-0">
+            <SectionHeading eyebrow="Testimonials" title="Customer reviews" />
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {reviews.map((review) => (
+                <ReviewCard key={review.id} review={review} />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
     </>
   );
 }

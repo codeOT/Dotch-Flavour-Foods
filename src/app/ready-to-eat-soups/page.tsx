@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { ReadySoupsPageContent } from "@/components/ready-soups/ReadySoupsPageContent";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { getPublishedReviews } from "@/lib/feedback";
 import { readySoupsBrand } from "@/lib/ready-soups";
 import { breadcrumbJsonLd, bundleListJsonLd, productListJsonLd } from "@/lib/seo";
+
+export const revalidate = 120;
 
 export const metadata: Metadata = {
   title: "Ready Soups by Dotch Flavour",
@@ -24,7 +27,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ReadyToEatSoupsPage() {
+export default async function ReadyToEatSoupsPage() {
+  const reviews = await getPublishedReviews(8);
   return (
     <>
       <JsonLd
@@ -37,7 +41,7 @@ export default function ReadyToEatSoupsPage() {
           ]),
         ]}
       />
-      <ReadySoupsPageContent />
+      <ReadySoupsPageContent reviews={reviews} />
     </>
   );
 }

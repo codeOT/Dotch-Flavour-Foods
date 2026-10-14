@@ -4,21 +4,17 @@ import Image from "next/image";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 import { HoverCard } from "@/components/motion/HoverCard";
+import { ReviewStars } from "@/components/ready-soups/ReadySoupCards";
 import { scaleIn } from "@/lib/motion";
 import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
 import { menuItemToCartItem } from "@/lib/cart-utils";
+import type { PublicReview } from "@/lib/feedback-constants";
 import { menuItems } from "@/lib/navigation";
 
 const team = [
   { name: "John Doe", role: "Head Chef", image: "/assets/images/team/pic1.jpg" },
   { name: "Jane Smith", role: "Sous Chef", image: "/assets/images/team/pic2.jpg" },
   { name: "Mike Johnson", role: "Pastry Chef", image: "/assets/images/team/pic3.jpg" },
-];
-
-const testimonials = [
-  { name: "Sarah Williams", quote: "Amazing food and fast delivery. Will definitely order again!" },
-  { name: "David Chen", quote: "The best restaurant experience in town. Highly recommended." },
-  { name: "Emily Brown", quote: "Fresh ingredients and wonderful service every single time." },
 ];
 
 const services = [
@@ -48,15 +44,33 @@ export function TeamGrid() {
   );
 }
 
-export function TestimonialGrid() {
+export function TestimonialGrid({ reviews }: { reviews: PublicReview[] }) {
+  if (reviews.length === 0) {
+    return (
+      <section className="py-16">
+        <div className="container-fluid max-w-2xl text-center">
+          <h1 className="mb-3 text-3xl font-bold">Customer reviews</h1>
+          <p className="text-sm text-title/70 sm:text-base">
+            Published customer feedback will appear here after orders are delivered and reviews are
+            approved.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-16">
       <StaggerContainer className="container-fluid grid gap-6 md:grid-cols-3">
-        {testimonials.map((item) => (
-          <StaggerItem key={item.name}>
+        {reviews.map((item) => (
+          <StaggerItem key={item.id}>
             <HoverCard className="rounded-2xl border border-surface bg-white p-8 shadow-sm">
-              <p className="mb-4 text-title/80">&ldquo;{item.quote}&rdquo;</p>
-              <footer className="font-semibold text-primary">{item.name}</footer>
+              <ReviewStars rating={item.rating} />
+              <p className="mb-4 mt-3 text-title/80">&ldquo;{item.quote}&rdquo;</p>
+              <footer>
+                <p className="font-semibold text-primary">{item.name}</p>
+                {item.location ? <p className="text-xs text-title/50">{item.location}</p> : null}
+              </footer>
             </HoverCard>
           </StaggerItem>
         ))}

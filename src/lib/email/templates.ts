@@ -408,3 +408,29 @@ export function orderStatusUpdateHtml(input: {
   );
 }
 
+export function feedbackRequestHtml(input: {
+  fullName: string;
+  orderNumber: string;
+  feedbackUrl: string;
+}) {
+  const first = escapeHtml(input.fullName.split(" ")[0] || "there");
+  return layout(
+    "How was your Dotch Flavour order?",
+    `
+      <h1 style="margin:0 0 12px;font-size:22px;line-height:1.3;">How was your order, ${first}?</h1>
+      <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#3d463f;">
+        It's been a little while since order <strong>${escapeHtml(input.orderNumber)}</strong> was delivered.
+        We'd love a star rating and a short note. The same kind of review we show on the website.
+      </p>
+      <p style="margin:0 0 20px;">
+        <a href="${escapeHtml(input.feedbackUrl)}" style="display:inline-block;background:#cf5c0b;color:#ffffff;text-decoration:none;padding:12px 18px;border-radius:8px;font-weight:700;font-size:14px;">
+          Rate and leave feedback
+        </a>
+      </p>
+      <p style="margin:0;font-size:13px;line-height:1.6;color:#6b6358;">
+        Reviews are stored privately first.
+      </p>
+    `,
+  );
+}
+

@@ -2,6 +2,7 @@ import { sendEmail } from "@/lib/email/client";
 import {
   contactAutoReplyHtml,
   contactNotificationHtml,
+  feedbackRequestHtml,
   newsletterConfirmHtml,
   orderConfirmationHtml,
   orderStatusUpdateHtml,
@@ -12,6 +13,7 @@ import {
   welcomeEmailHtml,
 } from "@/lib/email/templates";
 import { orderStatusLabels, type OrderStatus } from "@/lib/order-status";
+import { getSiteUrl } from "@/lib/sitemap-data";
 import { siteConfig } from "@/lib/site";
 
 export async function sendWelcomeEmail(input: { to: string; name: string }) {
@@ -116,6 +118,27 @@ export async function sendOrderStatusEmail(order: {
     }),
     text: `Hi ${order.fullName.split(" ")[0] || "there"}, your order ${order.orderNumber} is now ${statusLabel}.`,
     idempotencyKey: `order-status-${order.orderNumber}-${order.status}`,
+  });
+}
+
+export async function sendFeedbackRequestEmail(input: {
+  to: string;
+  fullName: string;
+  orderNumber: string;
+  token: string;
+  idempotencyKey?: string;
+}) {
+  const feedbackUrl = `${getSiteUrl()}/feedback/${input.token}`;
+  return sendEmail({
+    to: input.to,
+    subject: `How was your ${siteConfig.name} order?`,
+    html: feedbackRequestHtml({
+      fullName: input.fullName,
+      orderNumber: input.orderNumber,
+      feedbackUrl,
+    }),
+    text: `Hi ${input.fullName.split(" ")[0] || "there"}, we'd love your rating and feedback for order ${input.orderNumber}. Leave a review: ${feedbackUrl}`,
+    idempotencyKey: input.idempotencyKey ?? `feedback-invite-${input.orderNumber}`,
   });
 }
 

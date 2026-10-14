@@ -9,15 +9,18 @@ import {
   Eye,
   LayoutDashboard,
   LogOut,
+  Mail,
   Menu,
   PackageCheck,
   PlusCircle,
   ShoppingBag,
+  Star,
   Ticket,
   Users2,
   UserRound,
   X,
 } from "lucide-react";
+import { AdminFeedbackSection } from "@/components/admin/AdminFeedbackSection";
 import { AdminProductsSection } from "@/components/admin/AdminProductsSection";
 import { OrderStatusBadge } from "@/components/orders/OrderStatusBadge";
 import { formatPrice, siteConfig } from "@/lib/site";
@@ -32,6 +35,7 @@ type AdminSection =
   | "overview"
   | "products"
   | "orders"
+  | "feedback"
   | "customers"
   | "coupons"
   | "inventory"
@@ -70,6 +74,8 @@ type DashboardResponse = {
     deliveryMethod: "delivery" | "pickup";
     total: number;
     createdAt?: string;
+    feedbackEmailSentAt?: string | null;
+    feedbackReceived?: boolean;
   }>;
   error?: string;
 };
@@ -78,6 +84,7 @@ const NAV: { id: AdminSection; label: string; icon: typeof LayoutDashboard }[] =
   { id: "overview", label: "Overview", icon: LayoutDashboard },
   { id: "products", label: "Products", icon: PlusCircle },
   { id: "orders", label: "Orders", icon: ShoppingBag },
+  { id: "feedback", label: "Feedback", icon: Star },
   { id: "customers", label: "Customers", icon: Users2 },
   { id: "coupons", label: "Coupons", icon: Ticket },
   { id: "inventory", label: "Inventory report", icon: PackageCheck },
@@ -130,6 +137,7 @@ export function AdminDashboardContent() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [updatingOrder, setUpdatingOrder] = useState<string | null>(null);
+  const [sendingFeedback, setSendingFeedback] = useState<string | null>(null);
   const [statusMessage, setStatusMessage] = useState("");
 
   async function updateOrderStatus(orderNumber: string, status: OrderStatus) {
@@ -174,6 +182,46 @@ export function AdminDashboardContent() {
       setStatusMessage("Unable to update order status.");
     } finally {
       setUpdatingOrder(null);
+    }
+  }
+
+  async function sendFeedbackMail(orderNumber: string) {
+    setSendingFeedback(orderNumber);
+    setStatusMessage("");
+    try {
+      const res = await fetch(
+        `/api/admin/orders/${encodeURIComponent(orderNumber)}/feedback`,
+        { method: "POST" },
+      );
+      const payload = (await res.json()) as {
+        ok?: boolean;
+        email?: string;
+        feedbackEmailSentAt?: string;
+        error?: string;
+      };
+      if (!res.ok) {
+        setStatusMessage(payload.error ?? "Unable to send feedback email.");
+        return;
+      }
+
+      setData((current) => {
+        if (!current) return current;
+        return {
+          ...current,
+          recentOrders: current.recentOrders.map((order) =>
+            order.orderNumber === orderNumber
+              ? { ...order, feedbackEmailSentAt: payload.feedbackEmailSentAt ?? new Date().toISOString() }
+              : order,
+          ),
+        };
+      });
+      setStatusMessage(
+        `Feedback email sent to ${payload.email ?? "the customer"} for ${orderNumber}. Their reply will appear under Feedback.`,
+      );
+    } catch {
+      setStatusMessage("Unable to send feedback email.");
+    } finally {
+      setSendingFeedback(null);
     }
   }
 
@@ -373,6 +421,10 @@ export function AdminDashboardContent() {
                   <li>Use Products to add Ready Soups and fresh-food items.</li>
                   <li>Update order status under Orders to email customers on fulfilment.</li>
                   <li>
+                    Send a feedback email from Orders. Customer replies appear under Feedback until
+                    you publish them.
+                  </li>
+                  <li>
                     Need a password reset for a customer? They can use{" "}
                     <Link href="/forgot-password" className="font-semibold underline">
                       forgot password
@@ -390,13 +442,19 @@ export function AdminDashboardContent() {
             </div>
           )}
 
+          {section === "feedback" && (
+            <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5 sm:p-6">
+              <AdminFeedbackSection />
+            </div>
+          )}
+
           {section === "orders" && (
             <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5 sm:p-6">
               <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <h3 className="text-lg font-bold text-neutral-950">Recent orders</h3>
                   <p className="text-sm text-neutral-500">
-                    Update fulfilment: processing, shipped, or delivered
+                    Update fulfilment, then send a feedback email. Replies are saved under Feedback.
                   </p>
                 </div>
                 <Link
@@ -421,6 +479,7 @@ export function AdminDashboardContent() {
                         <th className="px-4 py-3 font-medium">Customer</th>
                         <th className="px-4 py-3 font-medium">Status</th>
                         <th className="px-4 py-3 font-medium">Update</th>
+                        <th className="px-4 py-3 font-medium">Feedback</th>
                         <th className="px-4 py-3 font-medium">Total</th>
                         <th className="px-4 py-3 font-medium">Date</th>
                       </tr>
@@ -465,6 +524,29 @@ export function AdminDashboardContent() {
                                     </option>
                                   ))}
                                 </select>
+                              ) : (
+                                <span className="text-xs text-neutral-400">—</span>
+                              )}
+                            </td>
+                            <td className="px-4 py-3">
+                              {order.feedbackReceived ? (
+                                <span className="inline-flex h-[30px] items-center text-xs font-medium text-emerald-700">
+                                  Received
+                                </span>
+                              ) : canEdit ? (
+                                <button
+                                  type="button"
+                                  disabled={sendingFeedback === order.orderNumber}
+                                  onClick={() => void sendFeedbackMail(order.orderNumber)}
+                                  className="inline-flex h-[30px] items-center gap-1 whitespace-nowrap rounded-md border border-neutral-200 bg-white px-2 py-1.5 text-xs font-medium text-neutral-800 outline-none transition hover:border-[#cf5c0b] focus:border-[#cf5c0b] disabled:opacity-50"
+                                >
+                                  <Mail className="h-3.5 w-3.5 shrink-0" />
+                                  {sendingFeedback === order.orderNumber
+                                    ? "Sending…"
+                                    : order.feedbackEmailSentAt
+                                      ? "Resend"
+                                      : "Send"}
+                                </button>
                               ) : (
                                 <span className="text-xs text-neutral-400">—</span>
                               )}

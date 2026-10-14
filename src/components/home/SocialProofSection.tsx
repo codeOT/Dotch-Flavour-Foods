@@ -3,10 +3,12 @@
 import { motion } from "framer-motion";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 import { ReviewStars } from "@/components/ready-soups/ReadySoupCards";
-import { readySoupReviews } from "@/lib/ready-soups";
+import type { PublicReview } from "@/lib/feedback-constants";
 
-export function SocialProofSection() {
-  const reviews = readySoupReviews.slice(0, 3);
+export function SocialProofSection({ reviews }: { reviews: PublicReview[] }) {
+  if (reviews.length === 0) {
+    return null;
+  }
 
   return (
     <section className="overflow-hidden bg-white py-12 sm:py-16">
@@ -25,8 +27,8 @@ export function SocialProofSection() {
         </StaggerContainer>
 
         <StaggerContainer className="grid gap-6 md:grid-cols-3">
-          {reviews.map((review) => (
-            <StaggerItem key={review.name}>
+          {reviews.slice(0, 3).map((review) => (
+            <StaggerItem key={review.id}>
               <motion.div
                 className="h-full rounded-2xl border border-surface bg-surface/20 p-6"
                 whileHover={{ y: -6, boxShadow: "0 16px 40px rgba(87, 72, 33, 0.1)" }}
@@ -39,7 +41,9 @@ export function SocialProofSection() {
                   &ldquo;{review.quote}&rdquo;
                 </p>
                 <p className="text-sm font-semibold text-title">{review.name}</p>
-                <p className="text-xs text-title/55">{review.location}</p>
+                {review.location ? (
+                  <p className="text-xs text-title/55">{review.location}</p>
+                ) : null}
               </motion.div>
             </StaggerItem>
           ))}

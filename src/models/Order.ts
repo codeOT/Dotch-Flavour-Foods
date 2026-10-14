@@ -46,6 +46,8 @@ const orderSchema = new Schema(
     paidAt: { type: Date },
     shippedAt: { type: Date },
     deliveredAt: { type: Date },
+    feedbackToken: { type: String, unique: true, sparse: true, index: true },
+    feedbackEmailSentAt: { type: Date },
   },
   { timestamps: true },
 );

@@ -57,7 +57,7 @@ export const howItWorksSteps = [
     step: "03",
     title: "Next-day delivery",
     description:
-      "Order Monday–Thursday between 8am and 3pm for next-day frozen delivery. Orders placed Friday–Sunday are delivered on Tuesday. Your soups arrive ready for the freezer.",
+      "Order Monday–Thursday between 7am and 11am for next-day frozen delivery. Orders placed Friday–Sunday are delivered on Tuesday. Your soups arrive ready for the freezer.",
   },
   {
     step: "04",
@@ -86,37 +86,6 @@ export const storageHeatingGuidance = {
     ],
   },
 } as const;
-
-export const readySoupReviews = [
-  {
-    name: "Adenike O.",
-    location: "Manchester",
-    rating: 5,
-    quote:
-      "The Efo Riro tastes exactly like my mum's — I keep three tubs in the freezer at all times. Genuinely premium quality.",
-  },
-  {
-    name: "James T.",
-    location: "London",
-    rating: 4,
-    quote:
-      "Discovery Bundle was perfect for trying the range. Ayamase is now a weekly staple in our house.",
-  },
-  {
-    name: "Priya S.",
-    location: "Birmingham",
-    rating: 4,
-    quote:
-      "Heating instructions are clear and the 1 Litre size feeds our family of four with leftovers. Brilliant product.",
-  },
-  {
-    name: "Chidi E.",
-    location: "Leeds",
-    rating: 4,
-    quote:
-      "Freezer Bundle is incredible value. Arrived perfectly frozen and the Buka Stew is outstanding.",
-  },
-] as const;
 
 export const readySoupProducts: ReadySoupProduct[] = [
   {

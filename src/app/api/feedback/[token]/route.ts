@@ -132,7 +132,7 @@ export async function POST(request: Request, context: RouteContext) {
 
     const created = await Feedback.create({
       orderNumber: order.orderNumber,
-      orderId: order._id,
+      orderId: String(order._id),
       email: order.email,
       customerName: order.fullName,
       displayName,

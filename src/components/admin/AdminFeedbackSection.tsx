@@ -105,8 +105,7 @@ export function AdminFeedbackSection() {
       <div>
         <h3 className="text-lg font-bold text-neutral-950">Customer feedback</h3>
         <p className="text-sm text-neutral-500">
-          Reviews arrive about 10 days after a successful delivery. Publish only the ones you want on
-          the website.
+          Send a feedback email from Orders. Publish only the reviews you want on the website.
         </p>
       </div>
 

@@ -12,11 +12,6 @@ export {
   type PublicReview,
 } from "@/lib/feedback-constants";
 
-export const FEEDBACK_DELAY_DAYS = Math.max(
-  1,
-  Number.parseInt(process.env.FEEDBACK_DELAY_DAYS ?? "10", 10) || 10,
-);
-
 export function createFeedbackToken() {
   return randomBytes(32).toString("hex");
 }
@@ -117,56 +112,4 @@ export async function sendFeedbackInviteForOrder(orderNumber: string) {
     email: order.email,
     feedbackEmailSentAt: order.feedbackEmailSentAt.toISOString(),
   };
-}
-
-export async function sendDueFeedbackInvites(limit = 40) {
-  await connectDB();
-  const cutoff = new Date(Date.now() - FEEDBACK_DELAY_DAYS * 24 * 60 * 60 * 1000);
-
-  const orders = await Order.find({
-    status: "delivered",
-    deliveredAt: { $lte: cutoff },
-    feedbackEmailSentAt: { $exists: false },
-    email: { $exists: true, $ne: "" },
-  })
-    .sort({ deliveredAt: 1 })
-    .limit(limit);
-
-  let sent = 0;
-  let skipped = 0;
-  let failed = 0;
-
-  for (const order of orders) {
-    const existing = await Feedback.findOne({ orderNumber: order.orderNumber }).select("_id").lean();
-    if (existing) {
-      order.feedbackEmailSentAt = new Date();
-      await order.save();
-      skipped += 1;
-      continue;
-    }
-
-    if (!order.feedbackToken) {
-      order.feedbackToken = createFeedbackToken();
-    }
-
-    const result = await sendFeedbackRequestEmail({
-      to: order.email,
-      fullName: order.fullName,
-      orderNumber: order.orderNumber,
-      token: order.feedbackToken,
-    });
-
-    if (result.ok) {
-      order.feedbackEmailSentAt = new Date();
-      await order.save();
-      sent += 1;
-    } else if ("skipped" in result && result.skipped) {
-      skipped += 1;
-    } else {
-      failed += 1;
-      console.error("Feedback invite failed:", result.error, { orderNumber: order.orderNumber });
-    }
-  }
-
-  return { sent, skipped, failed, considered: orders.length, delayDays: FEEDBACK_DELAY_DAYS };
 }

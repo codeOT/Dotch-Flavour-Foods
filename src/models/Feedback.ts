@@ -3,7 +3,7 @@ import { Schema, models, model, type InferSchemaType, type Model } from "mongoos
 const feedbackSchema = new Schema(
   {
     orderNumber: { type: String, required: true, unique: true, index: true },
-    orderId: { type: Schema.Types.ObjectId, ref: "Order", required: true, index: true },
+    orderId: { type: String, required: true, index: true },
     email: { type: String, required: true, lowercase: true, trim: true, index: true },
     customerName: { type: String, required: true, trim: true },
     displayName: { type: String, required: true, trim: true },

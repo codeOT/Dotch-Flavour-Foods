@@ -41,6 +41,8 @@ export function cacheDeletePrefix(prefix: string) {
 
 export const ACCOUNT_CACHE_TTL_MS = 15_000;
 export const ORDERS_CACHE_TTL_MS = 20_000;
+export const DASHBOARD_CACHE_KEY = "admin:dashboard";
+export const DASHBOARD_CACHE_TTL_MS = 90_000;
 
 export function accountCacheKey(userId: string) {
   return `account:profile:${userId}`;

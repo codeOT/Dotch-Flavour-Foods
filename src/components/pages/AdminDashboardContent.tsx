@@ -6,14 +6,17 @@ import { useRouter } from "next/navigation";
 import {
   ArrowUpRight,
   BarChart3,
+  Boxes,
   Eye,
   LayoutDashboard,
+  Leaf,
   LogOut,
   Mail,
   Menu,
   PackageCheck,
   PlusCircle,
   ShoppingBag,
+  Soup,
   Star,
   Ticket,
   Users2,
@@ -51,8 +54,18 @@ type DashboardResponse = {
     paidOrders: number;
     processingOrders: number;
     usersCount: number;
+    registeredUsersCount?: number;
     productsCount: number;
     paidRevenue: number;
+  };
+  productCounts?: {
+    readySoups: number;
+    bundles: number;
+    freshMenu: number;
+    adminProducts: number;
+    adminReadySoups: number;
+    adminFreshFood: number;
+    totalCatalog: number;
   };
   inventoryReport: Array<{
     itemId: string;
@@ -80,6 +93,8 @@ type DashboardResponse = {
   error?: string;
 };
 
+const DASHBOARD_STORAGE_KEY = "dotch-admin-dashboard-v1";
+
 const NAV: { id: AdminSection; label: string; icon: typeof LayoutDashboard }[] = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
   { id: "products", label: "Products", icon: PlusCircle },
@@ -98,6 +113,80 @@ function formatMonth(value: string) {
   return new Date(Number(year), Number(month) - 1, 1).toLocaleDateString("en-GB", {
     month: "short",
   });
+}
+
+function formatAxisPound(amount: number) {
+  if (amount >= 1000) {
+    const thousands = amount / 1000;
+    return `£${thousands >= 10 ? Math.round(thousands) : thousands.toFixed(1)}k`;
+  }
+  return `£${Math.round(amount)}`;
+}
+
+function RevenueBarChart({
+  points,
+  maxRevenue,
+  heightClass = "h-48",
+  showValues = false,
+}: {
+  points: Array<{ month: string; revenue: number }>;
+  maxRevenue: number;
+  heightClass?: string;
+  showValues?: boolean;
+}) {
+  const ticks = [1, 0.75, 0.5, 0.25, 0].map((ratio) => ratio * maxRevenue);
+
+  const topPad = showValues ? "pt-6" : "pt-5";
+
+  return (
+    <div className="flex gap-2 sm:gap-3">
+      <div
+        className={`flex ${heightClass} w-10 shrink-0 flex-col justify-between ${topPad} pb-7 text-right text-[10px] font-medium leading-none text-neutral-400`}
+      >
+        {ticks.map((tick) => (
+          <span key={tick}>{formatAxisPound(tick)}</span>
+        ))}
+      </div>
+      <div className="relative min-w-0 flex-1">
+        <div
+          className={`pointer-events-none absolute inset-x-0 top-0 flex ${heightClass} flex-col justify-between ${topPad} pb-7`}
+        >
+          {ticks.map((tick) => (
+            <div key={tick} className="border-t border-dashed border-neutral-200" />
+          ))}
+        </div>
+        <div className={`relative flex ${heightClass} items-end gap-2 ${topPad} pb-7 sm:gap-3`}>
+          {points.map((point) => {
+            const pct = maxRevenue > 0 ? (point.revenue / maxRevenue) * 100 : 0;
+            const barHeight = point.revenue <= 0 ? 0 : Math.max(6, pct);
+            return (
+              <div key={point.month} className="group flex h-full min-w-0 flex-1 flex-col items-center">
+                <div className="relative flex min-h-0 w-full flex-1 items-end justify-center">
+                  {showValues ? (
+                    <span className="absolute bottom-full left-1/2 z-10 mb-1 -translate-x-1/2 whitespace-nowrap text-[10px] font-semibold text-neutral-600">
+                      {formatPrice(point.revenue)}
+                    </span>
+                  ) : (
+                    <span className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1 -translate-x-1/2 whitespace-nowrap rounded-md bg-neutral-950 px-1.5 py-0.5 text-[10px] font-semibold text-white opacity-0 shadow-sm transition group-hover:opacity-100">
+                      {formatPrice(point.revenue)}
+                    </span>
+                  )}
+                  <div
+                    className="w-[70%] max-w-[2.75rem] rounded-t-lg bg-[#cf5c0b] shadow-[inset_0_-8px_12px_rgba(0,0,0,0.12)] transition group-hover:bg-[#b44e09]"
+                    style={{ height: `${barHeight}%` }}
+                    title={formatPrice(point.revenue)}
+                  />
+                </div>
+                <div className="mt-2 h-5 text-[11px] font-semibold text-neutral-500">
+                  {formatMonth(point.month)}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function MetricCard({
@@ -227,9 +316,24 @@ export function AdminDashboardContent() {
 
   useEffect(() => {
     let cancelled = false;
+    let hadCache = false;
+
+    try {
+      const raw = sessionStorage.getItem(DASHBOARD_STORAGE_KEY);
+      if (raw) {
+        const cached = JSON.parse(raw) as DashboardResponse;
+        if (cached?.metrics) {
+          setData(cached);
+          setLoading(false);
+          hadCache = true;
+        }
+      }
+    } catch {
+      sessionStorage.removeItem(DASHBOARD_STORAGE_KEY);
+    }
 
     async function load() {
-      setLoading(true);
+      if (!hadCache) setLoading(true);
       setError("");
       try {
         const res = await fetch("/api/admin/dashboard");
@@ -237,16 +341,20 @@ export function AdminDashboardContent() {
         if (!res.ok) {
           if (!cancelled) {
             if (res.status === 403) {
+              sessionStorage.removeItem(DASHBOARD_STORAGE_KEY);
               router.replace("/admin/sign-in?callbackUrl=/admin");
               return;
             }
-            setError(payload.error ?? "Unable to load admin dashboard.");
+            if (!hadCache) setError(payload.error ?? "Unable to load admin dashboard.");
           }
           return;
         }
-        if (!cancelled) setData(payload);
+        if (!cancelled) {
+          setData(payload);
+          sessionStorage.setItem(DASHBOARD_STORAGE_KEY, JSON.stringify(payload));
+        }
       } catch {
-        if (!cancelled) setError("Unable to load admin dashboard.");
+        if (!cancelled && !hadCache) setError("Unable to load admin dashboard.");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -268,6 +376,7 @@ export function AdminDashboardContent() {
   }, [data]);
 
   async function signOutAdmin() {
+    sessionStorage.removeItem(DASHBOARD_STORAGE_KEY);
     await fetch("/api/admin/logout", { method: "POST" });
     router.replace("/admin/sign-in");
     router.refresh();
@@ -390,48 +499,208 @@ export function AdminDashboardContent() {
         <div className="px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
           <div className="mb-6">
             <h2 className="text-3xl font-bold tracking-tight text-neutral-950">{sectionTitle}</h2>
-            <p className="mt-1 text-sm text-neutral-500">Full access</p>
+            <p className="mt-1 text-sm text-neutral-500">
+              {section === "overview"
+                ? new Date().toLocaleDateString("en-GB", {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                  })
+                : "Full access"}
+            </p>
           </div>
 
           {section === "overview" && (
-            <div className="space-y-5">
-              <div className="grid gap-4 sm:grid-cols-3">
-                <MetricCard
-                  label="Products"
-                  value={String(data.metrics.productsCount ?? 0)}
-                />
-                <MetricCard label="Orders" value={String(data.metrics.totalOrders)} />
-                <MetricCard label="Customers" value={String(data.metrics.usersCount)} />
+            <div className="space-y-6">
+              <div className="grid gap-4 lg:grid-cols-4">
+                <div className="rounded-3xl bg-neutral-950 p-6 text-white lg:col-span-2">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#cf5c0b]">
+                    Paid revenue
+                  </p>
+                  <p className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
+                    {formatPrice(data.metrics.paidRevenue)}
+                  </p>
+                  <p className="mt-2 text-sm text-white/55">Confirmed and fulfilling orders</p>
+                </div>
+                <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-neutral-500">
+                    Orders
+                  </p>
+                  <p className="mt-4 text-4xl font-bold tracking-tight text-neutral-950">
+                    {data.metrics.totalOrders}
+                  </p>
+                  <p className="mt-2 text-sm text-neutral-500">
+                    {data.metrics.processingOrders} in fulfilment
+                  </p>
+                </div>
+                <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-neutral-500">
+                    Customers
+                  </p>
+                  <p className="mt-4 text-4xl font-bold tracking-tight text-neutral-950">
+                    {data.metrics.usersCount}
+                  </p>
+                  <p className="mt-2 text-sm text-neutral-500">Unique order emails</p>
+                </div>
               </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <MetricCard
-                  label="Paid revenue"
-                  value={formatPrice(data.metrics.paidRevenue)}
-                  hint="Confirmed and fulfilling orders."
-                />
-                <MetricCard
-                  label="In fulfilment"
-                  value={String(data.metrics.processingOrders)}
-                  hint="Processing and shipped orders."
-                />
+
+              <div>
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-neutral-500">
+                    Catalogue
+                  </h3>
+                  <button
+                    type="button"
+                    onClick={() => goTo("products")}
+                    className="text-sm font-semibold text-[#cf5c0b] hover:underline"
+                  >
+                    Manage products
+                  </button>
+                </div>
+                <div className="grid gap-3 sm:grid-cols-3">
+                  {[
+                    {
+                      label: "Ready Soups",
+                      value: data.productCounts?.readySoups ?? 0,
+                      hint: "Live flavours",
+                      icon: Soup,
+                    },
+                    {
+                      label: "Mix bundles",
+                      value: data.productCounts?.bundles ?? 0,
+                      hint: "3, 4 and 5 packs",
+                      icon: Boxes,
+                    },
+                    {
+                      label: "Fresh menu",
+                      value: data.productCounts?.freshMenu ?? 0,
+                      hint: "Tray dishes",
+                      icon: Leaf,
+                    },
+                  ].map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <div
+                        key={item.label}
+                        className="flex items-center gap-4 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5"
+                      >
+                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#fff4eb] text-[#cf5c0b]">
+                          <Icon className="h-5 w-5" />
+                        </span>
+                        <div className="min-w-0">
+                          <p className="text-2xl font-bold tracking-tight text-neutral-950">
+                            {item.value}
+                          </p>
+                          <p className="text-sm font-semibold text-neutral-800">{item.label}</p>
+                          <p className="text-xs text-neutral-500">{item.hint}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-              <div className="rounded-2xl border border-[#cf5c0b]/35 bg-[#fff7ed] px-5 py-5 text-[#9a3412]">
-                <p className="text-sm font-bold">Quick tips</p>
-                <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed">
-                  <li>Use Products to add Ready Soups and fresh-food items.</li>
-                  <li>Update order status under Orders to email customers on fulfilment.</li>
-                  <li>
-                    Send a feedback email from Orders. Customer replies appear under Feedback until
-                    you publish them.
-                  </li>
-                  <li>
-                    Need a password reset for a customer? They can use{" "}
-                    <Link href="/forgot-password" className="font-semibold underline">
-                      forgot password
-                    </Link>
-                    .
-                  </li>
-                </ul>
+
+              <div className="grid gap-4 xl:grid-cols-5">
+                <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5 xl:col-span-3">
+                  <div className="mb-4 flex items-center justify-between gap-3">
+                    <h3 className="text-lg font-bold text-neutral-950">Latest orders</h3>
+                    <button
+                      type="button"
+                      onClick={() => goTo("orders")}
+                      className="inline-flex items-center gap-1 text-sm font-semibold text-[#cf5c0b] hover:underline"
+                    >
+                      View all
+                      <ArrowUpRight className="h-4 w-4" />
+                    </button>
+                  </div>
+                  {data.recentOrders.length === 0 ? (
+                    <p className="text-sm text-neutral-500">No orders yet.</p>
+                  ) : (
+                    <ul className="divide-y divide-neutral-100">
+                      {data.recentOrders.slice(0, 5).map((order) => (
+                        <li
+                          key={order.id}
+                          className="flex items-center justify-between gap-4 py-3 first:pt-0 last:pb-0"
+                        >
+                          <div className="min-w-0">
+                            <p className="truncate font-semibold text-neutral-950">
+                              {order.fullName}
+                            </p>
+                            <p className="truncate text-xs text-neutral-500">
+                              {order.orderNumber}
+                              {order.createdAt
+                                ? ` · ${new Date(order.createdAt).toLocaleDateString("en-GB")}`
+                                : ""}
+                            </p>
+                          </div>
+                          <div className="flex shrink-0 flex-col items-end gap-1">
+                            <p className="text-sm font-bold text-neutral-950">
+                              {formatPrice(order.total)}
+                            </p>
+                            <OrderStatusBadge status={order.status} />
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+                <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5 xl:col-span-2">
+                  <div className="mb-4 flex items-center justify-between gap-3">
+                    <h3 className="text-lg font-bold text-neutral-950">Revenue</h3>
+                    <button
+                      type="button"
+                      onClick={() => goTo("revenue")}
+                      className="text-sm font-semibold text-[#cf5c0b] hover:underline"
+                    >
+                      Full chart
+                    </button>
+                  </div>
+                  <RevenueBarChart
+                    points={data.monthlyRevenue}
+                    maxRevenue={maxRevenue}
+                    heightClass="h-48"
+                  />
+                </div>
+              </div>
+
+              <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5">
+                <div className="mb-4 flex items-center justify-between gap-3">
+                  <h3 className="text-lg font-bold text-neutral-950">Top sellers</h3>
+                  <button
+                    type="button"
+                    onClick={() => goTo("inventory")}
+                    className="text-sm font-semibold text-[#cf5c0b] hover:underline"
+                  >
+                    Inventory
+                  </button>
+                </div>
+                {data.inventoryReport.length === 0 ? (
+                  <p className="text-sm text-neutral-500">No sold items yet.</p>
+                ) : (
+                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    {data.inventoryReport.slice(0, 6).map((item) => (
+                      <div key={item.itemId} className="rounded-xl border border-neutral-100 bg-neutral-50 p-3">
+                        <div className="mb-2 flex items-start justify-between gap-3">
+                          <p className="truncate text-sm font-semibold text-neutral-900">{item.name}</p>
+                          <p className="shrink-0 text-xs text-neutral-500">{item.quantitySold} sold</p>
+                        </div>
+                        <div className="mb-2 h-1.5 rounded-full bg-neutral-200">
+                          <div
+                            className="h-1.5 rounded-full bg-[#cf5c0b]"
+                            style={{
+                              width: `${Math.min(
+                                100,
+                                Math.round((item.quantitySold / maxInventorySold) * 100),
+                              )}%`,
+                            }}
+                          />
+                        </div>
+                        <p className="text-xs font-medium text-neutral-600">{formatPrice(item.revenue)}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -572,9 +841,14 @@ export function AdminDashboardContent() {
           {section === "customers" && (
             <div className="space-y-4">
               <MetricCard
-                label="Registered customers"
+                label="Customers"
                 value={String(data.metrics.usersCount)}
-                hint="Accounts created on the storefront."
+                hint="Unique emails used to place an order, including guest checkout."
+              />
+              <MetricCard
+                label="Registered accounts"
+                value={String(data.metrics.registeredUsersCount ?? 0)}
+                hint="People who created a storefront account."
               />
               <ComingSoonPanel
                 title="Customer directory"
@@ -634,23 +908,12 @@ export function AdminDashboardContent() {
                 <h3 className="text-lg font-bold text-neutral-950">Revenue trend (6 months)</h3>
                 <BarChart3 className="h-5 w-5 text-neutral-400" />
               </div>
-              <div className="flex h-56 items-end gap-3">
-                {data.monthlyRevenue.map((point) => {
-                  const barHeight = Math.max(8, Math.round((point.revenue / maxRevenue) * 100));
-                  return (
-                    <div key={point.month} className="flex flex-1 flex-col items-center gap-2">
-                      <div className="text-[10px] font-semibold text-neutral-500">
-                        {formatPrice(point.revenue)}
-                      </div>
-                      <div
-                        className="w-full rounded-t-md bg-gradient-to-t from-neutral-900 to-[#cf5c0b]"
-                        style={{ height: `${barHeight}%` }}
-                      />
-                      <div className="text-xs text-neutral-600">{formatMonth(point.month)}</div>
-                    </div>
-                  );
-                })}
-              </div>
+              <RevenueBarChart
+                points={data.monthlyRevenue}
+                maxRevenue={maxRevenue}
+                heightClass="h-64"
+                showValues
+              />
             </div>
           )}
 

@@ -69,6 +69,7 @@ export async function PATCH(
     applyFulfilmentTimestamps(order, nextStatus);
     await order.save();
     cacheDeletePrefix("orders:");
+    cacheDeletePrefix("admin:dashboard");
 
     let emailSent = false;
     if (previousStatus !== nextStatus) {

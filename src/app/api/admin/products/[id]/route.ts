@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { getAdminFromRequest } from "@/lib/admin";
 import { Product } from "@/models/Product";
+import { cacheDeletePrefix } from "@/lib/request-cache";
 import mongoose from "mongoose";
 
 type RouteContext = {
@@ -26,6 +27,7 @@ export async function DELETE(request: Request, context: RouteContext) {
       return NextResponse.json({ error: "Product not found." }, { status: 404 });
     }
 
+    cacheDeletePrefix("admin:dashboard");
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Admin product delete error:", error);

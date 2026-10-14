@@ -56,6 +56,7 @@ export async function POST(request: Request) {
         }
         await order.save();
         cacheDeletePrefix("orders:");
+        cacheDeletePrefix("admin:dashboard");
         await ensureOrderConfirmationEmail(order);
       }
     }
@@ -68,6 +69,7 @@ export async function POST(request: Request) {
         order.status = "cancelled";
         await order.save();
         cacheDeletePrefix("orders:");
+        cacheDeletePrefix("admin:dashboard");
       }
     }
 

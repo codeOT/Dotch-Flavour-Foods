@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { getAdminFromRequest } from "@/lib/admin";
 import { PRODUCT_CATEGORIES, Product, type ProductCategory } from "@/models/Product";
+import { cacheDeletePrefix } from "@/lib/request-cache";
 
 function slugify(value: string) {
   return value
@@ -197,6 +198,7 @@ export async function POST(request: Request) {
         isActive: body.isActive !== false,
       });
 
+      cacheDeletePrefix("admin:dashboard");
       return NextResponse.json({ product: serializeProduct(product) }, { status: 201 });
     }
 
@@ -220,6 +222,7 @@ export async function POST(request: Request) {
       isActive: body.isActive !== false,
     });
 
+    cacheDeletePrefix("admin:dashboard");
     return NextResponse.json({ product: serializeProduct(product) }, { status: 201 });
   } catch (error) {
     console.error("Admin product create error:", error);

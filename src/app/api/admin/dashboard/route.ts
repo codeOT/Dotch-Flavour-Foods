@@ -6,6 +6,14 @@ import { Order } from "@/models/Order";
 import { Product } from "@/models/Product";
 import { User } from "@/models/User";
 import { PAID_FLOW_STATUSES } from "@/lib/order-status";
+import { menuItems } from "@/lib/navigation";
+import { readySoupBundles, readySoupProducts } from "@/lib/ready-soups";
+import {
+  cacheGet,
+  cacheSet,
+  DASHBOARD_CACHE_KEY,
+  DASHBOARD_CACHE_TTL_MS,
+} from "@/lib/request-cache";
 
 type MonthlyPoint = {
   month: string;
@@ -32,17 +40,52 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "Admin access required." }, { status: 403 });
     }
 
+    const cached = cacheGet<Record<string, unknown>>(DASHBOARD_CACHE_KEY);
+    if (cached) {
+      return NextResponse.json({
+        ...cached,
+        admin: { email: admin.email },
+      });
+    }
+
     await connectDB();
 
-    const [totalOrders, pendingOrders, paidOrders, processingOrders, usersCount, productsCount] =
-      await Promise.all([
-        Order.countDocuments(),
-        Order.countDocuments({ status: "pending" }),
-        Order.countDocuments({ status: { $in: PAID_FLOW_STATUSES } }),
-        Order.countDocuments({ status: { $in: ["processing", "shipped"] } }),
-        User.countDocuments(),
-        Product.countDocuments(),
-      ]);
+    const [
+      totalOrders,
+      pendingOrders,
+      paidOrders,
+      processingOrders,
+      customerEmails,
+      registeredUsersCount,
+      adminProducts,
+      adminReadySoups,
+      adminFreshFood,
+    ] = await Promise.all([
+      Order.countDocuments(),
+      Order.countDocuments({ status: "pending" }),
+      Order.countDocuments({ status: { $in: PAID_FLOW_STATUSES } }),
+      Order.countDocuments({ status: { $in: ["processing", "shipped"] } }),
+      Order.distinct("email", {
+        email: { $nin: [null, ""] },
+        status: { $nin: ["failed"] },
+      }),
+      User.countDocuments(),
+      Product.countDocuments(),
+      Product.countDocuments({ category: "ready-soup" }),
+      Product.countDocuments({ category: "fresh-food" }),
+    ]);
+
+    const usersCount = customerEmails.length;
+
+    const productCounts = {
+      readySoups: readySoupProducts.length,
+      bundles: readySoupBundles.length,
+      freshMenu: menuItems.length,
+      adminProducts,
+      adminReadySoups,
+      adminFreshFood,
+      totalCatalog: readySoupProducts.length + readySoupBundles.length + menuItems.length,
+    };
 
     const paidRevenueAgg = await Order.aggregate<{ total: number }>([
       { $match: { status: { $in: PAID_FLOW_STATUSES } } },
@@ -122,7 +165,7 @@ export async function GET(request: Request) {
       };
     });
 
-    return NextResponse.json({
+    const payload = {
       admin: {
         email: admin.email,
       },
@@ -132,9 +175,11 @@ export async function GET(request: Request) {
         paidOrders,
         processingOrders,
         usersCount,
-        productsCount,
+        registeredUsersCount,
+        productsCount: productCounts.totalCatalog,
         paidRevenue,
       },
+      productCounts,
       inventoryReport: inventoryRows,
       monthlyRevenue,
       recentOrders: recentOrders.map((order) => ({
@@ -149,7 +194,10 @@ export async function GET(request: Request) {
         feedbackEmailSentAt: order.feedbackEmailSentAt?.toISOString() ?? null,
         feedbackReceived: feedbackReceived.has(order.orderNumber),
       })),
-    });
+    };
+
+    cacheSet(DASHBOARD_CACHE_KEY, payload, DASHBOARD_CACHE_TTL_MS);
+    return NextResponse.json(payload);
   } catch (error) {
     console.error("Admin dashboard error:", error);
     return NextResponse.json({ error: "Unable to load admin dashboard." }, { status: 500 });

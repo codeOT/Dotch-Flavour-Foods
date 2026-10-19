@@ -10,14 +10,14 @@ import { MenuSection } from "@/components/home/MenuSection";
 import { NewsletterSection } from "@/components/home/NewsletterSection";
 import { ProductCatalogSection } from "@/components/home/ProductCatalogSection";
 import { SocialProofSection } from "@/components/home/SocialProofSection";
-import { IndependencePromo } from "@/components/home/IndependencePromo";
+import { PromoCampaignSection } from "@/components/home/PromoCampaignSection";
 import type { PublicReview } from "@/lib/feedback-constants";
 
 export function HomePageContent({ reviews }: { reviews: PublicReview[] }) {
   return (
     <div className="w-full min-w-0 overflow-x-clip">
-      {/* <IndependencePromo /> */}
       <HeroSection />
+      <PromoCampaignSection />
       <HowItWorksSection />
       <ProductCatalogSection />
       <MenuSection />

@@ -65,6 +65,7 @@ export const footerLinks = {
     { label: "About Us", href: "/about-us" },
     { label: "Meet Abi", href: "/meet-abi" },
     { label: "Ready Soups", href: "/ready-to-eat-soups" },
+    { label: "Half-term offers", href: "/promo" },
     { label: "Shop", href: "/shop" },
     { label: "Fresh Menu", href: "/fresh-menu" },
     { label: "Catering", href: "/catering" },

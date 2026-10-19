@@ -1,6 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, type Variants } from "framer-motion";
 import {
   ArrowRight,
@@ -73,6 +75,63 @@ const highlights = [
 //   { value: "UK", label: "Delivery" },
 // ] as const;
 
+const promoBackgrounds = [
+  "linear-gradient(125deg, #cf5c0b 0%, #9e4122 52%, #630a0a 100%)",
+  "linear-gradient(125deg, #d6b898 0%, #cf5c0b 58%, #9e4122 100%)",
+  "linear-gradient(125deg, #192e22 0%, #574821 48%, #cf5c0b 100%)",
+  "linear-gradient(125deg, #9e4122 0%, #cf5c0b 42%, #d6b898 100%)",
+] as const;
+
+function HeroPromoMark() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setIndex((current) => (current + 1) % promoBackgrounds.length);
+    }, 2600);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  return (
+    <Link
+      href="/promo"
+      aria-label="View half-term offers"
+      className="group relative inline-flex max-w-full shrink-0 align-middle"
+    >
+      <span
+        aria-hidden
+        className="absolute inset-0 translate-x-1.5 translate-y-1.5 rotate-[8deg] rounded-full bg-[#d6b898] shadow-md transition group-hover:translate-x-2 group-hover:rotate-[12deg]"
+      />
+      <span
+        aria-hidden
+        className="absolute inset-0 -translate-x-1 translate-y-1 -rotate-[7deg] rounded-full bg-[#192e22] ring-1 ring-white/25 transition group-hover:-translate-x-1.5 group-hover:-rotate-[11deg]"
+      />
+      <span className="relative inline-flex overflow-hidden rounded-full px-3.5 py-1 shadow-[0_10px_24px_rgba(0,0,0,0.28)] ring-1 ring-white/25 sm:px-5 sm:py-1.5">
+        {promoBackgrounds.map((background, backgroundIndex) => (
+          <motion.span
+            key={background}
+            aria-hidden
+            className="absolute inset-0"
+            style={{ background }}
+            initial={false}
+            animate={{ opacity: backgroundIndex === index ? 1 : 0 }}
+            transition={{ duration: 0.85, ease: "easeInOut" }}
+          />
+        ))}
+        <motion.span
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/35 to-transparent"
+          animate={{ x: ["-120%", "220%"] }}
+          transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.4 }}
+        />
+        <span className="relative z-10 text-[0.7rem] font-bold uppercase tracking-[0.22em] text-white sm:text-xs">
+          Offers
+        </span>
+      </span>
+    </Link>
+  );
+}
+
 const guarantees = [
   { label: "Fast Delivery", icon: Truck },
   { label: "Secure Payment", icon: ShieldCheck },
@@ -120,9 +179,16 @@ export function HeroSection() {
             className="mb-5 font-display text-[clamp(1.75rem,8vw,3.5rem)] font-bold leading-[1.05] text-white"
             variants={heroFadeUp}
           >
-            Roots in <span className="text-secondary">Flavour.</span>
-            <br />
-            Crafted with <span className="text-secondary">Care.</span>
+            <span className="inline-flex max-w-full flex-wrap items-center gap-x-2 gap-y-2 sm:gap-x-3">
+              
+              <span>
+                Roots in <span className="text-secondary">Flavour.</span>
+              </span>
+              <HeroPromoMark />
+            </span>
+            <span className="mt-1 block">
+              Crafted with <span className="text-secondary">Care.</span>
+            </span>
           </motion.h1>
 
           <motion.p

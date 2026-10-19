@@ -21,6 +21,7 @@ import {
   isDuplicateKeyError,
   isValidIdempotencyKey,
 } from "@/lib/checkout-idempotency";
+import { getPromoComboByCartId } from "@/lib/promo";
 import { getRequestIp, rateLimit, tooManyRequests } from "@/lib/rate-limit";
 import { cacheDeletePrefix } from "@/lib/request-cache";
 import { Order } from "@/models/Order";
@@ -107,6 +108,11 @@ export async function POST(request: Request) {
         item.quantity < 1
       ) {
         return NextResponse.json({ error: "Invalid cart items." }, { status: 400 });
+      }
+
+      const promoCombo = getPromoComboByCartId(item.id);
+      if (promoCombo && item.price !== promoCombo.price) {
+        return NextResponse.json({ error: "Promo combo price is invalid." }, { status: 400 });
       }
     }
 

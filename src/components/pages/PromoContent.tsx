@@ -42,13 +42,13 @@ export function PromoContent() {
               Make it delicious
             </h2>
             <p className="mb-6 text-sm leading-relaxed text-title/70 sm:text-base">
-              Choose a family combo for sharing, or stock the freezer with Ready Soups. Add a combo
-              and pay at checkout. Delivery is a flat rate of £19.99.
+              Choose a family combo for sharing, or stock the freezer with Ready Soups. Combos are
+              collection only — no delivery fee. Add a combo and pay at checkout.
             </p>
             <ul className="space-y-3 text-sm text-title/75">
               <li className="flex gap-3">
                 <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-secondary" />
-                £99 and £129 sharing combos with jollof, protein, plantain and a drink
+                £99 and £129 sharing combos with jollof, protein, plantain and a drink — collection only
               </li>
               <li className="flex gap-3">
                 <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-secondary" />
@@ -147,8 +147,8 @@ export function PromoContent() {
         <div className="container-fluid">
           <p className="text-xs leading-relaxed text-title/55">
             Combos are subject to availability during {halfTermPromo.dates}. Complimentary drink
-            options are confirmed when you order. Ready Soups checkout prices and the £19.99
-            delivery fee apply online.{" "}
+            options are confirmed when you order. Half-term combos are collection only with no
+            delivery fee. Ready Soups online orders still use a £19.99 delivery fee.{" "}
             <Link href="/terms" className="font-semibold text-primary hover:underline">
               Terms &amp; Conditions
             </Link>

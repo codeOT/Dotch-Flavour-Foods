@@ -63,6 +63,19 @@ export function isReadySoupCartItem(item: Pick<CartItem, "id">): boolean {
   return item.id.startsWith("ready-soup-");
 }
 
+export function isPromoComboCartItem(item: Pick<CartItem, "id">): boolean {
+  return item.id.startsWith("promo-combo-");
+}
+
+/** Half-term combos are collection-only, with no delivery fee. */
+export function cartIsPromoCollection(items: CartLikeItem[]): boolean {
+  return items.length > 0 && items.every(isPromoComboCartItem);
+}
+
+export function getCheckoutDeliveryMethod(items: CartLikeItem[]): DeliveryMethod {
+  return cartIsPromoCollection(items) ? "pickup" : "delivery";
+}
+
 /**
  * Counts Ready Soup tubs in the cart.
  * Individual soups count as 1 each; mix bundles encode unit count in the id.
@@ -126,12 +139,12 @@ export function getCartReadySoupLitres(items: CartLikeItem[]): number {
 }
 
 export function getDeliveryFee(method: DeliveryMethod, items: CartLikeItem[] = []): number {
-  if (method === "pickup") return 0;
+  if (method === "pickup" || cartIsPromoCollection(items)) return 0;
   return DELIVERY_FEE;
 }
 
 export function getDeliveryLabel(method: DeliveryMethod, items: CartLikeItem[] = []): string {
-  if (method === "pickup") return "Free — collection";
+  if (method === "pickup" || cartIsPromoCollection(items)) return "Free — collection";
   return `Flat rate of ${formatPrice(DELIVERY_FEE)}`;
 }
 

@@ -9,6 +9,7 @@ import {
   formatWeightKg,
   getCartItemWeightKg,
   getCartWeightKg,
+  getCheckoutDeliveryMethod,
   getDeliveryLabel,
   getOrderTotal,
   getReadySoupUnitCount,
@@ -64,7 +65,8 @@ export function CartSidebar() {
     clearCart,
   } = useCart();
 
-  const total = getOrderTotal(subtotal, "delivery", items);
+  const deliveryMethod = getCheckoutDeliveryMethod(items);
+  const total = getOrderTotal(subtotal, deliveryMethod, items);
   const readySoupUnits = getReadySoupUnitCount(items);
   const readySoupOk = meetsReadySoupMinimum(items);
   const showReadySoupWarning = cartHasReadySoups(items) && !readySoupOk;
@@ -243,8 +245,8 @@ export function CartSidebar() {
                     <dd className="font-semibold text-secondary">{formatWeightKg(cartWeightKg)}</dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-title/70">Delivery</dt>
-                    <dd className="text-secondary">{getDeliveryLabel("delivery", items)}</dd>
+                    <dt className="text-title/70">{deliveryMethod === "pickup" ? "Collection" : "Delivery"}</dt>
+                    <dd className="text-secondary">{getDeliveryLabel(deliveryMethod, items)}</dd>
                   </div>
                   <div className="flex justify-between border-t border-surface pt-2 text-base">
                     <dt className="font-bold">Total</dt>
@@ -252,7 +254,9 @@ export function CartSidebar() {
                   </div>
                 </dl>
                 <p className="mb-3 text-[11px] leading-relaxed text-title/55">
-                  {readySoupDeliveryInfo.scheduleSummary} {readySoupDeliveryInfo.feeSummary}
+                  {deliveryMethod === "pickup"
+                    ? "Half-term combos are collection only — no delivery fee."
+                    : `${readySoupDeliveryInfo.scheduleSummary} ${readySoupDeliveryInfo.feeSummary}`}
                 </p>
                 {showReadySoupWarning && (
                   <p className="mb-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">

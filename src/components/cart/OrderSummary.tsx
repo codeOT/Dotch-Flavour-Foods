@@ -76,12 +76,16 @@ export function OrderSummary({
           <dd className="font-semibold text-secondary">{formatWeightKg(cartWeightKg)}</dd>
         </div>
         <div className="flex justify-between">
-          <dt className="text-title/70">Delivery</dt>
+          <dt className="text-title/70">{deliveryMethod === "pickup" ? "Collection" : "Delivery"}</dt>
           <dd className="font-medium text-secondary">
             {getDeliveryLabel(deliveryMethod, items)}
           </dd>
         </div>
-        {deliveryMethod === "delivery" && (
+        {deliveryMethod === "pickup" ? (
+          <p className="text-[11px] leading-relaxed text-title/55">
+            Half-term combos are collection only — no delivery fee.
+          </p>
+        ) : (
           <p className="text-[11px] leading-relaxed text-title/55">
             {readySoupDeliveryInfo.scheduleSummary} {readySoupDeliveryInfo.feeSummary}
           </p>

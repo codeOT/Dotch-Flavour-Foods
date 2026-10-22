@@ -83,7 +83,7 @@ export function OrderSummary({
         </div>
         {deliveryMethod === "pickup" ? (
           <p className="text-[11px] leading-relaxed text-title/55">
-            Half-term combos are collection only — no delivery fee.
+            Half-term combos are collection from kitchen.
           </p>
         ) : (
           <p className="text-[11px] leading-relaxed text-title/55">

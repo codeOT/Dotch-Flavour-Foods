@@ -144,7 +144,7 @@ export function getDeliveryFee(method: DeliveryMethod, items: CartLikeItem[] = [
 }
 
 export function getDeliveryLabel(method: DeliveryMethod, items: CartLikeItem[] = []): string {
-  if (method === "pickup" || cartIsPromoCollection(items)) return "Free — collection";
+  if (method === "pickup" || cartIsPromoCollection(items)) return "Collection from kitchen";
   return `Flat rate of ${formatPrice(DELIVERY_FEE)}`;
 }
 

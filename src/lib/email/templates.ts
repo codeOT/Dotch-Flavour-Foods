@@ -113,6 +113,7 @@ export function orderConfirmationHtml(order: {
   addressLine2?: string | null;
   city?: string | null;
   postcode?: string | null;
+  notes?: string | null;
 }) {
   const siteUrl = getSiteUrl();
   const first = escapeHtml(order.fullName.split(" ")[0] || "there");
@@ -132,7 +133,7 @@ export function orderConfirmationHtml(order: {
           .filter(Boolean)
           .map((part) => escapeHtml(String(part)))
           .join(", ")
-      : "Collection";
+      : "Collection from kitchen";
 
   return layout(
     `Order confirmed — ${order.orderNumber}`,
@@ -148,16 +149,27 @@ export function orderConfirmationHtml(order: {
           <td style="padding:10px 0 4px;font-size:14px;text-align:right;">${escapeHtml(formatPrice(order.subtotal))}</td>
         </tr>
         <tr>
-          <td style="padding:4px 0;font-size:14px;color:#6b6358;">Delivery</td>
-          <td style="padding:4px 0;font-size:14px;text-align:right;">${order.deliveryFee === 0 ? "Free" : escapeHtml(formatPrice(order.deliveryFee))}</td>
+          <td style="padding:4px 0;font-size:14px;color:#6b6358;">${order.deliveryMethod === "pickup" ? "Collection" : "Delivery"}</td>
+          <td style="padding:4px 0;font-size:14px;text-align:right;">${
+            order.deliveryMethod === "pickup"
+              ? "Collection from kitchen"
+              : order.deliveryFee === 0
+                ? "—"
+                : escapeHtml(formatPrice(order.deliveryFee))
+          }</td>
         </tr>
         <tr>
           <td style="padding:8px 0 0;font-size:15px;font-weight:700;">Total</td>
           <td style="padding:8px 0 0;font-size:15px;font-weight:700;text-align:right;color:#cf5c0b;">${escapeHtml(formatPrice(order.total))}</td>
         </tr>
       </table>
-      <p style="margin:0 0 8px;font-size:14px;"><strong>Fulfilment:</strong> ${order.deliveryMethod === "delivery" ? "Home delivery" : "Collection"}</p>
-      <p style="margin:0 0 20px;font-size:14px;line-height:1.5;color:#3d463f;">${address}</p>
+      <p style="margin:0 0 8px;font-size:14px;"><strong>Fulfilment:</strong> ${order.deliveryMethod === "delivery" ? "Home delivery" : "Collection from kitchen"}</p>
+      <p style="margin:0 0 16px;font-size:14px;line-height:1.5;color:#3d463f;">${address}</p>
+      ${
+        order.notes
+          ? `<p style="margin:0 0 20px;font-size:14px;line-height:1.5;color:#3d463f;"><strong>Order notes:</strong> ${escapeHtml(order.notes)}</p>`
+          : ""
+      }
       <p style="margin:0;">
         <a href="${escapeHtml(siteUrl)}/orders" style="display:inline-block;background:#574821;color:#ffffff;text-decoration:none;padding:12px 18px;border-radius:8px;font-weight:700;font-size:14px;">
           View your orders
@@ -181,6 +193,7 @@ export function orderTeamNotificationHtml(order: {
   addressLine2?: string | null;
   city?: string | null;
   postcode?: string | null;
+  notes?: string | null;
 }) {
   const rows = order.items
     .map(
@@ -198,7 +211,7 @@ export function orderTeamNotificationHtml(order: {
           .filter(Boolean)
           .map((part) => escapeHtml(String(part)))
           .join(", ")
-      : "Collection";
+      : "Collection from kitchen";
 
   return layout(
     `New order — ${order.orderNumber}`,
@@ -215,9 +228,14 @@ export function orderTeamNotificationHtml(order: {
           : ""
       }
       <p style="margin:0 0 16px;font-size:14px;"><strong>Fulfilment:</strong> ${
-        order.deliveryMethod === "delivery" ? "Home delivery" : "Collection"
+        order.deliveryMethod === "delivery" ? "Home delivery" : "Collection from kitchen"
       }</p>
       <p style="margin:0 0 16px;font-size:14px;line-height:1.5;color:#3d463f;">${address}</p>
+      ${
+        order.notes
+          ? `<p style="margin:0 0 16px;font-size:14px;line-height:1.5;color:#3d463f;"><strong>Order notes:</strong> ${escapeHtml(order.notes)}</p>`
+          : ""
+      }
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 16px;">
         ${rows}
         <tr>
@@ -225,8 +243,14 @@ export function orderTeamNotificationHtml(order: {
           <td style="padding:10px 0 4px;font-size:14px;text-align:right;">${escapeHtml(formatPrice(order.subtotal))}</td>
         </tr>
         <tr>
-          <td style="padding:4px 0;font-size:14px;color:#6b6358;">Delivery</td>
-          <td style="padding:4px 0;font-size:14px;text-align:right;">${order.deliveryFee === 0 ? "Free" : escapeHtml(formatPrice(order.deliveryFee))}</td>
+          <td style="padding:4px 0;font-size:14px;color:#6b6358;">${order.deliveryMethod === "pickup" ? "Collection" : "Delivery"}</td>
+          <td style="padding:4px 0;font-size:14px;text-align:right;">${
+            order.deliveryMethod === "pickup"
+              ? "Collection from kitchen"
+              : order.deliveryFee === 0
+                ? "—"
+                : escapeHtml(formatPrice(order.deliveryFee))
+          }</td>
         </tr>
         <tr>
           <td style="padding:8px 0 0;font-size:15px;font-weight:700;">Total</td>

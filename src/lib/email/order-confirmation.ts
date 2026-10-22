@@ -16,6 +16,7 @@ type OrderLike = {
   addressLine2?: string | null;
   city?: string | null;
   postcode?: string | null;
+  notes?: string | null;
   confirmationEmailSentAt?: Date | null;
 };
 
@@ -59,6 +60,7 @@ export async function ensureOrderConfirmationEmail(order: OrderLike) {
     addressLine2: order.addressLine2,
     city: order.city,
     postcode: order.postcode,
+    notes: order.notes ?? doc.notes,
   });
 
   if (!result.ok) {

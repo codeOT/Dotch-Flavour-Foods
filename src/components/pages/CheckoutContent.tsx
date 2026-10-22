@@ -407,7 +407,7 @@ export function CheckoutContent() {
                     <span>Collection</span>
                   </legend>
                   <p className="text-sm leading-relaxed text-title/75">
-                    Half-term combos are collection only — no delivery fee. Collect from{" "}
+                    Half-term combos are collection from kitchen. Collect from{" "}
                     <span className="font-semibold text-title">{siteConfig.contact.address}</span>{" "}
                     We will confirm your collection time after payment.
                   </p>

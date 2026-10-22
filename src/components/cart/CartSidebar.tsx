@@ -255,7 +255,7 @@ export function CartSidebar() {
                 </dl>
                 <p className="mb-3 text-[11px] leading-relaxed text-title/55">
                   {deliveryMethod === "pickup"
-                    ? "Half-term combos are collection only — no delivery fee."
+                    ? "Half-term combos are collection from kitchen."
                     : `${readySoupDeliveryInfo.scheduleSummary} ${readySoupDeliveryInfo.feeSummary}`}
                 </p>
                 {showReadySoupWarning && (

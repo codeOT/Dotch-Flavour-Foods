@@ -48,6 +48,7 @@ export async function sendOrderConfirmationEmail(order: {
   addressLine2?: string | null;
   city?: string | null;
   postcode?: string | null;
+  notes?: string | null;
 }) {
   const customer = await sendEmail({
     to: order.email,
@@ -66,7 +67,8 @@ export async function sendOrderConfirmationEmail(order: {
       `Customer: ${order.fullName}`,
       `Email: ${order.email}`,
       order.phone ? `Phone: ${order.phone}` : null,
-      `Fulfilment: ${order.deliveryMethod}`,
+      `Fulfilment: ${order.deliveryMethod === "pickup" ? "Collection from kitchen" : order.deliveryMethod}`,
+      order.notes ? `Order notes: ${order.notes}` : null,
       `Total: ${siteConfig.currencySymbol}${order.total.toFixed(2)}`,
     ]
       .filter(Boolean)

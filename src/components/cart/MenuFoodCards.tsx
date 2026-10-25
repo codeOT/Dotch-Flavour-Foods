@@ -4,7 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import type { MenuItem } from "@/lib/navigation";
+import { getMenuItemPath, type MenuItem } from "@/lib/navigation";
+import { productImageAlt } from "@/lib/product-seo";
 import { menuItemToCartItem } from "@/lib/cart-utils";
 import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
 import { LitreSizeSelector } from "@/components/cart/LitreSizeSelector";
@@ -25,7 +26,12 @@ export function TodaysMenuCard({ item }: TodaysMenuCardProps) {
           whileHover={{ scale: 1.08 }}
           transition={{ duration: 0.5 }}
         >
-          <Image src={item.image} alt={item.name} fill className="object-cover" />
+          <Image
+            src={item.image}
+            alt={productImageAlt(item.id, item.name)}
+            fill
+            className="object-cover"
+          />
         </motion.div>
         <motion.span
           className="absolute left-4 top-4 z-10 rounded bg-secondary px-3 py-1 text-xs font-semibold uppercase text-white"
@@ -70,14 +76,14 @@ export function MenuCarouselCard({ item }: MenuCarouselCardProps) {
       <div className="mb-4 flex min-w-0 items-center gap-3 sm:gap-4">
         <Image
           src={item.image}
-          alt={item.name}
+          alt={productImageAlt(item.id, item.name)}
           width={80}
           height={80}
           className="h-16 w-16 shrink-0 rounded-xl object-cover sm:h-20 sm:w-20"
         />
         <div className="min-w-0">
           <h6 className="font-semibold">
-            <Link href="/fresh-menu" className="hover:text-primary">
+            <Link href={getMenuItemPath(item)} className="hover:text-primary">
               {item.name}
             </Link>
           </h6>

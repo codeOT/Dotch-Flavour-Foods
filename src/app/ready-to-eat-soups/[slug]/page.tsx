@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ReadySoupProductDetail } from "@/components/ready-soups/ReadySoupProductDetail";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { getProductSeo, productImageAlt } from "@/lib/product-seo";
 import { getReadySoupBySlug, readySoupProducts } from "@/lib/ready-soups";
-import { breadcrumbJsonLd, productJsonLd } from "@/lib/seo";
+import { absoluteTitle, breadcrumbJsonLd, productJsonLd } from "@/lib/seo";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -22,23 +23,26 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const path = `/ready-to-eat-soups/${product.slug}`;
+  const seo = getProductSeo(product.id);
+  const title = seo?.title ?? `${product.name} | Dotch Flavour`;
+  const description = seo?.description ?? product.shortDescription;
 
   return {
-    title: `${product.name} | Ready Soups`,
-    description: product.shortDescription,
+    title: absoluteTitle(title),
+    description,
     keywords: [product.name, "Ready Soups", "Nigerian soup", "frozen soup UK", ...product.allergens],
     alternates: { canonical: path },
     openGraph: {
       type: "website",
-      title: product.name,
-      description: product.shortDescription,
+      title,
+      description,
       url: path,
-      images: [{ url: product.image, alt: product.name }],
+      images: [{ url: product.image, alt: productImageAlt(product.id, product.name) }],
     },
     twitter: {
       card: "summary_large_image",
-      title: product.name,
-      description: product.shortDescription,
+      title,
+      description,
       images: [product.image],
     },
   };

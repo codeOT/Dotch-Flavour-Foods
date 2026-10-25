@@ -286,6 +286,19 @@ export const menuItems: MenuItem[] = [
   ),
 ];
 
+export function getMenuItemSlug(item: Pick<MenuItem, "id">) {
+  return item.id.toLowerCase();
+}
+
+export function getMenuItemPath(item: Pick<MenuItem, "id">) {
+  return `/fresh-menu/${getMenuItemSlug(item)}`;
+}
+
+export function getMenuItemBySlug(slug: string): MenuItem | undefined {
+  const normalised = slug.trim().toLowerCase();
+  return menuItems.find((item) => getMenuItemSlug(item) === normalised);
+}
+
 export const todaysMenu: MenuItem[] = [
   {
     id: "jollof-rice",

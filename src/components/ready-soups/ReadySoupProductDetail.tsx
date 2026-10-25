@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { HoverCard } from "@/components/motion/HoverCard";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
+import { productImageAlt } from "@/lib/product-seo";
 import {
   formatReadySoupPrice,
   readySoupToCartItem,
@@ -64,7 +65,7 @@ export function ReadySoupProductDetail({ product }: { product: ReadySoupProduct 
             <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-surface shadow-xl">
               <Image
                 src={product.image}
-                alt={product.name}
+                alt={productImageAlt(product.id, product.name)}
                 fill
                 className="object-cover"
                 priority

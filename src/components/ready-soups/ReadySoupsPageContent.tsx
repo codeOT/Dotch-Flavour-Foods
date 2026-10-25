@@ -142,7 +142,7 @@ export function ReadySoupsPageContent({ reviews }: { reviews: PublicReview[] }) 
                 {readySoupsBrand.parent}
               </p>
               <h1 className="mb-3 text-balance text-[clamp(1.65rem,6.5vw,3rem)] font-bold leading-tight sm:mb-4 sm:text-4xl lg:text-5xl">
-                {readySoupsBrand.name}
+                Ready-to-Eat Frozen Nigerian Soups (1L Tubs)
               </h1>
               <p className="mb-3 text-sm font-medium leading-snug text-cream sm:text-base lg:text-lg">
                 {readySoupsBrand.tagline}

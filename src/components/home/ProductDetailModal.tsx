@@ -7,6 +7,7 @@ import { AlertTriangle, Leaf, X } from "lucide-react";
 import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
 import { LitreSizeSelector } from "@/components/cart/LitreSizeSelector";
 import { productToCartItem } from "@/context/CartContext";
+import { productImageAlt } from "@/lib/product-seo";
 import type { Product } from "@/lib/products";
 import { formatProductPrice } from "@/lib/products";
 import { formatLitrePrice, getServingForLitres, type LitreSize } from "@/lib/litre-sizes";
@@ -51,7 +52,12 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
               onClick={(e) => e.stopPropagation()}
             >
               <div className="relative aspect-[16/9] w-full overflow-hidden rounded-t-2xl">
-                <Image src={product.image} alt={product.name} fill className="object-cover" />
+                <Image
+                  src={product.image}
+                  alt={productImageAlt(product.id, product.name)}
+                  fill
+                  className="object-cover"
+                />
                 <button
                   type="button"
                   onClick={onClose}

@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import type { MenuItem } from "@/lib/navigation";
-import { menuItems } from "@/lib/navigation";
+import Link from "next/link";
+import { getMenuItemPath, menuItems, type MenuItem } from "@/lib/navigation";
 import { menuItemToCartItem } from "@/lib/cart-utils";
 import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
 import { LitreSizeSelector } from "@/components/cart/LitreSizeSelector";
@@ -16,6 +16,7 @@ import {
   getDefaultLitreSize,
   type LitreSize,
 } from "@/lib/litre-sizes";
+import { productImageAlt } from "@/lib/product-seo";
 import { formatPrice, siteConfig } from "@/lib/site";
 
 function customisationWhatsAppHref() {
@@ -37,16 +38,25 @@ function FreshMenuCard({ item }: { item: MenuItem }) {
 
   return (
     <HoverCard className="h-full overflow-hidden rounded-2xl border border-surface bg-white shadow-sm">
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <Image src={item.image} alt={item.name} fill className="object-cover" />
-      </div>
+      <Link href={getMenuItemPath(item)} className="relative block aspect-[4/3] overflow-hidden">
+        <Image
+          src={item.image}
+          alt={productImageAlt(item.id, item.name)}
+          fill
+          className="object-cover"
+        />
+      </Link>
       <div className="p-5 sm:p-6">
         {item.category && (
           <p className="mb-1 text-[11px] font-semibold uppercase tracking-wider text-secondary">
             {item.category}
           </p>
         )}
-        <h2 className="mb-2 text-xl font-semibold">{item.name}</h2>
+        <h2 className="mb-2 text-xl font-semibold">
+          <Link href={getMenuItemPath(item)} className="hover:text-primary">
+            {item.name}
+          </Link>
+        </h2>
         <p className="mb-4 text-sm text-title/70">{item.description}</p>
         {!isUnit && (
           <LitreSizeSelector
@@ -78,7 +88,7 @@ export function FreshMenuContent() {
               Dotch Flavour Menu
             </p>
             <h1 className="mb-3 text-3xl font-bold sm:text-4xl md:text-5xl">
-              Fresh Food Menu
+              Fresh Bulk Nigerian Food Trays & Combos
             </h1>
             <p className="mx-auto max-w-2xl text-sm text-title/70 sm:text-base">
               Add trays to your cart and checkout online — no minimum order. Need something

@@ -97,7 +97,9 @@ export function ContactContent() {
             <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-secondary">
               Contact
             </p>
-            <h1 className="text-[1.75rem] font-bold leading-tight sm:text-4xl">How can we help?</h1>
+            <h1 className="text-[1.75rem] font-bold leading-tight sm:text-4xl">
+              Delivery Information & Contact Us
+            </h1>
             <p className="mt-3 text-sm leading-relaxed text-white/75 sm:text-base">
               Ready Soups orders use website checkout. Fresh customisations, catering, and special
               requests are fastest on WhatsApp. We typically reply within 1–2 working days.

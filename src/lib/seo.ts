@@ -6,13 +6,14 @@ import {
   type ReadySoupBundle,
   type ReadySoupProduct,
 } from "@/lib/ready-soups";
+import { getProductSeo } from "@/lib/product-seo";
 import { siteConfig } from "@/lib/site";
 import { getSiteUrl } from "@/lib/sitemap-data";
 
 export const defaultSeo = {
-  title: "Dotch Flavour Foods | Authentic Nigerian Ready Soups",
+  title: "Dotch Flavour Foods | Nigerian Food Delivery, Soups & Trays UK",
   description:
-    "Authentic Nigerian Ready Soups, fresh catering trays, and traditional flavours from Dotch Flavour Foods. Frozen 1 Litre tubs — heat, serve, and enjoy across the UK.",
+    "Authentic Nigerian food delivery in London & UK. Order Smoky Jollof, Ofada Rice, Moi Moi, Yam Porridge, frozen 1L soup tubs & party trays online today!",
   keywords: [
     "Nigerian soup",
     "Ready Soups",
@@ -27,6 +28,11 @@ export const defaultSeo = {
   ],
   ogImage: "/assets/images/hero-bg.png",
 } as const;
+
+/** Use when the title already includes the brand, so the layout template is not appended. */
+export function absoluteTitle(title: string) {
+  return { absolute: title };
+}
 
 export function absoluteUrl(path = "/") {
   const base = getSiteUrl();
@@ -143,7 +149,8 @@ export function productJsonLd(product: ReadySoupProduct, options?: { includeCont
     "@type": "Product",
     "@id": `${url}#product`,
     name: product.name,
-    description: product.description || product.shortDescription,
+    description:
+      getProductSeo(product.id)?.description || product.description || product.shortDescription,
     image: [absoluteAsset(product.image)],
     sku: product.id,
     mpn: product.id,

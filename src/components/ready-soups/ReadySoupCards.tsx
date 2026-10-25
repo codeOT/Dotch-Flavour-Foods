@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Snowflake, Star } from "lucide-react";
+import { productImageAlt } from "@/lib/product-seo";
 import {
   formatReadySoupPrice,
   readySoupToCartItem,
@@ -27,7 +28,7 @@ export function ReadySoupProductCard({
       >
         <Image
           src={product.image}
-          alt={product.name}
+          alt={productImageAlt(product.id, product.name)}
           fill
           priority={priority}
           quality={75}

@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
 import { LitreSizeSelector } from "@/components/cart/LitreSizeSelector";
 import { productToCartItem } from "@/context/CartContext";
+import { productImageAlt } from "@/lib/product-seo";
 import type { Product } from "@/lib/products";
 import { formatProductPrice } from "@/lib/products";
 import { formatLitrePrice, getServingForLitres, type LitreSize } from "@/lib/litre-sizes";
@@ -38,7 +39,7 @@ export function CatalogProductCard({ product, onSelect }: CatalogProductCardProp
         <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden">
           <Image
             src={product.image}
-            alt={product.name}
+            alt={productImageAlt(product.id, product.name)}
             fill
             className="object-cover transition duration-500 group-hover:scale-105"
           />

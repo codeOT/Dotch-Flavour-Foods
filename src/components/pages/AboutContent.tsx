@@ -19,8 +19,8 @@ export function AboutContent() {
     <article className="bg-white pb-20 pt-10 sm:pb-28 sm:pt-14">
       <div className="container-fluid min-w-0">
         <Reveal>
-          <h1 className="text-center text-[clamp(2.75rem,9vw,5.75rem)] font-bold uppercase leading-none tracking-tight text-title">
-            About Us.
+          <h1 className="text-center text-[clamp(1.75rem,6vw,3.5rem)] font-bold leading-tight tracking-tight text-title">
+            Bringing Authentic Nigerian Cooking to Your Table
           </h1>
         </Reveal>
 

@@ -175,21 +175,23 @@ export function HeroSection() {
             Welcome to Dotch
           </motion.p>
 
-          <motion.h1
-            className="mb-5 font-display text-[clamp(1.75rem,8vw,3.5rem)] font-bold leading-[1.05] text-white"
+          <motion.div
+            className="mb-5 flex max-w-full flex-wrap items-center gap-x-2 gap-y-2 sm:gap-x-3"
             variants={heroFadeUp}
           >
-            <span className="inline-flex max-w-full flex-wrap items-center gap-x-2 gap-y-2 sm:gap-x-3">
-              
-              <span>
-                Roots in <span className="text-secondary">Flavour.</span>
-              </span>
-              <HeroPromoMark />
-            </span>
-            <span className="mt-1 block">
-              Crafted with <span className="text-secondary">Care.</span>
-            </span>
-          </motion.h1>
+            <h1 className="font-display text-[clamp(1.65rem,7vw,3.15rem)] font-bold leading-[1.08] text-white">
+              Authentic Ready-to-Eat Nigerian Meals, Soups & Party Trays
+            </h1>
+            <HeroPromoMark />
+          </motion.div>
+
+          <motion.p
+            className="mb-3 font-display text-[clamp(1.15rem,3.5vw,1.65rem)] font-semibold leading-snug text-white"
+            variants={heroFadeUp}
+          >
+            Roots in <span className="text-secondary">Flavour.</span> Crafted with{" "}
+            <span className="text-secondary">Care.</span>
+          </motion.p>
 
           <motion.p
             className="mb-7 max-w-lg text-sm leading-relaxed text-white/80 sm:text-base"

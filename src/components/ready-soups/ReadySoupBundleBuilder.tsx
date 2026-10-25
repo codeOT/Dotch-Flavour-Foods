@@ -13,6 +13,7 @@ import {
   type MixSelection,
   type ReadySoupBundle,
 } from "@/lib/ready-soups";
+import { productImageAlt } from "@/lib/product-seo";
 
 type ReadySoupBundleBuilderProps = {
   bundle: ReadySoupBundle;
@@ -96,7 +97,7 @@ export function ReadySoupBundleBuilder({ bundle, onClose }: ReadySoupBundleBuild
                 <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl">
                   <Image
                     src={product.image}
-                    alt={product.name}
+                    alt={productImageAlt(product.id, product.name)}
                     fill
                     className="object-cover"
                     sizes="64px"

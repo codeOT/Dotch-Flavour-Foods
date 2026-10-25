@@ -3,7 +3,7 @@ import { formatPrice } from "@/lib/site";
 
 export const cateringPage = {
   eyebrow: "Catering",
-  title: "Catering by Dotch Flavour",
+  title: "Authentic Nigerian Catering & Event Services in London",
   intro:
     "Authentic Nigerian flavours for private celebrations, office lunches, and branded tasting moments — planned with the same care as every Ready Soup we ship.",
   serviceTypes: [

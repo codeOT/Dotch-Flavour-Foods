@@ -1,4 +1,6 @@
 import { blogPosts } from "@/lib/blog";
+import { getMenuItemPath, menuItems } from "@/lib/navigation";
+import { getProductSeo } from "@/lib/product-seo";
 import { readySoupProducts } from "@/lib/ready-soups";
 import { siteConfig } from "@/lib/site";
 
@@ -22,17 +24,17 @@ export function getSiteUrl() {
 
 export function getSitemapEntries(): SitemapEntry[] {
   const staticRoutes: SitemapEntry[] = [
-    { path: "/", title: "Home", section: "Main pages", changeFrequency: "weekly", priority: 1 },
+    { path: "/", title: "Dotch Flavour Foods | Nigerian Food Delivery, Soups & Trays UK", section: "Main pages", changeFrequency: "weekly", priority: 1 },
     {
       path: "/about-us",
-      title: "About Us",
+      title: "About Dotch Flavour Foods | Authentic Home-Cooked Nigerian Food",
       section: "Main pages",
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       path: "/ready-to-eat-soups",
-      title: "Ready Soups by Dotch Flavour",
+      title: "Buy Frozen Nigerian Soups Online UK (1L Tubs) | Dotch Flavour",
       section: "Main pages",
       changeFrequency: "weekly",
       priority: 0.9,
@@ -46,14 +48,14 @@ export function getSitemapEntries(): SitemapEntry[] {
     },
     {
       path: "/fresh-menu",
-      title: "Fresh Menu",
+      title: "Bulk Nigerian Food Trays Delivery UK (2L–6L) | Dotch Flavour",
       section: "Main pages",
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       path: "/our-menu",
-      title: "Our Menu",
+      title: "Nigerian Meals & Sides | Smoky Jollof, Ofada Rice, Moi Moi UK",
       section: "Main pages",
       changeFrequency: "weekly",
       priority: 0.8,
@@ -95,7 +97,7 @@ export function getSitemapEntries(): SitemapEntry[] {
     },
     {
       path: "/contact-us",
-      title: "Contact Us",
+      title: "Nigerian Food Delivery & FAQs | Dotch Flavour Foods UK",
       section: "Main pages",
       changeFrequency: "monthly",
       priority: 0.7,
@@ -116,7 +118,7 @@ export function getSitemapEntries(): SitemapEntry[] {
     },
     {
       path: "/faq",
-      title: "FAQ",
+      title: "Nigerian Food Delivery & FAQs | Dotch Flavour Foods UK",
       section: "Main pages",
       changeFrequency: "monthly",
       priority: 0.6,
@@ -228,7 +230,7 @@ export function getSitemapEntries(): SitemapEntry[] {
     },
     {
       path: "/catering",
-      title: "Catering",
+      title: "Best Nigerian Food Catering in London | Dotch Flavour Foods",
       section: "Main pages",
       changeFrequency: "monthly",
       priority: 0.8,
@@ -258,11 +260,20 @@ export function getSitemapEntries(): SitemapEntry[] {
 
   const readySoupRoutes: SitemapEntry[] = readySoupProducts.map((product) => ({
     path: `/ready-to-eat-soups/${product.slug}`,
-    title: product.name,
+    title: getProductSeo(product.id)?.title ?? product.name,
     section: "Ready soups",
     changeFrequency: "weekly" as const,
     priority: 0.8,
     images: [product.image],
+  }));
+
+  const freshMenuRoutes: SitemapEntry[] = menuItems.map((item) => ({
+    path: getMenuItemPath(item),
+    title: getProductSeo(item.id)?.title ?? item.name,
+    section: "Fresh menu",
+    changeFrequency: "weekly" as const,
+    priority: 0.75,
+    images: [item.image],
   }));
 
   const blogRoutes: SitemapEntry[] = blogPosts.map((post) => ({
@@ -273,7 +284,7 @@ export function getSitemapEntries(): SitemapEntry[] {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...readySoupRoutes, ...blogRoutes];
+  return [...staticRoutes, ...readySoupRoutes, ...freshMenuRoutes, ...blogRoutes];
 }
 
 export function getSitemapDocumentMeta() {

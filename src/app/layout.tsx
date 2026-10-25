@@ -2,6 +2,7 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import Script from "next/script";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/lib/site";
@@ -90,6 +91,18 @@ export default function RootLayout({
   return (
     <html lang="en-GB" className={`${primaryFont.variable} ${secondaryFont.variable}`}>
       <body className={`${primaryFont.className} antialiased`}>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-6BL11W8HYQ"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-6BL11W8HYQ');
+          `}
+        </Script>
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         <SiteShell>{children}</SiteShell>
       </body>

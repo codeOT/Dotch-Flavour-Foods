@@ -81,15 +81,9 @@ export function OrderSummary({
             {getDeliveryLabel(deliveryMethod, items)}
           </dd>
         </div>
-        {deliveryMethod === "pickup" ? (
-          <p className="text-[11px] leading-relaxed text-title/55">
-            Half-term combos are collection from kitchen.
-          </p>
-        ) : (
-          <p className="text-[11px] leading-relaxed text-title/55">
-            {readySoupDeliveryInfo.scheduleSummary} {readySoupDeliveryInfo.feeSummary}
-          </p>
-        )}
+        <p className="text-[11px] leading-relaxed text-title/55">
+          {readySoupDeliveryInfo.scheduleSummary} {readySoupDeliveryInfo.feeSummary}
+        </p>
         <div className="border-t border-surface pt-3">
           <div className="flex justify-between text-base">
             <dt className="font-bold">Total</dt>

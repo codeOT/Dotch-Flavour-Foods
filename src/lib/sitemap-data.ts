@@ -40,13 +40,6 @@ export function getSitemapEntries(): SitemapEntry[] {
       priority: 0.9,
     },
     {
-      path: "/promo",
-      title: "Half-term offers",
-      section: "Main pages",
-      changeFrequency: "weekly",
-      priority: 0.85,
-    },
-    {
       path: "/fresh-menu",
       title: "Bulk Nigerian Food Trays Delivery UK (2L–6L) | Dotch Flavour",
       section: "Main pages",

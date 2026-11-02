@@ -257,7 +257,6 @@ export function CheckoutContent() {
 
   const readySoupUnits = getReadySoupUnitCount(items);
   const deliveryMethod = getCheckoutDeliveryMethod(items);
-  const isCollection = deliveryMethod === "pickup";
 
   const showReadySoupWarning =
     cartHasReadySoups(items) && !meetsReadySoupMinimum(items);
@@ -400,19 +399,6 @@ export function CheckoutContent() {
                 </div>
               </fieldset>
 
-              {isCollection ? (
-                <fieldset className="min-w-0 rounded-2xl border border-surface bg-white p-4 shadow-sm sm:p-6">
-                  <legend className="mb-4 flex items-center gap-2 px-1 text-lg font-bold sm:mb-5">
-                    <MapPin className="h-5 w-5 shrink-0 text-secondary" />
-                    <span>Collection</span>
-                  </legend>
-                  <p className="text-sm leading-relaxed text-title/75">
-                    Half-term combos are collection from kitchen. Collect from{" "}
-                    <span className="font-semibold text-title">{siteConfig.contact.address}</span>{" "}
-                    We will confirm your collection time after payment.
-                  </p>
-                </fieldset>
-              ) : (
               <fieldset className="min-w-0 rounded-2xl border border-surface bg-white p-4 shadow-sm sm:p-6">
                 <legend className="mb-4 flex items-center gap-2 px-1 text-lg font-bold sm:mb-5">
                   <MapPin className="h-5 w-5 shrink-0 text-secondary" />
@@ -514,7 +500,6 @@ export function CheckoutContent() {
                     </div>
                   </div>
                 </fieldset>
-              )}
 
               
 
@@ -533,11 +518,7 @@ export function CheckoutContent() {
                   value={form.notes}
                   onChange={(e) => updateField("notes", e.target.value)}
                   className={`${inputClassName} resize-y`}
-                  placeholder={
-                    isCollection
-                      ? "Allergies, collection notes, or preferred collection time..."
-                      : "Allergies, delivery instructions, or preferred delivery time..."
-                  }
+                  placeholder="Allergies, delivery instructions, or preferred delivery time..."
                 />
               </fieldset>
 

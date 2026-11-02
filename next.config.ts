@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
       { source: "/team", destination: "/meet-abi", permanent: true },
       { source: "/services", destination: "/catering", permanent: true },
       { source: "/coming-soon", destination: "/merchandise", permanent: true },
+      { source: "/promo", destination: "/", permanent: true },
     ];
   },
 };

@@ -63,17 +63,8 @@ export function isReadySoupCartItem(item: Pick<CartItem, "id">): boolean {
   return item.id.startsWith("ready-soup-");
 }
 
-export function isPromoComboCartItem(item: Pick<CartItem, "id">): boolean {
-  return item.id.startsWith("promo-combo-");
-}
-
-/** Half-term combos are collection-only, with no delivery fee. */
-export function cartIsPromoCollection(items: CartLikeItem[]): boolean {
-  return items.length > 0 && items.every(isPromoComboCartItem);
-}
-
-export function getCheckoutDeliveryMethod(items: CartLikeItem[]): DeliveryMethod {
-  return cartIsPromoCollection(items) ? "pickup" : "delivery";
+export function getCheckoutDeliveryMethod(_items?: CartLikeItem[]): DeliveryMethod {
+  return "delivery";
 }
 
 /**
@@ -138,13 +129,13 @@ export function getCartReadySoupLitres(items: CartLikeItem[]): number {
   return getReadySoupUnitCount(items) * READY_SOUP_TUB_LITRES;
 }
 
-export function getDeliveryFee(method: DeliveryMethod, items: CartLikeItem[] = []): number {
-  if (method === "pickup" || cartIsPromoCollection(items)) return 0;
+export function getDeliveryFee(method: DeliveryMethod, _items: CartLikeItem[] = []): number {
+  if (method === "pickup") return 0;
   return DELIVERY_FEE;
 }
 
-export function getDeliveryLabel(method: DeliveryMethod, items: CartLikeItem[] = []): string {
-  if (method === "pickup" || cartIsPromoCollection(items)) return "Collection from kitchen";
+export function getDeliveryLabel(method: DeliveryMethod, _items: CartLikeItem[] = []): string {
+  if (method === "pickup") return "Collection from kitchen";
   return `Flat rate of ${formatPrice(DELIVERY_FEE)}`;
 }
 

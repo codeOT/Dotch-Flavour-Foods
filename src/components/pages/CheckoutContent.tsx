@@ -11,6 +11,7 @@ import { Reveal } from "@/components/motion/Reveal";
 
 import {
   cartHasReadySoups,
+  cartIsOnlineCheckoutEligible,
   getCheckoutDeliveryMethod,
   getReadySoupUnitCount,
   meetsReadySoupMinimum,
@@ -190,6 +191,14 @@ export function CheckoutContent() {
     setIsSubmitting(true);
     setSubmitError("");
 
+    if (!cartIsOnlineCheckoutEligible(items)) {
+      setSubmitError(
+        "Online checkout is for Ready Soups only. Please remove Fresh Food items and place those orders from the Fresh Menu.",
+      );
+      setIsSubmitting(false);
+      return;
+    }
+
     if (!meetsReadySoupMinimum(items)) {
       const count = getReadySoupUnitCount(items);
 
@@ -258,6 +267,7 @@ export function CheckoutContent() {
   const readySoupUnits = getReadySoupUnitCount(items);
   const deliveryMethod = getCheckoutDeliveryMethod(items);
 
+  const showFreshMenuCheckoutWarning = !cartIsOnlineCheckoutEligible(items);
   const showReadySoupWarning =
     cartHasReadySoups(items) && !meetsReadySoupMinimum(items);
 
@@ -295,6 +305,16 @@ export function CheckoutContent() {
           </Link>
           .
         </p>
+
+        {showFreshMenuCheckoutWarning && (
+          <p className="mb-5 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900 sm:mb-6">
+            Online payment is for Ready Soups only. Please remove Fresh Food items and{" "}
+            <Link href="/fresh-menu" className="font-semibold underline">
+              place your order from the Fresh Menu
+            </Link>
+            .
+          </p>
+        )}
 
         {/* Ready soup warning */}
         {showReadySoupWarning && (
@@ -544,7 +564,9 @@ export function CheckoutContent() {
                 <Button
                   type="submit"
                   loading={isSubmitting}
-                  disabled={isSubmitting}
+                  disabled={
+                    isSubmitting || showFreshMenuCheckoutWarning || showReadySoupWarning
+                  }
                   className="w-full sm:w-auto sm:min-w-[200px]"
                 >
                   {isSubmitting

@@ -35,7 +35,7 @@ export function ShopContent() {
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-secondary">Shop</p>
           <h1 className="text-3xl font-bold text-title sm:text-4xl">Choose your Dotch Flavour route</h1>
           <p className="mt-3 text-sm text-title/70 sm:text-base">
-            Ready Soups and Fresh Menu orders both checkout online. Merchandise is on the way.
+            Ready Soups checkout online. Place Fresh Food orders from the menu. Merchandise is on the way.
           </p>
         </Reveal>
 
@@ -75,7 +75,7 @@ export function ShopContent() {
         <Reveal className="mt-10 text-center">
           <p className="mb-4 text-sm text-title/65">Looking for weekly fresh dishes?</p>
           <Button href="/fresh-menu" variant="outline">
-            Order from Fresh Menu
+            Browse Fresh Menu
           </Button>
         </Reveal>
       </div>

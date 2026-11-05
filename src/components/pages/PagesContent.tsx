@@ -6,8 +6,8 @@ import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 import { HoverCard } from "@/components/motion/HoverCard";
 import { ReviewStars } from "@/components/ready-soups/ReadySoupCards";
 import { scaleIn } from "@/lib/motion";
-import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
-import { menuItemToCartItem } from "@/lib/cart-utils";
+import { OrderOnWhatsAppButton } from "@/components/cart/OrderOnWhatsAppButton";
+import { freshMenuOrderWhatsAppHref } from "@/lib/whatsapp";
 import type { PublicReview } from "@/lib/feedback-constants";
 import { menuItems } from "@/lib/navigation";
 
@@ -118,7 +118,7 @@ export function ProductDetailContent() {
           </p>
           <div className="flex items-center justify-between gap-3">
             <span className="font-bold text-primary">{item.price}</span>
-            <CartQuantityControls item={menuItemToCartItem(item)} showLabel />
+            <OrderOnWhatsAppButton href={freshMenuOrderWhatsAppHref(item)} />
           </div>
         </Reveal>
       </div>

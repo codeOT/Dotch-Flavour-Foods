@@ -136,12 +136,12 @@ export function QuoteRequestContent() {
           </h1>
           <p className="mt-3 text-sm leading-relaxed text-title/70 sm:text-base">
             For catering, corporate events, experiences, and wholesale interest. Ready Soups shop
-            orders can be placed online; fresh customisations are best via{" "}
+            orders can be placed online; fresh customisations are best by{" "}
             <a
               href={`https://wa.me/${siteConfig.contact.phone.replace(/\D/g, "")}`}
               className="font-semibold text-primary hover:underline"
             >
-              WhatsApp
+              getting in touch
             </a>
             . See our{" "}
             <Link href="/catering-booking-policy" className="font-semibold text-primary hover:underline">

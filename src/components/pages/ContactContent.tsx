@@ -102,7 +102,7 @@ export function ContactContent() {
             </h1>
             <p className="mt-3 text-sm leading-relaxed text-white/75 sm:text-base">
               Ready Soups orders use website checkout. Fresh customisations, catering, and special
-              requests are fastest on WhatsApp. We typically reply within 1–2 working days.
+              requests can be sent through the contact options below. We typically reply within 1–2 working days.
             </p>
             <div className="mt-6 flex w-full min-w-0 flex-col gap-3 sm:flex-row sm:justify-center">
               <Button
@@ -111,7 +111,7 @@ export function ContactContent() {
                 className="!w-full !bg-secondary hover:!bg-orange sm:!w-auto"
               >
                 <MessageCircle className="h-4 w-4 shrink-0" />
-                WhatsApp
+                Message us
               </Button>
               <Button
                 href="/request-a-quote"

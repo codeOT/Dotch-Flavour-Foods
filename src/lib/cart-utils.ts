@@ -151,6 +151,11 @@ export function cartHasReadySoups(items: CartLikeItem[]): boolean {
   return items.some(isReadySoupCartItem);
 }
 
+/** Online checkout is Ready Soups only — no Fresh Menu or other items. */
+export function cartIsOnlineCheckoutEligible(items: CartLikeItem[]): boolean {
+  return items.length > 0 && items.every(isReadySoupCartItem);
+}
+
 export function meetsReadySoupMinimum(items: CartLikeItem[]): boolean {
   if (!cartHasReadySoups(items)) return true;
   return getReadySoupUnitCount(items) >= READY_SOUP_MIN_ORDER;

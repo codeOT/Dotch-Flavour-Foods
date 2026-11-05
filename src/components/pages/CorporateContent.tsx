@@ -35,7 +35,7 @@ export function CorporateContent() {
                 variant="outline"
                 className="!border-white !text-white hover:!bg-white hover:!text-primary"
               >
-                WhatsApp us
+                Enquire now
               </Button>
             </div>
           </Reveal>

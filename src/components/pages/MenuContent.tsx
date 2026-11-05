@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { todaysMenu } from "@/lib/navigation";
-import { menuItemToCartItem } from "@/lib/cart-utils";
-import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
+import { OrderOnWhatsAppButton } from "@/components/cart/OrderOnWhatsAppButton";
+import { freshMenuOrderWhatsAppHref } from "@/lib/whatsapp";
 import { HoverCard } from "@/components/motion/HoverCard";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
@@ -40,7 +40,7 @@ export function MenuGrid() {
                 <p className="mb-4 text-sm text-title/70">{item.description}</p>
                 <div className="flex items-center justify-between gap-3">
                   <span className="text-lg font-bold text-primary">{item.price}</span>
-                  <CartQuantityControls item={menuItemToCartItem(item)} variant="compact" />
+                  <OrderOnWhatsAppButton href={freshMenuOrderWhatsAppHref(item)} compact />
                 </div>
               </div>
             </HoverCard>

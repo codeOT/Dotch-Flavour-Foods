@@ -6,8 +6,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { getMenuItemPath, type MenuItem } from "@/lib/navigation";
 import { productImageAlt } from "@/lib/product-seo";
-import { menuItemToCartItem } from "@/lib/cart-utils";
-import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
+import { OrderOnWhatsAppButton } from "@/components/cart/OrderOnWhatsAppButton";
+import { freshMenuOrderWhatsAppHref } from "@/lib/whatsapp";
 import { LitreSizeSelector } from "@/components/cart/LitreSizeSelector";
 import { HoverCard } from "@/components/motion/HoverCard";
 import { formatLitrePrice, getDefaultLitreSize, type LitreSize } from "@/lib/litre-sizes";
@@ -50,7 +50,7 @@ export function TodaysMenuCard({ item }: TodaysMenuCardProps) {
         <p className="mb-4 text-sm text-title/70">{item.description}</p>
         <div className="flex items-center justify-between gap-2">
           <span className="font-semibold text-primary">{item.price}</span>
-          <CartQuantityControls item={menuItemToCartItem(item)} variant="compact" />
+          <OrderOnWhatsAppButton href={freshMenuOrderWhatsAppHref(item)} compact />
         </div>
       </div>
     </HoverCard>
@@ -69,7 +69,7 @@ export function MenuCarouselCard({ item }: MenuCarouselCardProps) {
   const priceLabel = isUnit
     ? `${formatPrice(item.priceValue)} ${item.unitLabel ?? ""}`.trim()
     : formatLitrePrice(item.priceValue, litres, item.litreSizes, item.pricesByLitre);
-  const cartItem = menuItemToCartItem(item, isUnit ? undefined : litres);
+  const orderHref = freshMenuOrderWhatsAppHref(item, isUnit ? undefined : litres);
 
   return (
     <HoverCard className="group relative overflow-hidden rounded-2xl border border-surface bg-white p-4 shadow-sm">
@@ -104,7 +104,7 @@ export function MenuCarouselCard({ item }: MenuCarouselCardProps) {
         <span className="font-semibold text-primary">{priceLabel}</span>
       </div>
       <div className="mt-4 flex justify-end">
-        <CartQuantityControls item={cartItem} variant="compact" />
+        <OrderOnWhatsAppButton href={orderHref} compact />
       </div>
     </HoverCard>
   );

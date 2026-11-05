@@ -12,7 +12,7 @@ export const faqs: FaqItem[] = [
   {
     question: "What is the difference between fresh food and Ready Soups?",
     answer:
-      "Fresh food is prepared for weekly, bespoke or catering orders. Ready Soups are packaged frozen soups designed for convenient freezer storage and reheating.",
+      "Fresh food is prepared for weekly, bespoke or catering orders and is placed from the Fresh Menu. Ready Soups are packaged frozen soups designed for convenient freezer storage and reheating, and are paid for online.",
   },
   {
     question: "Which Ready Soups are available?",

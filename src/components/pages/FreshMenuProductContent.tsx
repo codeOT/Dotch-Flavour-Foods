@@ -4,11 +4,9 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { MenuItem } from "@/lib/navigation";
-import { menuItemToCartItem } from "@/lib/cart-utils";
-import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
+import { OrderOnWhatsAppButton } from "@/components/cart/OrderOnWhatsAppButton";
 import { LitreSizeSelector } from "@/components/cart/LitreSizeSelector";
 import { Reveal } from "@/components/motion/Reveal";
-import { Button } from "@/components/ui/Button";
 import {
   formatLitrePrice,
   getDefaultLitreSize,
@@ -16,6 +14,7 @@ import {
 } from "@/lib/litre-sizes";
 import { getProductSeo, productImageAlt } from "@/lib/product-seo";
 import { formatPrice } from "@/lib/site";
+import { freshMenuOrderWhatsAppHref } from "@/lib/whatsapp";
 
 export function FreshMenuProductContent({ item }: { item: MenuItem }) {
   const isUnit = item.pricingMode === "unit";
@@ -25,7 +24,7 @@ export function FreshMenuProductContent({ item }: { item: MenuItem }) {
   const priceLabel = isUnit
     ? `${formatPrice(item.priceValue)} ${item.unitLabel ?? ""}`.trim()
     : formatLitrePrice(item.priceValue, litres, item.litreSizes, item.pricesByLitre);
-  const cartItem = menuItemToCartItem(item, isUnit ? undefined : litres);
+  const orderHref = freshMenuOrderWhatsAppHref(item, isUnit ? undefined : litres);
   const seo = getProductSeo(item.id);
 
   return (
@@ -75,11 +74,8 @@ export function FreshMenuProductContent({ item }: { item: MenuItem }) {
             )}
             <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
               <span className="text-2xl font-bold text-primary">{priceLabel}</span>
-              <CartQuantityControls item={cartItem} showLabel />
             </div>
-            <Button href="/shop/checkout" variant="outline">
-              Go to checkout
-            </Button>
+            <OrderOnWhatsAppButton href={orderHref} />
           </Reveal>
         </div>
       </div>

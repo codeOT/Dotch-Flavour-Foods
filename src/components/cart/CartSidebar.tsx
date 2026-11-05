@@ -6,6 +6,7 @@ import { Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import {
   cartHasReadySoups,
+  cartIsOnlineCheckoutEligible,
   formatWeightKg,
   getCartItemWeightKg,
   getCartWeightKg,
@@ -70,6 +71,7 @@ export function CartSidebar() {
   const readySoupUnits = getReadySoupUnitCount(items);
   const readySoupOk = meetsReadySoupMinimum(items);
   const showReadySoupWarning = cartHasReadySoups(items) && !readySoupOk;
+  const showFreshMenuWarning = items.length > 0 && !cartIsOnlineCheckoutEligible(items);
   const cartWeightKg = getCartWeightKg(items);
 
   return (
@@ -256,6 +258,11 @@ export function CartSidebar() {
                 <p className="mb-3 text-[11px] leading-relaxed text-title/55">
                   {`${readySoupDeliveryInfo.scheduleSummary} ${readySoupDeliveryInfo.feeSummary}`}
                 </p>
+                {showFreshMenuWarning && (
+                  <p className="mb-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+                    Fresh Food is ordered from the menu, not online checkout. Remove those items to pay for Ready Soups.
+                  </p>
+                )}
                 {showReadySoupWarning && (
                   <p className="mb-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
                     Ready Soups need at least {READY_SOUP_MIN_ORDER} soups online. You have{" "}
@@ -267,8 +274,12 @@ export function CartSidebar() {
                     href="/shop/checkout"
                     fullWidth
                     onNavigate={closeCart}
-                    disabled={showReadySoupWarning}
-                    className={showReadySoupWarning ? "pointer-events-none opacity-50" : undefined}
+                    disabled={showReadySoupWarning || showFreshMenuWarning}
+                    className={
+                      showReadySoupWarning || showFreshMenuWarning
+                        ? "pointer-events-none opacity-50"
+                        : undefined
+                    }
                   >
                     Proceed to checkout
                   </Button>

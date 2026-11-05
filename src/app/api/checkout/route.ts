@@ -12,6 +12,7 @@ import {
   getDeliveryFee,
   getOrderTotal,
   getReadySoupUnitCount,
+  cartIsOnlineCheckoutEligible,
   meetsReadySoupMinimum,
   READY_SOUP_MAX_ONLINE_LITRES,
   READY_SOUP_MIN_ORDER,
@@ -112,10 +113,20 @@ export async function POST(request: Request) {
 
       if (item.id.startsWith("promo-combo-")) {
         return NextResponse.json(
-          { error: "This offer has ended. Please remove the combo from your cart and continue with delivery items." },
+          { error: "This offer has ended. Please remove the combo from your cart and continue with Ready Soups." },
           { status: 400 },
         );
       }
+    }
+
+    if (!cartIsOnlineCheckoutEligible(items)) {
+      return NextResponse.json(
+        {
+          error:
+            "Online checkout is for Ready Soups only. Please remove Fresh Food items and place those orders from the Fresh Menu.",
+        },
+        { status: 400 },
+      );
     }
 
     if (!meetsReadySoupMinimum(items)) {

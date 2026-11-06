@@ -10,6 +10,7 @@ import { PageTransition } from "@/components/motion/PageTransition";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import { CookieConsentProvider } from "@/context/CookieConsentContext";
 import { CookieBanner } from "@/components/layout/CookieBanner";
+import { BlackFridayPopup } from "@/components/home/BlackFridayPopup";
 
 const AUTH_PATHS = new Set(["/sign-in", "/sign-up", "/forgot-username"]);
 
@@ -41,6 +42,7 @@ export function SiteShell({ children }: SiteShellProps) {
               </main>
               <Footer />
               <CartSidebar />
+              <BlackFridayPopup />
             </div>
           )}
           <CookieBanner />

@@ -17,9 +17,10 @@ import {
   ReviewStars,
 } from "@/components/ready-soups/ReadySoupCards";
 import {
+  getReadySoupBundles,
   howItWorksSteps,
-  readySoupBundles,
   readySoupProducts,
+  type ReadySoupBundle,
   readySoupsBrand,
   storageHeatingGuidance,
 } from "@/lib/ready-soups";
@@ -33,6 +34,7 @@ import {
   READY_SOUP_ORDER_WINDOW,
   readySoupDeliveryInfo,
 } from "@/lib/cart-utils";
+import { blackFridayPromo, isBlackFridayActive } from "@/lib/black-friday";
 import { formatPrice } from "@/lib/site";
 
 function SectionHeading({
@@ -127,10 +129,20 @@ function GuidanceCard({
 
 export function ReadySoupsPageContent({ reviews }: { reviews: PublicReview[] }) {
   const { openCart } = useCart();
-  const [activeBundle, setActiveBundle] = useState<(typeof readySoupBundles)[number] | null>(null);
+  const readySoupBundles = getReadySoupBundles();
+  const blackFriday = isBlackFridayActive();
+  const [activeBundle, setActiveBundle] = useState<ReadySoupBundle | null>(null);
 
   return (
     <>
+      {blackFriday && (
+        <div className="bg-secondary text-white">
+          <p className="container-fluid py-2.5 text-center text-[11px] font-semibold uppercase tracking-[0.22em]">
+            Black Friday · {blackFridayPromo.dates} · Mix any flavour · Free delivery on 5 tubs
+          </p>
+        </div>
+      )}
+
       {/* Hero */}
       <section className="relative overflow-x-clip bg-gradient-to-b from-primary-dark via-forest to-primary-dark py-10 text-white sm:py-16 lg:py-24">
         <div className="pointer-events-none absolute -right-20 top-0 h-56 w-56 rounded-full bg-secondary/15 blur-3xl sm:h-80 sm:w-80" />
@@ -138,9 +150,15 @@ export function ReadySoupsPageContent({ reviews }: { reviews: PublicReview[] }) 
         <div className="container-fluid relative min-w-0">
           <div className="flex flex-col gap-8 lg:grid lg:grid-cols-2 lg:items-center lg:gap-16">
             <div className="order-2 min-w-0 lg:order-1">
-              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-secondary">
-                {readySoupsBrand.parent}
-              </p>
+              {blackFriday ? (
+                <p className="mb-3 inline-flex rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-cream">
+                  Black Friday
+                </p>
+              ) : (
+                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-secondary">
+                  {readySoupsBrand.parent}
+                </p>
+              )}
               <h1 className="mb-3 text-balance text-[clamp(1.65rem,6.5vw,3rem)] font-bold leading-tight sm:mb-4 sm:text-4xl lg:text-5xl">
                 Ready-to-Eat Frozen Nigerian Soups (1L Tubs)
               </h1>
@@ -160,10 +178,16 @@ export function ReadySoupsPageContent({ reviews }: { reviews: PublicReview[] }) 
                   fullWidth
                   className="sm:w-auto !border-white !text-white hover:!bg-white hover:!text-primary"
                 >
-                  View bundles
+                  {blackFriday ? "Shop Black Friday" : "View bundles"}
                 </Button>
               </div>
               <div className="mt-6 space-y-2 rounded-2xl border border-white/15 bg-white/5 p-4 text-sm text-white/80 sm:p-5">
+                {blackFriday && (
+                  <p>
+                    <span className="font-semibold text-secondary">Black Friday:</span>{" "}
+                    Mix 3, 4 or 5 tubs. Free UK delivery on the 5-tub bundle.
+                  </p>
+                )}
                 <p>
                   <span className="font-semibold text-secondary">Next-day delivery:</span>{" "}
                   Order {READY_SOUP_ORDER_DAYS}, {READY_SOUP_ORDER_WINDOW} (UK time).
@@ -174,13 +198,19 @@ export function ReadySoupsPageContent({ reviews }: { reviews: PublicReview[] }) 
                 </p>
                 <p>
                   <span className="font-semibold text-secondary">Delivery:</span>{" "}
-                  a flat rate of {formatPrice(DELIVERY_FEE)}.
+                  a flat rate of {formatPrice(DELIVERY_FEE)}
+                  {blackFriday ? " — free on 5 tubs." : "."}
                 </p>
               </div>
             </div>
 
             <div className="order-1 min-w-0 lg:order-2">
               <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
+                {blackFriday && (
+                  <div className="absolute left-3 top-3 z-10 rounded-full bg-secondary px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white sm:left-4 sm:top-4">
+                    Black Friday
+                  </div>
+                )}
                 <div className="relative aspect-[16/11] w-full overflow-hidden rounded-2xl border border-white/10 shadow-2xl sm:aspect-[5/4] lg:aspect-square lg:rounded-3xl">
                   <Image
                     src="/assets/images/Egus.png"
@@ -264,9 +294,13 @@ export function ReadySoupsPageContent({ reviews }: { reviews: PublicReview[] }) 
         <div className="container-fluid min-w-0">
           <div className="mx-auto w-full max-w-5xl">
             <SectionHeading
-              eyebrow="Save more"
-              title="Mix & match bundles"
-              description={`Choose 3, 4 or 5 soups and mix any flavours. Minimum online order is ${READY_SOUP_MIN_ORDER} soups. Delivery is a flat rate of ${formatPrice(DELIVERY_FEE)}.`}
+              eyebrow={blackFriday ? "Black Friday · 1–30 November" : "Save more"}
+              title={blackFriday ? "Black Friday mix & match" : "Mix & match bundles"}
+              description={
+                blackFriday
+                  ? `Choose 3, 4 or 5 soups and mix any flavours. ${blackFridayPromo.intro} Minimum online order is ${READY_SOUP_MIN_ORDER} soups.`
+                  : `Choose 3, 4 or 5 soups and mix any flavours. Minimum online order is ${READY_SOUP_MIN_ORDER} soups. Delivery is a flat rate of ${formatPrice(DELIVERY_FEE)}.`
+              }
               light
             />
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

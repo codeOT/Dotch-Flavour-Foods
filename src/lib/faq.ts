@@ -32,7 +32,7 @@ export const faqs: FaqItem[] = [
   {
     question: "What bundles are available?",
     answer:
-      "Mix & match bundles are 3 (£77.97), 4 Owanbe Bundle (£103.96), and 5 (£129.95). Customers can mix soups subject to availability.",
+      "Black Friday (1–30 November): mix & match 3 tubs £71.99, 4 tubs £94.99, 5 tubs £115.99. The 5-tub bundle includes free delivery. Outside the offer, bundles are 3 (£77.97), 4 (£103.96) and 5 (£129.95).",
   },
   {
     question: "Where do you deliver?",

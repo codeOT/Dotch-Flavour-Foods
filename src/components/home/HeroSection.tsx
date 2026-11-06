@@ -4,14 +4,15 @@ import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
 import {
   ArrowRight,
+  ChefHat,
   Leaf,
   Package,
   ShieldCheck,
-  Sparkles,
   Star,
   Truck,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { blackFridayPromo, isBlackFridayActive } from "@/lib/black-friday";
 import { easeOut } from "@/lib/motion";
 
 const heroStagger: Variants = {
@@ -61,7 +62,7 @@ const guaranteeItem: Variants = {
 };
 
 const highlights = [
-  { label: "Authentic", icon: Sparkles },
+  { label: "Authentic", icon: ChefHat },
   { label: "Fresh", icon: Leaf },
   { label: "Delivery", icon: Truck },
 ] as const;
@@ -165,11 +166,11 @@ export function HeroSection() {
           >
             <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center sm:gap-2 [&>div]:w-full sm:[&>div]:w-auto">
               <Button
-                href="/ready-to-eat-soups"
+                href={isBlackFridayActive() ? blackFridayPromo.path : "/ready-to-eat-soups"}
                 fullWidth
                 className="!bg-secondary hover:!bg-secondary/90"
               >
-                Shop Ready Soups
+                {isBlackFridayActive() ? "Shop Black Friday" : "Shop Ready Soups"}
                 <ArrowRight className="h-4 w-4 shrink-0" />
               </Button>
               <Button

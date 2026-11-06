@@ -1,6 +1,7 @@
 "use client";
 
 import { AboutUsSection } from "@/components/home/AboutUsSection";
+import { BlackFridaySection } from "@/components/home/BlackFridaySection";
 import { CateringCtaSection } from "@/components/home/CateringCtaSection";
 import { FaqSection } from "@/components/home/FaqSection";
 import { HeroSection } from "@/components/home/HeroSection";
@@ -16,6 +17,7 @@ export function HomePageContent({ reviews }: { reviews: PublicReview[] }) {
   return (
     <div className="w-full min-w-0 overflow-x-clip">
       <HeroSection />
+      <BlackFridaySection />
       <HowItWorksSection />
       <ProductCatalogSection />
       <MenuSection />

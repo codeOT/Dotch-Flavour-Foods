@@ -1,5 +1,6 @@
 import type { MenuItem } from "@/lib/navigation";
 import type { CartItem } from "@/context/CartContext";
+import { isBlackFridayActive } from "@/lib/black-friday";
 import { getPriceForLitres, type LitreSize } from "@/lib/litre-sizes";
 import { formatPrice } from "@/lib/site";
 
@@ -129,13 +130,19 @@ export function getCartReadySoupLitres(items: CartLikeItem[]): number {
   return getReadySoupUnitCount(items) * READY_SOUP_TUB_LITRES;
 }
 
-export function getDeliveryFee(method: DeliveryMethod, _items: CartLikeItem[] = []): number {
-  if (method === "pickup") return 0;
+export function cartHasBlackFridayFreeDelivery(items: CartLikeItem[]): boolean {
+  if (!isBlackFridayActive()) return false;
+  return items.some((item) => /^ready-soup-bundle-mix-5/.test(item.id));
+}
+
+export function getDeliveryFee(method: DeliveryMethod, items: CartLikeItem[] = []): number {
+  if (method === "pickup" || cartHasBlackFridayFreeDelivery(items)) return 0;
   return DELIVERY_FEE;
 }
 
-export function getDeliveryLabel(method: DeliveryMethod, _items: CartLikeItem[] = []): string {
+export function getDeliveryLabel(method: DeliveryMethod, items: CartLikeItem[] = []): string {
   if (method === "pickup") return "Collection from kitchen";
+  if (cartHasBlackFridayFreeDelivery(items)) return "Included with 5-tub bundle";
   return `Flat rate of ${formatPrice(DELIVERY_FEE)}`;
 }
 

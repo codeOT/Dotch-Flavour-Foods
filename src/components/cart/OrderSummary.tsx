@@ -8,6 +8,7 @@ import {
   formatWeightKg,
   getCartItemWeightKg,
   getCartWeightKg,
+  cartHasBlackFridayFreeDelivery,
   getDeliveryLabel,
   getOrderTotal,
   readySoupDeliveryInfo,
@@ -82,7 +83,10 @@ export function OrderSummary({
           </dd>
         </div>
         <p className="text-[11px] leading-relaxed text-title/55">
-          {readySoupDeliveryInfo.scheduleSummary} {readySoupDeliveryInfo.feeSummary}
+          {readySoupDeliveryInfo.scheduleSummary}{" "}
+          {cartHasBlackFridayFreeDelivery(items)
+            ? "Black Friday 5-tub bundle includes delivery."
+            : readySoupDeliveryInfo.feeSummary}
         </p>
         <div className="border-t border-surface pt-3">
           <div className="flex justify-between text-base">

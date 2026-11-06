@@ -1,7 +1,7 @@
 import { DELIVERY_FEE } from "@/lib/cart-utils";
 import { faqs } from "@/lib/faq";
 import {
-  readySoupBundles,
+  getReadySoupBundles,
   readySoupProducts,
   type ReadySoupBundle,
   type ReadySoupProduct,
@@ -299,8 +299,8 @@ export function bundleListJsonLd() {
     "@type": "ItemList",
     name: "Ready Soups mix & match bundles",
     description: "Mix any Ready Soup flavours in 3, 4 or 5 tub bundles.",
-    numberOfItems: readySoupBundles.length,
-    itemListElement: readySoupBundles.map((bundle, index) => ({
+    numberOfItems: getReadySoupBundles().length,
+    itemListElement: getReadySoupBundles().map((bundle, index) => ({
       "@type": "ListItem",
       position: index + 1,
       item: bundleProductJsonLd(bundle, { includeContext: false }),

@@ -89,8 +89,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en-GB" className={`${primaryFont.variable} ${secondaryFont.variable}`}>
-      <body className={`${primaryFont.className} antialiased`}>
+    <html
+      lang="en-GB"
+      className={`${primaryFont.variable} ${secondaryFont.variable}`}
+      suppressHydrationWarning
+    >
+      <body className={`${primaryFont.className} antialiased`} suppressHydrationWarning>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-6BL11W8HYQ"
           strategy="afterInteractive"

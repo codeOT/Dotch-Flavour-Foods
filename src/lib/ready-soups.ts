@@ -1,3 +1,4 @@
+import { blackFridayBundleOffers, isBlackFridayActive } from "./black-friday";
 import { READY_SOUP_MIN_ORDER } from "./cart-utils";
 import { formatPrice } from "./site";
 
@@ -50,8 +51,9 @@ export const howItWorksSteps = [
   {
     step: "02",
     title: "Checkout online",
-    description:
-      "Pay securely by card. Delivery is a flat rate of £19.99.",
+    description: isBlackFridayActive()
+      ? "Pay securely by card. Delivery is £19.99 on 3 and 4 tub bundles, and included with the 5-tub Black Friday bundle."
+      : "Pay securely by card. Delivery is a flat rate of £19.99.",
   },
   {
     step: "03",
@@ -285,7 +287,7 @@ export const readySoupProducts: ReadySoupProduct[] = [
   },
 ];
 
-export const readySoupBundles: ReadySoupBundle[] = [
+const readySoupBundlesBase: ReadySoupBundle[] = [
   {
     id: "bundle-3",
     slug: "bundle-3",
@@ -293,8 +295,6 @@ export const readySoupBundles: ReadySoupBundle[] = [
     description: "Three soups to explore the range and share with friends",
     soupCount: 3,
     price: 77.97,
-    // originalPrice: 77.97,
-    // badge: "Save £5.98",
     image: "/assets/images/3 bundles.png",
   },
   {
@@ -304,8 +304,6 @@ export const readySoupBundles: ReadySoupBundle[] = [
     description: "Four soups for sharing with friends and family.",
     soupCount: 4,
     price: 103.96,
-    // originalPrice: 103.96,
-    // badge: "Save £8.97",
     image: "/assets/images/4 bundles.png",
   },
   {
@@ -316,18 +314,31 @@ export const readySoupBundles: ReadySoupBundle[] = [
       "Choose any five flavours. Perfect for parties, events, and large family meals.",
     soupCount: 5,
     price: 129.95,
-    // originalPrice: 129.95,
-    // badge: "Save £13.96",
-    image: "/assets/images/5 bundles.png", 
+    image: "/assets/images/5 bundles.png",
   },
 ];
+
+export function getReadySoupBundles(): ReadySoupBundle[] {
+  if (!isBlackFridayActive()) return readySoupBundlesBase;
+  return readySoupBundlesBase.map((bundle) => {
+    const offer = blackFridayBundleOffers[bundle.soupCount as 3 | 4 | 5];
+    if (!offer) return bundle;
+    return { ...bundle, ...offer };
+  });
+}
+
+export const readySoupBundles = getReadySoupBundles();
 
 export function getReadySoupBySlug(slug: string): ReadySoupProduct | undefined {
   return readySoupProducts.find((product) => product.slug === slug);
 }
 
 export function getReadySoupBundleBySlug(slug: string): ReadySoupBundle | undefined {
-  return readySoupBundles.find((bundle) => bundle.slug === slug);
+  return getReadySoupBundles().find((bundle) => bundle.slug === slug);
+}
+
+export function getReadySoupBundleByCount(count: number): ReadySoupBundle | undefined {
+  return getReadySoupBundles().find((bundle) => bundle.soupCount === count);
 }
 
 export function formatReadySoupPrice(price: number): string {

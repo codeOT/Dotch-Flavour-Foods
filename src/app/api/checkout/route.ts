@@ -23,6 +23,7 @@ import {
   isDuplicateKeyError,
   isValidIdempotencyKey,
 } from "@/lib/checkout-idempotency";
+import { getReadySoupBundleByCount } from "@/lib/ready-soups";
 import { getRequestIp, rateLimit, tooManyRequests } from "@/lib/rate-limit";
 import { cacheDeletePrefix } from "@/lib/request-cache";
 import { Order } from "@/models/Order";
@@ -116,6 +117,14 @@ export async function POST(request: Request) {
           { error: "This offer has ended. Please remove the combo from your cart and continue with Ready Soups." },
           { status: 400 },
         );
+      }
+
+      const mixMatch = item.id.match(/^ready-soup-bundle-mix-(\d+)/);
+      if (mixMatch) {
+        const bundle = getReadySoupBundleByCount(Number(mixMatch[1]));
+        if (bundle && item.price !== bundle.price) {
+          return NextResponse.json({ error: "Bundle price is invalid." }, { status: 400 });
+        }
       }
     }
 

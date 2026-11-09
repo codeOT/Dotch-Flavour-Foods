@@ -61,4 +61,26 @@
   .container-fluid {
     @apply mx-auto w-full min-w-0 max-w-[1400px] px-4 sm:px-6 lg:px-8;
   }
+
+  @keyframes cta-pulse {
+    0%,
+    100% {
+      transform: scale(1);
+      box-shadow: 0 10px 20px rgb(25 46 34 / 0.15), 0 0 0 0 rgb(207 92 11 / 0.55);
+    }
+    50% {
+      transform: scale(1.045);
+      box-shadow: 0 10px 20px rgb(25 46 34 / 0.15), 0 0 0 10px rgb(207 92 11 / 0);
+    }
+  }
+
+  .animate-cta-pulse {
+    animation: cta-pulse 1.6s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-cta-pulse {
+    animation: none;
+  }
 }

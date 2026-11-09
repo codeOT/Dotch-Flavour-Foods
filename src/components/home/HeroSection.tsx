@@ -82,6 +82,8 @@ const guarantees = [
 ] as const;
 
 export function HeroSection() {
+  const blackFriday = isBlackFridayActive();
+
   return (
     <section className="relative w-full overflow-hidden">
       <motion.div
@@ -166,11 +168,11 @@ export function HeroSection() {
           >
             <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center sm:gap-2 [&>div]:w-full sm:[&>div]:w-auto">
               <Button
-                href={isBlackFridayActive() ? blackFridayPromo.path : "/ready-to-eat-soups"}
+                href={blackFriday ? blackFridayPromo.path : "/ready-to-eat-soups"}
                 fullWidth
-                className="!bg-secondary hover:!bg-secondary/90"
+                className={`!bg-secondary hover:!bg-secondary/90 ${blackFriday ? "animate-cta-pulse" : ""}`}
               >
-                {isBlackFridayActive() ? "Shop Black Friday" : "Shop Ready Soups"}
+                {blackFriday ? "Shop Black Friday" : "Shop Ready Soups"}
                 <ArrowRight className="h-4 w-4 shrink-0" />
               </Button>
               <Button

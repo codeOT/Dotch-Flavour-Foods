@@ -7,6 +7,7 @@ import type { MenuItem } from "@/lib/navigation";
 import { OrderOnWhatsAppButton } from "@/components/cart/OrderOnWhatsAppButton";
 import { LitreSizeSelector } from "@/components/cart/LitreSizeSelector";
 import { Reveal } from "@/components/motion/Reveal";
+import { HalalBadge } from "@/components/ui/HalalIcon";
 import {
   formatLitrePrice,
   getDefaultLitreSize,
@@ -50,6 +51,7 @@ export function FreshMenuProductContent({ item }: { item: MenuItem }) {
                 priority
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
+              <HalalBadge className="absolute left-4 top-4" size={36} />
             </div>
           </Reveal>
 
@@ -72,8 +74,9 @@ export function FreshMenuProductContent({ item }: { item: MenuItem }) {
                 className="mb-6"
               />
             )}
-            <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+            <div className="mb-8 flex flex-wrap items-center gap-3">
               <span className="text-2xl font-bold text-primary">{priceLabel}</span>
+              <HalalBadge size={36} />
             </div>
             <OrderOnWhatsAppButton href={orderHref} />
           </Reveal>

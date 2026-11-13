@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Snowflake, Star } from "lucide-react";
+import { HalalBadge } from "@/components/ui/HalalIcon";
 import { productImageAlt } from "@/lib/product-seo";
 import {
   formatReadySoupPrice,
@@ -36,10 +37,13 @@ export function ReadySoupProductCard({
           sizes="(max-width: 768px) 100vw, 33vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/70 via-transparent to-transparent" />
-        <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm">
-          <Snowflake className="h-3 w-3 text-secondary" />
-          Frozen
-        </span>
+        <div className="absolute left-4 top-4 flex flex-wrap gap-2">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm">
+            <Snowflake className="h-3 w-3 text-secondary" />
+            Frozen
+          </span>
+          <HalalBadge size={32} />
+        </div>
         <div className="absolute bottom-4 left-4 right-4">
           <p className="text-xs font-medium uppercase tracking-widest text-white/80">{product.size}</p>
           <h3 className="text-xl font-bold text-white">{product.name}</h3>

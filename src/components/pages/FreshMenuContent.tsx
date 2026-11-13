@@ -10,6 +10,7 @@ import { HoverCard } from "@/components/motion/HoverCard";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 import { Button } from "@/components/ui/Button";
+import { HalalBadge } from "@/components/ui/HalalIcon";
 import {
   formatLitrePrice,
   getDefaultLitreSize,
@@ -38,6 +39,7 @@ function FreshMenuCard({ item }: { item: MenuItem }) {
           fill
           className="object-cover"
         />
+        <HalalBadge className="absolute left-3 top-3" size={32} />
       </Link>
       <div className="p-5 sm:p-6">
         {item.category && (

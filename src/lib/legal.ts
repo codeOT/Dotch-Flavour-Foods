@@ -662,9 +662,10 @@ export const allergensFoodSafety: LegalDocument = {
       ],
     },
     {
-      title: '7.6 "Free-from", vegan and halal claims',
+      title: '7.6 "Free-from", vegan and Halal claims',
       paragraphs: [
-        'We will not make a "free-from", vegan, gluten-free, nut-free or halal claim unless the recipe, sourcing, production controls and evidence support it. No halal claim should be added to the website unless separately confirmed and approved by the company.',
+        'We will not make a "free-from", vegan, gluten-free or nut-free claim unless the recipe, sourcing, production controls and evidence support it.',
+        "Our food is prepared to Halal standards. Website and packaging Halal marks reflect the company's approved production standards. Contact us if you need further detail before ordering.",
       ],
     },
     {

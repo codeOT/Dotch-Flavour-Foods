@@ -45,6 +45,10 @@ export const whatMakesUsDifferent = {
       text: "Life is busy. From fresh catering to our Ready Soups range, we are working on easier ways to get a proper Nigerian meal on the table.",
     },
     {
+      title: "Halal prepared",
+      text: "Our food is prepared to Halal standards, so you can enjoy every meal with confidence.",
+    },
+    {
       title: "A brand you can trust",
       text: "Your tenth order should taste like your first. That consistency is what we have built since 2008.",
     },

@@ -11,6 +11,7 @@ import {
   Truck,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { HalalIcon } from "@/components/ui/HalalIcon";
 import {
   ReadySoupBundleCard,
   ReadySoupProductCard,
@@ -350,11 +351,12 @@ export function ReadySoupsPageContent({ reviews }: { reviews: PublicReview[] }) 
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {[
                   { icon: Package, label: "Insulated packaging" },
                   { icon: Truck, label: "UK frozen delivery" },
                   { icon: Snowflake, label: "−18°C guaranteed" },
+                  { icon: HalalIcon, label: "Halal prepared" },
                 ].map((item) => (
                   <div
                     key={item.label}

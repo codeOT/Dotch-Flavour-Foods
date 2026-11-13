@@ -12,6 +12,7 @@ import {
   Truck,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { HalalIcon } from "@/components/ui/HalalIcon";
 import { blackFridayPromo, isBlackFridayActive } from "@/lib/black-friday";
 import { easeOut } from "@/lib/motion";
 
@@ -63,6 +64,7 @@ const guaranteeItem: Variants = {
 
 const highlights = [
   { label: "Authentic", icon: ChefHat },
+  { label: "Halal", icon: HalalIcon },
   { label: "Fresh", icon: Leaf },
   { label: "Delivery", icon: Truck },
 ] as const;
@@ -77,7 +79,7 @@ const highlights = [
 const guarantees = [
   { label: "Fast Delivery", icon: Truck },
   { label: "Secure Payment", icon: ShieldCheck },
-  { label: "Hygienic Prep", icon: Leaf },
+  { label: "Halal Prepared", icon: HalalIcon },
   { label: "Quality Packaging", icon: Package },
 ] as const;
 
@@ -155,7 +157,9 @@ export function HeroSection() {
                   className="flex h-8 w-8 items-center justify-center rounded-full bg-secondary/15 text-secondary"
                   whileHover={{ rotate: 12 }}
                 >
-                  <item.icon className="h-4 w-4" />
+                  <item.icon
+                    className={item.label === "Halal" ? "h-7 w-7" : "h-4 w-4"}
+                  />
                 </motion.span>
                 {item.label}
               </motion.div>
@@ -265,7 +269,9 @@ export function HeroSection() {
                 className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-secondary/15 text-secondary"
                 whileHover={{ rotate: 10, scale: 1.08 }}
               >
-                <item.icon className="h-4 w-4" />
+                <item.icon
+                  className={item.label === "Halal Prepared" ? "h-8 w-8" : "h-4 w-4"}
+                />
               </motion.span>
               <p className="min-w-0 text-xs font-semibold leading-snug text-title sm:text-sm">
                 {item.label}

@@ -90,6 +90,11 @@ export const faqs: FaqItem[] = [
       "No. All products are prepared in the same kitchen, which handles multiple allergens, so cross-contact may occur.",
   },
   {
+    question: "Are Dotch Flavour products Halal?",
+    answer:
+      "Yes. Our food is prepared to Halal standards. Look for the Halal mark on Ready Soups product pages and across the site.",
+  },
+  {
     question: "Can I pay online?",
     answer: "Yes. The website is intended to accept Stripe and PayPal payments.",
   },

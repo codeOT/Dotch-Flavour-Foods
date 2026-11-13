@@ -6,6 +6,7 @@ import { AlertTriangle, Flame, Leaf, Refrigerator, Snowflake, UtensilsCrossed } 
 import { motion } from "framer-motion";
 import { CartQuantityControls } from "@/components/cart/CartQuantityControls";
 import { Button } from "@/components/ui/Button";
+import { HalalBadge } from "@/components/ui/HalalIcon";
 import { HoverCard } from "@/components/motion/HoverCard";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
@@ -72,10 +73,13 @@ export function ReadySoupProductDetail({ product }: { product: ReadySoupProduct 
                 quality={75}
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
-              <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-primary shadow-sm">
-                <Snowflake className="h-3.5 w-3.5 text-secondary" />
-                Premium frozen · {product.size}
-              </span>
+              <div className="absolute left-4 top-4 flex flex-wrap gap-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-primary shadow-sm">
+                  <Snowflake className="h-3.5 w-3.5 text-secondary" />
+                  Premium frozen · {product.size}
+                </span>
+                <HalalBadge size={36} />
+              </div>
             </div>
           </Reveal>
 
@@ -96,13 +100,14 @@ export function ReadySoupProductDetail({ product }: { product: ReadySoupProduct 
                 <p className="mb-6 text-sm leading-relaxed text-title/70 sm:text-base">{product.description}</p>
               </StaggerItem>
               <StaggerItem>
-                <div className="mb-6 flex flex-wrap items-center gap-4">
+                <div className="mb-6 flex flex-wrap items-center gap-3">
                   <p className="text-3xl font-bold text-primary">
                     {formatReadySoupPrice(product.price)}
                   </p>
                   <span className="rounded-full bg-surface px-4 py-1.5 text-sm font-semibold text-title/80">
                     {product.size} tub
                   </span>
+                  <HalalBadge size={36} />
                 </div>
               </StaggerItem>
               <StaggerItem>

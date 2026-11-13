@@ -9,6 +9,7 @@ import { siteConfig } from "@/lib/site";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/Stagger";
 import { NewsletterSignup } from "@/components/forms/NewsletterSignup";
+import { HalalBadge } from "@/components/ui/HalalIcon";
 import { useCookieConsent } from "@/context/CookieConsentContext";
 
 const contactItems = [
@@ -62,10 +63,11 @@ export function Footer() {
                 className="h-11 w-auto brightness-0 invert"
               />
             </Link>
-            <p className="mb-6 max-w-sm text-sm leading-relaxed text-white/75">
+            <p className="mb-4 max-w-sm text-sm leading-relaxed text-white/75">
               Authentic Nigerian flavours, thoughtfully prepared. Ready-to-eat soups, sauces, and
               stews — slow-cooked with care, ready in minutes.
             </p>
+            <HalalBadge className="mb-6" size={40} />
 
             <div className="space-y-3">
               {contactItems.map((item) => (
